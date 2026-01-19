@@ -1,0 +1,30 @@
+{%- comment -%}
+Normalize BEFORE (bottom) image URL
+{%- endcomment -%}
+{%- capture before_final -%}
+{%- include url_from_src.html src=include.before mw_width=include.mw_width -%}
+{%- endcapture -%}
+{%- assign before_final = before_final | strip -%}
+
+{%- comment -%}
+Normalize AFTER (top) image URL
+{%- endcomment -%}
+{%- capture after_final -%}
+{%- include url_from_src.html src=include.after mw_width=include.mw_width -%}
+{%- endcapture -%}
+{%- assign after_final = after_final | strip -%}
+
+{%- comment -%}
+Build query string
+{%- endcomment -%}
+{%- assign qs = "before=" | append: before_final | uri_escape -%}
+{%- assign qs = qs | append: "&after=" | append: after_final | uri_escape -%}
+
+{%- if include.caption -%}
+{%- assign qs = qs | append: "&caption=" | append: include.caption | uri_escape -%}
+{%- endif -%}
+
+<iframe id="{{ include.id }}" class="embed-image-compare" loading="lazy" title="Image comparison"
+  allow="clipboard-write" {% if include.aspect %} style="width:100%; aspect-ratio: {{ include.aspect }};" {% endif %}
+  src="{{ '/assets/components/image-compare.html' | relative_url }}?{{ qs }}" allowfullscreen>
+</iframe>

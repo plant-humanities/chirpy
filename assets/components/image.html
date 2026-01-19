@@ -1,0 +1,1199 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <title>Image Viewer</title>
+
+  <!-- OpenSeadragon -->
+  <script src="https://cdn.jsdelivr.net/npm/openseadragon@5.0.1/build/openseadragon/openseadragon.min.js"></script>
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    #wrap {
+      opacity: 0;
+      transition: opacity 250ms ease-in;
+    }
+
+    #wrap.is-visible {
+      opacity: 1;
+    }
+
+    /* Figure wrapper (viewer + caption) */
+    #wrap {
+      height: 98%;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      position: relative;
+      margin: 0;
+      /* figure default margin removal */
+    }
+
+    /* Caption bar */
+    #caption {
+      display: none;
+      /* shown only if caption exists */
+      position: relative;
+      margin-top: 0.25rem;
+      padding: 0 36px;
+      /* reserve space so the right icon doesn’t overlap text */
+      font-size: 1em;
+      line-height: 1.4;
+      color: #6d6c6c;
+      background: transparent;
+      min-height: 24px;
+    }
+
+    /* Caption text: single line, ellipsis, centered */
+    #caption-text {
+      display: block;
+      text-align: center;
+      /*
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      */
+      line-height: 1.2;
+    }
+
+    /* Right-side expand button */
+    .caption-action {
+      position: absolute;
+      right: 0;
+      top: 8px;
+      transform: translateY(-50%);
+
+      /* big, easy hit target */
+      /* width: 32px; */
+      height: 32px;
+      padding: 0;
+      border: 0;
+      border-radius: 999px;
+
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+      opacity: 0.75;
+    }
+
+    .caption-action:hover {
+      opacity: 1;
+    }
+
+    .caption-action:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #caption {
+        color: rgba(255, 255, 255, 0.55);
+      }
+    }
+
+    /* Error banner */
+    #msg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 12px;
+      font: 14px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: #fff;
+      background: rgba(180, 40, 40, 0.9);
+      display: none;
+      z-index: 1000;
+    }
+
+    code {
+      background: rgba(255, 255, 255, .1);
+      padding: 0 4px;
+      border-radius: 4px;
+    }
+
+    /* Bottom-right hover hotspot + tooltip */
+    #ar-hotspot {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .10);
+      border: 1px solid rgba(255, 255, 255, .18);
+      z-index: 50;
+      pointer-events: auto;
+    }
+
+    #ar-tip {
+      position: absolute;
+      right: 0;
+      bottom: 26px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, .80);
+      color: rgba(255, 255, 255, .90);
+      font: 12px/1.3 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      white-space: nowrap;
+      transform: translateY(4px);
+      opacity: 0;
+      transition: opacity 120ms ease, transform 120ms ease;
+      pointer-events: none;
+    }
+
+    #ar-hotspot:hover #ar-tip {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Rubber-band drawing canvas */
+    #drawing-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Editable box overlays */
+    .box {
+      position: absolute;
+      border: 2px solid red;
+      box-sizing: border-box;
+      z-index: 20;
+    }
+
+    .box .handle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: white;
+      border: 1px solid red;
+      box-sizing: border-box;
+      z-index: 21;
+    }
+
+    .box .handle.nw {
+      top: -4px;
+      left: -4px;
+      cursor: nw-resize;
+    }
+
+    .box .handle.ne {
+      top: -4px;
+      right: -4px;
+      cursor: ne-resize;
+    }
+
+    .box .handle.sw {
+      bottom: -4px;
+      left: -4px;
+      cursor: sw-resize;
+    }
+
+    .box .handle.se {
+      bottom: -4px;
+      right: -4px;
+      cursor: se-resize;
+    }
+
+    .copy-icon {
+      position: absolute;
+
+      /* Visible icon size */
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+
+      /* Increase hit area */
+      padding: 10px;
+      /* <-- makes hitbox ~40×40 */
+      margin: -10px;
+      /* <-- keeps visual position unchanged */
+
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 22;
+      user-select: none;
+
+      /* Critical: ensure it captures events */
+      pointer-events: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="msg"></div>
+
+  <figure id="wrap">
+    <div id="osd"></div>
+    <canvas id="drawing-overlay"></canvas>
+
+    <div id="ar-hotspot" aria-label="Iframe aspect ratio">
+      <div id="ar-tip"></div>
+    </div>
+
+    <figcaption id="caption" aria-live="polite">
+      <span id="caption-text"></span>
+
+      <button id="caption-expand" type="button" class="caption-action" aria-label="Open fullscreen"
+        title="Open fullscreen">
+        <i class="fa-solid fa-expand" aria-hidden="true"></i>
+      </button>
+    </figcaption>
+  </figure>
+
+  <script type="module">
+    import 'https://cdn.jsdelivr.net/npm/js-md5@0.8.3/src/md5.min.js';
+
+    // =========================================================================
+    // DOM
+    // =========================================================================
+    const els = {
+      msg: document.getElementById("msg"),
+      wrap: document.getElementById("wrap"),
+      osd: document.getElementById("osd"),
+      overlay: document.getElementById("drawing-overlay"),
+      caption: document.getElementById("caption"),
+      captionText: document.getElementById("caption-text"),
+      captionExpand: document.getElementById("caption-expand"),
+      arTip: document.getElementById("ar-tip"),
+    };
+
+    function showMsg(html) {
+      els.msg.innerHTML = html;
+      els.msg.style.display = "block";
+    }
+
+    // =========================================================================
+    // Params
+    // =========================================================================
+    const params = new URLSearchParams(location.search);
+    const cfg = {
+      src: params.get("src"),
+      caption: params.get("caption"),
+      attribution: params.get("attribution"),
+      cover: params.get("cover") === "1",
+      region: params.get("region"),   // "full" | "x,y,w,h" | "pct:x,y,w,h"
+      rotate: params.get("rotate"),   // "0" | "90" | "!90"
+      max: ['', 'true', '1'].includes(params.get("max")),
+    };
+
+    if (!cfg.src) {
+      showMsg(`Missing <code>?src=</code> parameter.`);
+      throw new Error("Missing src");
+    }
+
+    setContainerHeight();
+
+    // =========================================================================
+    // Small utilities
+    // =========================================================================
+    function safeParseMessageData(data) {
+      if (!data) return null;
+      if (typeof data === "object") return data;
+      if (typeof data !== "string") return null;
+      try { return JSON.parse(data); } catch { return null; }
+    }
+
+    function hexToRgba(hex, alpha) {
+      let h = String(hex).replace('#', '');
+      if (h.length === 3) h = h.split('').map(c => c + c).join('');
+      const int = parseInt(h, 16);
+      const r = (int >> 16) & 255;
+      const g = (int >> 8) & 255;
+      const b = int & 255;
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    /**
+     * Build an HTML caption (for <figcaption>) for a Wikimedia Commons image.
+     *
+     * Rules:
+     * - HTML only.
+     * - If `userCaption` is provided (non-empty), it overrides API description.
+     * - Always add a supplemental line with a link to the Commons file page.
+     * - If attribution is required, add a concise attribution statement too.
+     * - Links open in a new tab/window (target="_blank"), safe rel attrs included.
+     *
+     * Inputs:
+     *   meta: flattened extmetadata + (optionally) width/height/size/mime
+     *   commonsFileTitle: e.g. "File:Monument Valley, Utah, USA.jpg" (from resp.query.pages[...].title)
+     *   userCaption: optional string
+     *
+     * Returns:
+     *   { captionHtml: string, attributionRequired: boolean }
+     */
+    function buildCommonsCaption(meta, commonsFileTitle, userCaption = "") {
+      const asBool = (v) =>
+        typeof v === "boolean"
+          ? v
+          : typeof v === "string"
+            ? v.trim().toLowerCase() === "true"
+            : false;
+
+      const attributionRequired = asBool(meta?.AttributionRequired);
+
+      const escHtml = (s) =>
+        String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+
+      const isNonEmpty = (s) => typeof s === "string" && s.trim().length > 0;
+
+      // Description: user caption wins; else fall back to Commons metadata.
+      const description =
+        (isNonEmpty(userCaption) && userCaption.trim()) ||
+        (isNonEmpty(meta?.ImageDescription) && String(meta.ImageDescription).trim()) ||
+        (isNonEmpty(meta?.ObjectName) && String(meta.ObjectName).trim()) ||
+        "Image";
+
+      // Commons file page URL (always included in supplement)
+      const commonsUrl = commonsFileTitle
+        ? `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(commonsFileTitle).replace(/%3A/g, ":")}`
+        : null;
+
+      // Extract plain author name from Artist (often HTML <a>..</a>)
+      const extractInnerText = (html) => {
+        if (!html) return null;
+        const s = String(html);
+        const m = s.match(/<a\b[^>]*>(.*?)<\/a>/i);
+        const raw = m ? m[1] : s;
+        return raw
+          .replace(/&nbsp;/g, " ")
+          .replace(/&amp;/g, "&")
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'")
+          .replace(/<[^>]*>/g, "")
+          .trim() || null;
+      };
+
+      const artistName = extractInnerText(meta?.Artist) || "Unknown author";
+      const licenseName =
+        meta?.LicenseShortName || meta?.UsageTerms || meta?.License || "License";
+      const licenseUrl = meta?.LicenseUrl || null;
+
+      const linkAttrs = `target="_blank" rel="noopener noreferrer"`;
+
+      // Supplemental line: always includes Commons source link; adds attribution if required.
+      const supplementParts = [];
+
+      if (commonsUrl) {
+        supplementParts.push(
+          `Source: <a href="${escHtml(commonsUrl)}" ${linkAttrs}>Wikimedia Commons</a>`
+        );
+      } else {
+        // If title wasn't provided, still meet the "always provide supplement" intent,
+        // but without a usable link.
+        supplementParts.push(`Source: Wikimedia Commons`);
+      }
+
+      if (attributionRequired) {
+        // Keep it concise: author + license (linked if possible)
+        const licenseHtml = licenseUrl
+          ? `<a href="${escHtml(licenseUrl)}" target="_blank" rel="license noopener noreferrer">${escHtml(licenseName)}</a>`
+          : escHtml(licenseName);
+
+        supplementParts.push(`© ${escHtml(artistName)} — ${licenseHtml}`);
+      }
+
+      const supplementHtml = `<small>${supplementParts.join(" • ")}</small>`;
+
+      const captionHtml = `${escHtml(description)}<br>${supplementHtml}`;
+
+      return { captionHtml, attributionRequired };
+    }
+
+    // Wikimedia thumb URL helper
+    function mwImage(mwImg, width) {
+      width = width | 0;
+      mwImg = mwImg.split('/').pop()
+        .replace(/^wc:/, '')
+        .replace(/Special:FilePath\//, 'File:')
+        .split('File:').pop()
+        .replace(/^\d+px-/, '');
+      mwImg = decodeURIComponent(mwImg).replace(/ /g, '_');
+
+      const _md5 = md5(mwImg);
+      const ext = mwImg.split('.').pop().toLowerCase();
+
+      let url = `https://upload.wikimedia.org/wikipedia/commons${width > 0 ? '/thumb' : ''}`;
+      url += `/${_md5.slice(0, 1)}/${_md5.slice(0, 2)}/${mwImg}`;
+
+      if (width > 0) {
+        url += `/${width}px-${mwImg}`;
+        if (ext === 'svg') url += '.png';
+        else if (ext === 'tif' || ext === 'tiff') url += '.jpg';
+      }
+      return url;
+    }
+
+    function wcTitleFromUrl(url) {
+      let mwTitle = url.split('/').pop()
+        .replace(/^wc:/, '')
+        .replace(/Special:FilePath\//, 'File:')
+        .split('File:').pop()
+        .replace(/^\d+px-/, '');
+      mwTitle = decodeURIComponent(mwTitle).replace(/ /g, '_');
+      return mwTitle
+    }
+
+    async function getWcMetadata(mwTitle) {
+      let resp = await fetch(`https://commons.wikimedia.org/w/api.php? origin=*&format=json&action=query&titles=File:${encodeURIComponent(mwTitle)}&prop=imageinfo&iiprop=extmetadata|size|mime`, { headers: { 'User-Agent': 'Mozilla/5.0' } })
+      resp = await resp.json()
+      const page = Object.values(resp.query.pages)[0];
+      const info = page.imageinfo[0];
+
+      let metadata = {
+        ...Object.fromEntries(
+          Object.entries(info.extmetadata).map(([key, v]) => [key, v?.value])
+        ),
+        ...Object.fromEntries(
+          Object.entries(info).filter(([key]) =>
+            ["width", "height", "size", "mime"].includes(key)
+          )
+        )
+      };
+      return metadata
+    }
+
+    function looksLikeWikimedia(url) {
+      return url.startsWith('wc:') || url.includes('wikimedia.org') || url.includes('wikipedia.org');
+    }
+
+
+    if (looksLikeWikimedia(cfg.src)) {
+      cfg.src = mwImage(cfg.src, cfg.max ? -1 : 1200);
+      let wcTitle = wcTitleFromUrl(cfg.src);
+      let wcMeta = await getWcMetadata(wcTitle);
+
+      const { captionHtml } = buildCommonsCaption(wcMeta, wcTitle, cfg.caption);
+      cfg.caption = captionHtml;
+    }
+
+    function clamp(v, lo, hi) { return Math.max(lo, Math.min(v, hi)); }
+
+    function normalizeRectVH(rect) {
+      // rect is in viewport coords: {x,y,width,height}
+      if (rect.width < 0) { rect.x += rect.width; rect.width = Math.abs(rect.width); }
+      if (rect.height < 0) { rect.y += rect.height; rect.height = Math.abs(rect.height); }
+      return rect;
+    }
+
+    // Expand an IMAGE bbox about its center
+    function expandBox(box, scale = 1.8) {
+      const cx = box.x + box.w / 2;
+      const cy = box.y + box.h / 2;
+      return {
+        x: Math.round(cx - (box.w * scale) / 2),
+        y: Math.round(cy - (box.h * scale) / 2),
+        w: Math.round(box.w * scale),
+        h: Math.round(box.h * scale),
+      };
+    }
+
+    // IIIF-like rotate parsing: "!90" => flip + rotate 90
+    function parseRotate(v) {
+      if (!v) return { flip: false, degrees: 0 };
+      const s = String(v).trim();
+      const flip = s.startsWith("!");
+      const deg = parseFloat(flip ? s.slice(1) : s);
+      return { flip, degrees: Number.isFinite(deg) ? ((deg % 360) + 360) % 360 : 0 };
+    }
+
+    // IIIF-like region parsing: "full" | "x,y,w,h" | "pct:x,y,w,h"
+    function parseRegion(v, w, h) {
+      if (!v) return null;
+      const raw = String(v).trim();
+      if (!raw || raw.toLowerCase() === "full") return null;
+
+      let s = raw;
+      let pct = false;
+      if (s.toLowerCase().startsWith("pct:")) { pct = true; s = s.slice(4); }
+
+      const parts = s.split(",").map(p => parseFloat(p.trim()));
+      if (parts.length !== 4 || parts.some(n => !Number.isFinite(n))) return null;
+
+      let [x, y, rw, rh] = parts;
+
+      if (pct) {
+        x = (x / 100) * w;
+        y = (y / 100) * h;
+        rw = (rw / 100) * w;
+        rh = (rh / 100) * h;
+      }
+
+      // Clamp to image bounds
+      x = clamp(x, 0, w);
+      y = clamp(y, 0, h);
+      rw = clamp(rw, 0, w - x);
+      rh = clamp(rh, 0, h - y);
+      if (rw <= 0 || rh <= 0) return null;
+
+      return new OpenSeadragon.Rect(x, y, rw, rh);
+    }
+
+    function parseAspectRatio(value) {
+      if (!value) return null;
+
+      const v = value.trim();
+
+      // form: "w / h" or "w/h"
+      const slash = v.split("/");
+      if (slash.length === 2) {
+        const w = parseFloat(slash[0]);
+        const h = parseFloat(slash[1]);
+        if (Number.isFinite(w) && Number.isFinite(h) && h !== 0) {
+          return w / h;
+        }
+        return null;
+      }
+
+      // form: "1.7778"
+      const n = parseFloat(v);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function setContainerHeight(imageAspectRatio) {
+      const iframe = window.frameElement;
+      const caption = document.getElementById('caption')
+      let width = document.getElementById('osd').clientWidth;
+      if (width) {
+        if (!imageAspectRatio) {
+          const raw = iframe?.style.getPropertyValue("aspect-ratio");
+          imageAspectRatio = parseAspectRatio(raw);
+        }
+        if (imageAspectRatio) {
+          let captionHeight = caption.clientHeight || parseInt(caption?.style.height?.slice(0, -2)) || 24
+          let containerHeight = width / imageAspectRatio + captionHeight
+          // (`imageAspectRatio=${imageAspectRatio} width=${width} captionHeight=${captionHeight} computedHeight=${containerHeight}`)
+          iframe.style.height = `${containerHeight}px`
+        }
+      }
+    }
+
+
+    // =========================================================================
+    // Tooltip: aspect ratio of ENTIRE iframe content (#wrap), incl caption row
+    // =========================================================================
+    function gcd(a, b) {
+      a = Math.abs(Math.round(a));
+      b = Math.abs(Math.round(b));
+      while (b) { const t = b; b = a % b; a = t; }
+      return a || 1;
+    }
+
+    function iframeAspectText(w, h) {
+      const g = gcd(w, h);
+      const rw = Math.round(w / g);
+      const rh = Math.round(h / g);
+      return `Iframe aspect: ${rw}:${rh} (${(w / h).toFixed(3)})`;
+    }
+
+    function updateIframeAspectTip() {
+      const r = els.wrap.getBoundingClientRect();
+      const w = Math.max(1, Math.round(r.width));
+      const h = Math.max(1, Math.round(r.height));
+      els.arTip.textContent = iframeAspectText(w, h);
+    }
+
+    // Caption init
+    if (cfg.caption) {
+      els.captionText.innerHTML = cfg.caption;
+      if (cfg.attribution) els.captionText.innerHTML += `<br><small>${cfg.attribution}</small>`
+      els.caption.style.display = "block";
+      updateIframeAspectTip(); // caption affects wrap height
+    }
+
+    // =========================================================================
+    // OpenSeadragon init
+    // =========================================================================
+    const viewer = OpenSeadragon({
+      id: "osd",
+      prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@5.0.1/build/openseadragon/images/",
+      homeFillsViewer: true,
+      showNavigationControl: cfg.max,
+      showZoomControl: cfg.max,
+      showHomeControl: cfg.max,
+      showFullPageControl: cfg.max,
+      showRotationControl: cfg.max,
+      showNavigator: false,
+      keyboard: cfg.max,
+
+      mouseNavEnabled: cfg.max,
+
+      gestureSettingsMouse: {
+        scrollToZoom: cfg.max,
+        dragToPan: cfg.max,
+        clickToZoom: cfg.max,
+        dblClickToZoom: cfg.max,
+        pinchToZoom: cfg.max
+      },
+      gestureSettingsTouch: {
+        scrollToZoom: cfg.max,
+        dragToPan: cfg.max,
+        clickToZoom: cfg.max,
+        dblClickToZoom: cfg.max,
+        pinchToZoom: cfg.max
+      }
+    });
+
+    // Allow page scroll in static mode
+    viewer.container.style.touchAction = cfg.max ? "none" : "pan-y";
+
+    viewer.addHandler("open-failed", () => {
+      showMsg("Failed to load image. The image host may not allow cross-origin access (CORS).");
+    });
+
+    // =========================================================================
+    // Cover fit (crop-based)
+    // =========================================================================
+    function fitCover(viewer, itemBounds) {
+      const vp = viewer.viewport;
+      const containerSize = vp.getContainerSize();
+      const vpAspect = containerSize.x / containerSize.y;
+
+      const b = itemBounds.clone(); // viewport coords
+      const bAspect = b.width / b.height;
+
+      if (bAspect > vpAspect) {
+        const newW = b.height * vpAspect;
+        const dx = (b.width - newW) / 2;
+        b.x += dx; b.width = newW;
+      } else {
+        const newH = b.width / vpAspect;
+        const dy = (b.height - newH) / 2;
+        b.y += dy; b.height = newH;
+      }
+      vp.fitBounds(b, true);
+    }
+
+    // =========================================================================
+    // OSD overlays: border + centered label
+    // =========================================================================
+    function drawBoxBorder(viewer, box, opts = {}) {
+      const { color = 'red', lineWidth = 2 } = opts;
+
+      const div = document.createElement('div');
+      Object.assign(div.style, {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        boxSizing: 'border-box',
+        border: `${lineWidth}px solid ${color}`,
+        background: 'transparent',
+        pointerEvents: 'none',
+      });
+
+      const vpTL = viewer.viewport.imageToViewportCoordinates(box.x, box.y);
+      const vpTR = viewer.viewport.imageToViewportCoordinates(box.x + box.w, box.y);
+      const vpBL = viewer.viewport.imageToViewportCoordinates(box.x, box.y + box.h);
+
+      const rect = new OpenSeadragon.Rect(vpTL.x, vpTL.y, vpTR.x - vpTL.x, vpBL.y - vpTL.y);
+      viewer.addOverlay({ element: div, location: rect });
+      return div;
+    }
+
+    // Centered label below IMAGE box (uses anchor + pill so OSD doesn't overwrite transform)
+    function addTextBelowBox(viewer, box, text, opts = {}) {
+      const {
+        fontSize = 16,
+        bgColor = '#000',
+        bgOpacity = 0.5,
+        textColor = '#fff',
+        paddingEm = 0.5,
+        offsetPx = 6
+      } = opts;
+
+      const anchor = document.createElement('div');
+      Object.assign(anchor.style, {
+        position: 'absolute',
+        width: '0px',
+        height: '0px',
+        overflow: 'visible',
+        pointerEvents: 'none',
+        zIndex: 9999
+      });
+
+      const pill = document.createElement('div');
+      pill.textContent = text;
+      Object.assign(pill.style, {
+        display: 'inline-block',
+        transform: `translate(-50%, ${offsetPx}px)`,
+        fontSize: (typeof fontSize === 'number') ? `${fontSize}px` : String(fontSize),
+        backgroundColor: hexToRgba(bgColor, bgOpacity),
+        color: textColor,
+        padding: `${paddingEm}em`,
+        borderRadius: '6px',
+        boxSizing: 'border-box',
+        whiteSpace: 'nowrap',
+        lineHeight: '1.2',
+        textAlign: 'center'
+      });
+
+      anchor.appendChild(pill);
+
+      const imgX = box.x + box.w / 2;
+      const imgY = box.y + box.h;
+      const vp = viewer.viewport.imageToViewportCoordinates(imgX, imgY);
+
+      viewer.addOverlay({
+        element: anchor,
+        location: new OpenSeadragon.Point(vp.x, vp.y),
+        placement: OpenSeadragon.Placement.TOP_LEFT
+      });
+
+      return anchor;
+    }
+
+    // =========================================================================
+    // Static-mode interactions (click to open dialog + modifier-wheel zoom)
+    // =========================================================================
+    function attachStaticClickHandler(viewer, onClick) {
+      viewer.container.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        onClick?.(e);
+      }, true);
+
+      viewer.container.addEventListener("dblclick", (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }, true);
+    }
+
+    function enableModifierWheelZoom(viewer) {
+      viewer.container.addEventListener("wheel", (e) => {
+        const zoomIntent = e.ctrlKey || e.metaKey; // Ctrl / ⌘
+        if (!zoomIntent) return; // let the page scroll
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        const factor = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+        const webPoint = viewer.viewport.pointFromPixel(
+          new OpenSeadragon.Point(e.clientX, e.clientY),
+          true
+        );
+
+        viewer.viewport.zoomBy(factor, webPoint, true);
+        viewer.viewport.applyConstraints();
+      }, { passive: false, capture: true });
+    }
+
+    // =========================================================================
+    // Zoom-to support (postMessage action="zoomto")
+    // =========================================================================
+    let zoomedToRegion = '';
+    let imageSize = null; // {x, y}
+
+    function parseRegionString(region, center) {
+      const s1 = region.split(':');
+      let [x, y, w, h] = s1[s1.length - 1].split(',').map(v => parseInt(v, 10));
+
+      const size = viewer.world.getItemAt(0)?.getContentSize();
+      if (!size) return null;
+
+      if (s1.length === 2 && (s1[0] === 'pct' || s1[0] === 'percent')) {
+        x = Math.round(size.x * x / 100);
+        y = Math.round(size.y * y / 100);
+        w = Math.round(size.x * w / 100);
+        h = Math.round(size.y * h / 100);
+      }
+
+      const box = { x, y, w, h };
+      return center ? expandBox(box, 1.8) : box;
+    }
+
+    function zoomto(regionStr, caption) {
+      viewer.clearOverlays();
+
+      if (zoomedToRegion === regionStr) {
+        viewer.viewport.goHome();
+        zoomedToRegion = '';
+        return;
+      }
+
+      zoomedToRegion = regionStr;
+
+      const region = parseRegionString(regionStr, false);
+      const expanded = parseRegionString(regionStr, true);
+      if (!region || !expanded) return;
+
+      setTimeout(() => {
+        const rect = viewer.viewport.imageToViewportRectangle(expanded.x, expanded.y, expanded.w, expanded.h);
+        viewer.viewport.fitBounds(rect, false);
+
+        drawBoxBorder(viewer, region, { color: '#FFFF00', lineWidth: 2 });
+
+        if (caption) {
+          addTextBelowBox(viewer, region, caption, {
+            fontSize: '1em',
+            bgColor: "#fff",
+            bgOpacity: 0.8,
+            textColor: "#000",
+            paddingEm: 0.3
+          });
+        }
+      }, 60);
+    }
+
+    window.addEventListener('message', (event) => {
+      const data = safeParseMessageData(event.data);
+      if (!data) return;
+
+      const action = String(data.action || '').toLowerCase();
+      if (action === 'zoomto' && Array.isArray(data.args) && data.args[0]) {
+        zoomto(String(data.args[0]), data.text);
+      }
+    });
+
+    // =========================================================================
+    // Bounding boxes: draw (SHIFT-drag), move/resize, copy pct of IMAGE
+    // =========================================================================
+    function enableBoundingBoxes() {
+      const container = els.osd;
+      const overlay = els.overlay;
+      const ctx = overlay.getContext("2d");
+
+      // Boxes store VIEWPORT-rects: {x,y,width,height} in viewport coordinates
+      const boxes = [];
+
+      // Rubber-band draw state
+      let isDrawing = false;
+      let startX = 0, startY = 0;
+
+      // Drag state for moving/resizing boxes (GLOBAL for all boxes)
+      let action = null;        // "move" | "resize" | null
+      let handlePos = null;     // "nw"|"ne"|"sw"|"se"|null
+      let startPx = 0, startPy = 0;
+      let active = null;        // active box object
+      let origRect = null;      // snapshot of active.rect at drag start
+
+      function resizeOverlay() {
+        overlay.width = container.clientWidth;
+        overlay.height = container.clientHeight;
+      }
+      window.addEventListener("resize", resizeOverlay);
+      resizeOverlay();
+
+      // Coalesce box updates during pan/zoom
+      let rafPending = false;
+      function requestUpdateAllBoxes() {
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(() => {
+          rafPending = false;
+          boxes.forEach(b => b.updateOverlay());
+        });
+      }
+      viewer.addHandler("viewport-change", requestUpdateAllBoxes);
+
+      // --- Rubber-band draw (SHIFT + drag) ---
+      container.addEventListener("pointerdown", (e) => {
+        if (!e.shiftKey) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        isDrawing = true;
+        viewer.setMouseNavEnabled(false);
+        overlay.style.pointerEvents = "auto";
+
+        const r = overlay.getBoundingClientRect();
+        startX = e.clientX - r.left;
+        startY = e.clientY - r.top;
+      }, { capture: true });
+
+      document.addEventListener("pointermove", (e) => {
+        // 1) Dragging an existing box?
+        if (action && active) {
+          const dx = e.clientX - startPx;
+          const dy = e.clientY - startPy;
+
+          // Convert orig rect corners to screen pixels
+          const tlp = viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(origRect.x, origRect.y), true);
+          const brp = viewer.viewport.pixelFromPoint(
+            new OpenSeadragon.Point(origRect.x + origRect.width, origRect.y + origRect.height),
+            true
+          );
+
+          let leftPx = tlp.x, topPx = tlp.y, rightPx = brp.x, bottomPx = brp.y;
+
+          if (action === "move") {
+            leftPx += dx; rightPx += dx;
+            topPx += dy; bottomPx += dy;
+          } else {
+            if (handlePos.includes("n")) topPx += dy;
+            if (handlePos.includes("s")) bottomPx += dy;
+            if (handlePos.includes("w")) leftPx += dx;
+            if (handlePos.includes("e")) rightPx += dx;
+          }
+
+          // Convert back to viewport coords
+          const newTL = viewer.viewport.pointFromPixel(new OpenSeadragon.Point(leftPx, topPx));
+          const newBR = viewer.viewport.pointFromPixel(new OpenSeadragon.Point(rightPx, bottomPx));
+
+          active.rect.x = newTL.x;
+          active.rect.y = newTL.y;
+          active.rect.width = newBR.x - newTL.x;
+          active.rect.height = newBR.y - newTL.y;
+
+          normalizeRectVH(active.rect);
+          active.updateOverlay();
+          return;
+        }
+
+        // 2) Rubber-band drawing?
+        if (!isDrawing) return;
+
+        const r = overlay.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+
+        ctx.clearRect(0, 0, overlay.width, overlay.height);
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(startX, startY, x - startX, y - startY);
+      });
+
+      document.addEventListener("pointerup", (e) => {
+        // End drag
+        if (action) {
+          action = null;
+          handlePos = null;
+          active = null;
+          origRect = null;
+          viewer.setMouseNavEnabled(true);
+          return;
+        }
+
+        // End rubber-band draw
+        if (!isDrawing) return;
+        isDrawing = false;
+        viewer.setMouseNavEnabled(true);
+        overlay.style.pointerEvents = "none";
+        ctx.clearRect(0, 0, overlay.width, overlay.height);
+
+        const r = overlay.getBoundingClientRect();
+        const endX = e.clientX - r.left;
+        const endY = e.clientY - r.top;
+
+        const tl = viewer.viewport.pointFromPixel(new OpenSeadragon.Point(startX, startY));
+        const br = viewer.viewport.pointFromPixel(new OpenSeadragon.Point(endX, endY));
+
+        const rect = normalizeRectVH({ x: tl.x, y: tl.y, width: br.x - tl.x, height: br.y - tl.y });
+        if (rect.width < 1e-6 || rect.height < 1e-6) return;
+
+        createBox(rect);
+      });
+
+      function createBox(rect) {
+        const boxEl = document.createElement("div");
+        boxEl.className = "box";
+        container.appendChild(boxEl);
+
+        // Handles
+        for (const pos of ['nw', 'ne', 'sw', 'se']) {
+          const h = document.createElement("div");
+          h.className = `handle ${pos}`;
+          boxEl.appendChild(h);
+        }
+
+        // Copy icon
+        const icon = document.createElement('div');
+        icon.className = 'copy-icon';
+        icon.textContent = '📋';
+        boxEl.appendChild(icon);
+
+        icon.addEventListener("pointerdown", (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        });
+
+        // Updates the DOM element position/size from viewport rect
+        function updateOverlay() {
+          const tlp = viewer.viewport.pixelFromPoint(new OpenSeadragon.Point(rect.x, rect.y), true);
+          const brp = viewer.viewport.pixelFromPoint(
+            new OpenSeadragon.Point(rect.x + rect.width, rect.y + rect.height),
+            true
+          );
+          const w = brp.x - tlp.x;
+          const h = brp.y - tlp.y;
+
+          boxEl.style.left = `${tlp.x}px`;
+          boxEl.style.top = `${tlp.y}px`;
+          boxEl.style.width = `${w}px`;
+          boxEl.style.height = `${h}px`;
+
+          icon.style.left = `${w + 2}px`;
+          icon.style.top = `${h + 2}px`;
+        }
+
+        const boxObj = { rect, el: boxEl, icon, updateOverlay };
+        boxes.push(boxObj);
+        updateOverlay();
+
+        // Start move/resize on pointerdown
+        boxEl.addEventListener("pointerdown", (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+
+          active = boxObj;
+          action = e.target.classList.contains("handle") ? "resize" : "move";
+          handlePos = action === "resize"
+            ? ['nw', 'ne', 'sw', 'se'].find(p => e.target.classList.contains(p))
+            : null;
+
+          viewer.setMouseNavEnabled(false);
+          startPx = e.clientX;
+          startPy = e.clientY;
+          origRect = { ...active.rect };
+
+          boxEl.setPointerCapture?.(e.pointerId);
+        });
+
+        // Copy pct of IMAGE (not viewport)
+        icon.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          try {
+            const item = viewer.world.getItemAt(0);
+            if (!item) throw new Error("No image loaded");
+            const size = item.getContentSize();
+            if (!size?.x || !size?.y) throw new Error("Image size unavailable");
+
+            // Convert viewport rect to image-pixel rect
+            const imgRect = viewer.viewport.viewportToImageRectangle(
+              rect.x, rect.y, rect.width, rect.height
+            );
+
+            // Convert to percent of the underlying image
+            let xp = (imgRect.x / size.x) * 100;
+            let yp = (imgRect.y / size.y) * 100;
+            let wp = (imgRect.width / size.x) * 100;
+            let hp = (imgRect.height / size.y) * 100;
+
+            // Normalize if needed
+            if (wp < 0) { xp += wp; wp = Math.abs(wp); }
+            if (hp < 0) { yp += hp; hp = Math.abs(hp); }
+
+            // Clamp so origin is within [0,100] and size doesn't exceed bounds
+            xp = clamp(xp, 0, 100);
+            yp = clamp(yp, 0, 100);
+            wp = clamp(wp, 0, 100 - xp);
+            hp = clamp(hp, 0, 100 - yp);
+
+            const regionPct = `pct:${xp.toFixed(2)},${yp.toFixed(2)},${wp.toFixed(2)},${hp.toFixed(2)}`;
+            await navigator.clipboard.writeText(regionPct);
+          } catch (err) {
+            console.error('Copy failed:', err);
+            alert('Copy failed. Your browser may block clipboard without focus/user gesture.');
+          }
+        });
+      }
+
+      // Clear on Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape") return;
+        boxes.forEach(b => container.removeChild(b.el));
+        boxes.length = 0;
+      });
+    }
+
+    // =========================================================================
+    // Open handler (single place)
+    // =========================================================================
+    viewer.addHandler("open", () => {
+      const item = viewer.world.getItemAt(0);
+      if (!item) return;
+
+      imageSize = item.getContentSize();
+
+      let imageAspectRatio = imageSize.x / imageSize.y;
+      setContainerHeight(imageAspectRatio);
+      setTimeout(() => {
+        viewer.viewport.goHome(true);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+
+            // 3. Fade in the entire figure
+            els.wrap.classList.add("is-visible");
+
+            // 4. Notify parent of final height
+            // schedulePostHeight();
+          });
+        });
+      }, 100);
+
+
+
+      // Apply clip (IIIF-like)
+      const clip = parseRegion(cfg.region, imageSize.x, imageSize.y);
+      if (clip) item.setClip(clip);
+
+      // Apply rotate + optional flip
+      const rot = parseRotate(cfg.rotate);
+      if (rot.flip && typeof item.setFlip === "function") item.setFlip(true);
+      viewer.viewport.setRotation(rot.degrees);
+
+      // Initial view
+      viewer.viewport.goHome(true);
+
+      // Cover mode
+      if (cfg.cover) {
+        const bounds = item.getBounds(true); // accounts for clip
+        fitCover(viewer, bounds);
+      }
+
+      // Enable drawn/editable boxes
+      enableBoundingBoxes();
+
+      // Tooltip (caption affects wrap height)
+      updateIframeAspectTip();
+    });
+
+    // Open image
+    viewer.open({ type: "image", url: cfg.src });
+
+    // Static mode: click opens parent dialog + modifier wheel zoom
+    if (!cfg.max) {
+      els.captionExpand.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Same behavior you already use in static mode:
+        window.parent.postMessage(
+          { type: "showDialog", props: { aspect: 1.0, src: `${location.href}&max` } },
+          "*"
+        );
+      });
+      enableModifierWheelZoom(viewer);
+    }
+    if (cfg.max) els.captionExpand.style.display = "none";
+
+    // Tooltip updates
+    window.addEventListener("resize", updateIframeAspectTip);
+    if ("ResizeObserver" in window) {
+      const ro = new ResizeObserver(updateIframeAspectTip);
+      ro.observe(els.wrap);
+    } else {
+      setInterval(updateIframeAspectTip, 750);
+    }
+    updateIframeAspectTip();
+
+  </script>
+</body>
+
+</html>

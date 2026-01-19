@@ -1,0 +1,38 @@
+{% assign qs = "center=" | append: include.center | uri_escape %}
+
+{% if include.zoom %}
+{% assign qs = qs | append: "&zoom=" | append: include.zoom %}
+{% endif %}
+
+{% if include.caption %}
+{% assign qs = qs
+| append: "&caption="
+| append: include.caption
+| default: "Caption"
+| uri_escape %}
+{% endif %}
+
+{% if include.aspect %}
+{% assign qs = qs | append: "&aspect=" | append: include.aspect | uri_escape %}
+{% endif %}
+
+{% if include.markers %}
+{% assign markers_clean = include.markers
+| strip_newlines
+| strip
+| replace: " ", "" %}
+{% assign qs = qs | append: "&markers=" | append: markers_clean | uri_escape %}
+{% endif %}
+
+{% if include.allmaps %}
+{% assign allmaps_clean = include.allmaps
+| strip_newlines
+| strip
+| replace: " ", "" %}
+{% assign qs = qs | append: "&allmaps=" | append: allmaps_clean | uri_escape %}
+{% endif %}
+
+<iframe id="{{ include.id }}" class="embed-map" loading="lazy" title="Juncture map viewer" allow="clipboard-write"
+  style="aspect-ratio: {{ include.aspect | default: '1.0' }};"
+  src="{{ '/assets/components/map.html' | relative_url }}?{{ qs }}" allowfullscreen>
+</iframe>

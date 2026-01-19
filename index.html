@@ -1,4 +1,31 @@
 ---
 layout: home
-# Index page
+banner: 
 ---
+
+{% if paginator and paginator.page == 1 %}
+
+<style>
+    .banner {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+{% if page.banner %}
+
+<div
+  class="banner"
+  style="background-image: url('{{ page.banner | relative_url }}');">
+</div>
+
+{% endif %}
+
+<h1>Welcome!</h1>
+
+{% include featured_posts.html %}
+
+{% endif %}

@@ -170,6 +170,9 @@ collections:
   tabs:
     output: true
     sort_by: order
+  admin:
+    output: true
+    sort_by: order
 
 defaults:
   - scope:

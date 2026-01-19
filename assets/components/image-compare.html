@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Image Compare</title>
+
+    <!-- Shoelace (CDN) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/themes/light.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/shoelace.js"></script>
+
+    <style>
+        :root {
+            color-scheme: light;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+            padding: 12px;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        figure {
+            width: min(1100px, 100%);
+            margin: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        /* Keep the comparer responsive and avoid overflow in narrow iframes */
+        sl-image-comparer {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* Shoelace draws the images; these help ensure they scale nicely */
+        sl-image-comparer::part(base) {
+            width: 100%;
+        }
+
+        figcaption {
+            font-size: 0.95rem;
+            line-height: 1.35;
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .error {
+            width: min(1100px, 100%);
+            padding: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.03);
+            font-size: 0.95rem;
+            line-height: 1.35;
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <figure id="figure" hidden>
+        <!-- Note: per your spec:
+         - before = bottom image
+         - after  = top image
+    -->
+        <!--
+        <sl-image-comparer id="cmp">
+            <img id="imgBefore" slot="before" alt="Before image" />
+            <img id="imgAfter" slot="after" alt="After image" />
+        </sl-image-comparer>
+        -->
+
+        <sl-image-comparer id="comparer" style="width:100%; height:100%;">
+            <img id="imgBefore" slot="before" style="width:100%;"
+                src="https://images.unsplash.com/photo-1517331156700-3c241d2b4d83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80&sat=-100&bri=-5"
+                alt="Grayscale version of kittens in a basket looking around." />
+            <img id="imgAfter" slot="after" style="width:100%;""
+                src="
+                https://images.unsplash.com/photo-1517331156700-3c241d2b4d83?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80"
+                alt="Color version of kittens in a basket looking around." />
+        </sl-image-comparer>
+
+        <figcaption id="caption"></figcaption>
+    </figure>
+
+    <div id="error" class="error" hidden></div>
+
+    <script>
+        (function () {
+            const params = new URLSearchParams(location.search);
+
+            // Required args per your spec:
+            // before: bottom image URL
+            // after:  top image URL
+            // caption: figcaption text
+            const beforeUrl = params.get("before") || "";
+            const afterUrl = params.get("after") || "";
+            const caption = params.get("caption") || "";
+            const position = params.get("position");
+
+            const $figure = document.getElementById("figure");
+            const $error = document.getElementById("error");
+
+            if (!beforeUrl || !afterUrl) {
+                $error.hidden = false;
+                $error.innerHTML =
+                    "Missing required query parameters.<br><br>" +
+                    "Expected: <code>?before=…&after=…&caption=…</code><br>" +
+                    "Where <code>before</code> is the bottom image and <code>after</code> is the top image.";
+                return;
+            }
+
+            const $comparer = document.getElementById("comparer");
+            const $imgBefore = document.getElementById("imgBefore");
+            const $imgAfter = document.getElementById("imgAfter");
+            const $caption = document.getElementById("caption");
+
+            if (position) {
+                $comparer.setAttribute('position', position);
+            }
+
+            // Set sources
+            $imgBefore.src = beforeUrl;
+            $imgAfter.src = afterUrl;
+
+            // Basic, predictable caption handling (treat as plain text)
+            $caption.textContent = caption;
+
+            // Improve accessibility a bit: reuse caption text if available
+            if (caption.trim()) {
+                $imgBefore.alt = `Before: ${caption}`;
+                $imgAfter.alt = `After: ${caption}`;
+            }
+
+            $figure.hidden = false;
+        })();
+    </script>
+</body>
+
+</html>

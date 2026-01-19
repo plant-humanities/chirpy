@@ -1,0 +1,45 @@
+{%- comment -%} Convert src → full URL {%- endcomment -%}
+{%- capture src_final -%}
+{%- include url_from_src.html src=include.src mw_width=include.mw_width -%}
+{%- endcapture -%}
+{%- assign src_final = src_final | strip -%}
+
+{%- comment -%} Build query string {%- endcomment -%}
+{%- assign qs = "src=" | append: src_final | uri_escape -%}
+
+{%- if include.caption -%}
+{%- assign qs = qs | append: "&caption=" | append: include.caption | uri_escape -%}
+{%- endif -%}
+
+{%- if include.attribution -%}
+{%- assign qs = qs | append: "&attribution=" | append: include.attribution | uri_escape -%}
+{%- endif -%}
+
+{%- comment -%} Strict boolean parsing for cover {%- endcomment -%}
+{%- assign cover_val = include.cover | downcase | strip -%}
+{%- if cover_val == "true" or cover_val == "1" or cover_val == "yes" or cover_val == "on" -%}
+{%- assign qs = qs | append: "&cover=1" -%}
+{%- endif -%}
+
+{%- comment -%} region: IIIF-like (full | x,y,w,h | pct:x,y,w,h) {%- endcomment -%}
+{%- if include.region -%}
+{%- assign qs = qs | append: "&region=" | append: include.region | uri_escape -%}
+{%- endif -%}
+
+{%- comment -%} rotate: IIIF-like degrees, optional ! prefix for flip (e.g. !90) {%- endcomment -%}
+{%- if include.rotate -%}
+{%- assign qs = qs | append: "&rotate=" | append: include.rotate | uri_escape -%}
+{%- endif -%}
+
+<iframe
+  id="{{ include.id }}"
+  class="embed-image"
+  loading="lazy"
+  title="Juncture image viewer"
+  allow="clipboard-write"
+  {% if include.aspect %}
+    style="aspect-ratio: {{ include.aspect }};"
+  {% endif %}
+  src="{{ '/assets/components/image.html' | relative_url }}?{{ qs }}"
+  allowfullscreen>
+</iframe>
