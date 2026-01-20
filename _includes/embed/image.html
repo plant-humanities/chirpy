@@ -31,15 +31,7 @@
 {%- assign qs = qs | append: "&rotate=" | append: include.rotate | uri_escape -%}
 {%- endif -%}
 
-<iframe
-  id="{{ include.id }}"
-  class="embed-image"
-  loading="lazy"
-  title="Juncture image viewer"
-  allow="clipboard-write"
-  {% if include.aspect %}
-    style="aspect-ratio: {{ include.aspect }};"
-  {% endif %}
-  src="{{ '/assets/components/image.html' | relative_url }}?{{ qs }}"
-  allowfullscreen>
+<iframe id="{{ include.id }}" class="embed-image" loading="lazy" title="Juncture image viewer" allow="clipboard-write"
+  {% if include.aspect %} style="aspect-ratio: {{ include.aspect }};" {% endif %}
+  src="{{ '/assets/components/image.html' | relative_url }}?{{ qs }}" allowfullscreen>
 </iframe>

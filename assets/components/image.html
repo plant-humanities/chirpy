@@ -481,6 +481,8 @@
 
       const { captionHtml } = buildCommonsCaption(wcMeta, wcTitle, cfg.caption);
       cfg.caption = captionHtml;
+    } else {
+      cfg.src = `https://res.cloudinary.com/dmceci9t1/image/fetch/${cfg.max ? '' : 'w_431,'}q_auto,f_auto/${cfg.src}`
     }
 
     function clamp(v, lo, hi) { return Math.max(lo, Math.min(v, hi)); }

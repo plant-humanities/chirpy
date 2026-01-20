@@ -41,9 +41,20 @@ script_includes:
       {%- assign raw_src = page.image.path | default: page.image -%}
       {%- assign transform = page.image.transform | default: "w_1200,h_630,c_fill" -%}
 
+      {%- capture raw_src -%}
+      {%- include url_from_src.html src=raw_src -%}
+      {%- endcapture -%}
+
+      {% assign prefix2 = raw_src | slice: 0, 2 %}
+      {% assign prefix4 = raw_src | slice: 0, 4 %}
+
+      {% if prefix4 != 'http' and prefix2 != '//' %}
+      {% assign raw_src = site.url | append: raw_src %}
+      {% endif %}
+
       {%- comment -%}
       Rewrite src to:
-      http://iiif.juncture-digital.io/image/<src>/<transform>
+      https://res.cloudinary.com/dmceci9t1/image/fetch/<transform>/<src>
 
           Rules:
           - Preserve slashes (service supports them)
@@ -51,12 +62,12 @@ script_includes:
           - Clean up accidental double slashes
           {%- endcomment -%}
 
-          {%- assign base = "https://d1co2zgwaj21sl.cloudfront.net/image/" -%}
+          {%- assign base = "https://res.cloudinary.com/dmceci9t1/image/fetch/" -%}
           {%- assign src_safe = raw_src | strip | replace: ' ', '%20' -%}
           {%- assign transform_safe = transform | strip | replace: ' ', '%20' -%}
-          {%- assign iiif_src = base | append: src_safe | append: '/' | append: transform_safe -%}
+          {%- assign cloudinary_src = base | append: transform_safe | append: '/' | append: src_safe -%}
 
-          {% capture src %}src="{{ iiif_src }}"{% endcapture %}
+          {% capture src %}src="{{ cloudinary_src }}"{% endcapture %}
           {% capture class %}class="preview-img{% if page.image.no_bg %} no-bg{% endif %}"{% endcapture %}
           {% capture alt %}alt="{{ page.image.alt | xml_escape | default: "Preview Image" }}"{% endcapture %}
 

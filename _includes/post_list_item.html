@@ -8,9 +8,14 @@
     {% assign raw_src = post.image.path | default: post.image %}
 
     {%- capture src_final -%}
-    {%- include url_from_src.html src=raw_src -%}
+    {%- include url_from_src.html src=raw_src media_subpath=post.media_subpath-%}
     {%- endcapture -%}
     {%- assign src = src_final | strip -%}
+
+    {%- assign base = "https://res.cloudinary.com/dmceci9t1/image/fetch/" -%}
+    {%- assign src_safe = raw_src | strip | replace: ' ', '%20' -%}
+    {%- assign transform_safe = 'w_360,h_190' -%}
+    {%- assign cloudinary_src = base | append: transform_safe | append: '/' | append: src -%}
 
     {% if post.image.lqip %}
     {% assign lqip = post.image.lqip %}
@@ -32,7 +37,7 @@
     {% assign alt = post.image.alt | xml_escape | default: 'Preview Image' %}
 
     <div class="col-md-5">
-      <img src="{{ src }}" alt="{{ alt }}" {{ lqip_attr }}>
+      <img src="{{ cloudinary_src }}" alt="{{ alt }}" {{ lqip_attr }}>
     </div>
 
     {% assign card_body_col = '7' %}

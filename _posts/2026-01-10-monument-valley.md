@@ -4,12 +4,12 @@ description: Interactive visual essay on Monument Valley.
 author: Ron Snyder
 date: 2025-01-01
 image: 
-    path: wc:Monument_Valley,_Utah,_USA.jpg
+    path: Monument_valley.jpg
     alt: Monument Valley
 layout: post
 categories: [ examples ]
 tags: [ Monument Valley ]
-media_subpath: /assets/monument-valley
+media_subpath:  https://raw.githubusercontent.com/rsnyder/chirpy/main/assets/monument-valley
 permalink: /monument-valley/
 toc: false
 published: true
