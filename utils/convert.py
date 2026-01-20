@@ -43,11 +43,11 @@ def to_dict(s):
     return attrs
 
 unrecognized_image_attrs = {}
+
 def convert_params(md: str) -> str:
     
     def convert_image_tag(attrs_str):
         attrs = to_dict(attrs_str)
-        print(json.dumps(attrs, indent=2))
         recognized = set('id src manifest seq caption attribution description label license source cover region rotation aspect'.split(' '))
         for attr in attrs:
             if attr not in recognized:
@@ -63,6 +63,37 @@ def convert_params(md: str) -> str:
         return tag
 
     md = re.sub(r'`image\s+\b([^`]*)`', lambda m: convert_image_tag(m.group(1).strip()), md)
+    
+    def convert_map_block(block):
+        markers = []
+        lines = [line.strip()[1:-1] for line in block.split('\n')]
+        tag_attrs = to_dict(lines[0])
+        for line in lines[1:]:
+            line_attrs = to_dict(line)
+            print(json.dumps(line_attrs, indent=2))
+            if 'marker' in line_attrs:
+                if 'qid' in line_attrs:
+                    markers.append(line_attrs['qid'])
+        
+        tag = '{% include embed/map.html '
+        for attr in 'id center zoom basemap caption aspect'.split(' '):
+            if attr in tag_attrs:
+                tag += f'{attr}="{tag_attrs[attr]}" '
+        if markers:
+            tag += f'markers="{"|".join(markers)}" '
+        tag += 'class="right" %}'
+        return tag
+        
+    MAP_BLOCK_RE = re.compile(
+        r"""
+        ^`map[^\n`]*`             # must start at line beginning
+        (?:\n`- [^\n`]*`)*        # continuation lines
+        """,
+        re.VERBOSE | re.MULTILINE
+    )
+    
+    md = MAP_BLOCK_RE.sub(lambda m: convert_map_block(m.group(0)), md)
+                    
     return md
 
 def clean(text: str) -> str:
@@ -147,7 +178,7 @@ def convert(src: str, dest: str, max: Optional[int] = None, **kwargs):
         if max and ctr >= max:
             break
     
-    print(json.dumps(unrecognized_image_attrs, indent=2))
+    # print(json.dumps(unrecognized_image_attrs, indent=2))
 
 
 # ============================================================================
