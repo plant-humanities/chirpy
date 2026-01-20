@@ -24,6 +24,46 @@
 {% assign qs = qs | append: "&markers=" | append: markers_clean | uri_escape %}
 {% endif %}
 
+{% if include.geojson %}
+  {%- assign geojson_items = include.geojson | split: '|' -%}
+  {%- assign geojson_out = "" | split: "," -%}
+
+  {%- for raw_item in geojson_items -%}
+    {%- assign raw_item = raw_item | strip -%}
+    {%- if raw_item == "" -%}{%- continue -%}{%- endif -%}
+
+    {%- assign parts = raw_item | split: '~' -%}
+    {%- assign frag = parts[0] | strip -%}
+    {%- assign layer = "" -%}
+    {%- if parts.size > 1 -%}
+      {%- assign layer = parts[1] | strip -%}
+    {%- endif -%}
+
+    {%- capture full_url -%}{%- include url_from_src.html src=frag media_subpath=post.media_subpath -%}{%- endcapture -%}
+    {%- assign full_url = full_url | strip -%}
+
+    {%- if full_url != "" -%}
+      {%- if layer != "" -%}
+        {%- assign out_item = full_url | append: "~" | append: layer -%}
+      {%- else -%}
+        {%- assign out_item = full_url -%}
+      {%- endif -%}
+
+      {%- assign geojson_out = geojson_out | push: out_item -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- assign geojson_param = geojson_out | join: "|" | uri_escape -%}
+  {%- assign qs = qs | append: "&geojson=" | append: geojson_param -%}
+{% endif %}
+
+{%- comment -%} Convert src → full URL {%- endcomment -%}
+{%- capture src_final -%}
+{%- include url_from_src.html src=include.src mw_width=include.mw_width media_subpath=page.media_subpath -%}
+{%- endcapture -%}
+{%- assign src_final = src_final | strip -%}
+
+
 {% if include.allmaps %}
 {% assign allmaps_clean = include.allmaps
 | strip_newlines

@@ -8,7 +8,7 @@
     {% assign raw_src = post.image.path | default: post.image %}
 
     {%- capture src_final -%}
-    {%- include url_from_src.html src=raw_src media_subpath=post.media_subpath-%}
+    {%- include url_from_src.html src=raw_src media_subpath=post.media_subpath -%}
     {%- endcapture -%}
     {%- assign src = src_final | strip -%}
 
