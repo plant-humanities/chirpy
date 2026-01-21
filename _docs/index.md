@@ -1,7 +1,5 @@
 ---
-layout: admin
-title: Admin
-permalink: /admin
+layout: docs
+title: Docs
+permalink: /docs
 ---
-
-# Spartina Admin
