@@ -9,7 +9,7 @@ pin: true
 math: true
 mermaid: true
 layout: post
-permalink: /admin/text-and-typography
+permalink: /docs/text-and-typography
 ---
 
 ## Headings

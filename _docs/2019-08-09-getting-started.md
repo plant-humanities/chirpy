@@ -10,7 +10,7 @@ tags: [getting started]
 pin: true
 media_subpath: '/posts/20180809'
 layout: post
-permalink: /admin/getting-started
+permalink: /docs/getting-started
 ---
 
 ## Creating a Site Repository
