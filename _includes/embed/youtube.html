@@ -1,0 +1,20 @@
+{%- comment -%} Build query string {%- endcomment -%}
+{%- assign qs = "vid=" | append: include.vid -%}
+
+{%- if include.caption -%}
+{%- assign qs = qs | append: "&caption=" | append: include.caption | uri_escape -%}
+{%- endif -%}
+
+{%- if include.attribution -%}
+{%- assign qs = qs | append: "&attribution=" | append: include.attribution | uri_escape -%}
+{%- endif -%}
+
+{%- assign class = "embed-youtube" -%}
+{%- if include.class -%}
+{%- assign class = class | append: " " | append: include.class -%}
+{%- endif -%}
+
+<iframe id="{{ include.id }}" class="{{ class }}" loading="lazy" title="YouTube viewer" allow="clipboard-write" allowfullscreen
+  {% if include.aspect %} style="aspect-ratio: {{ include.aspect }};" {% endif %}
+  src="{{ '/assets/components/youtube.html' | relative_url }}?{{ qs }}" >
+</iframe>

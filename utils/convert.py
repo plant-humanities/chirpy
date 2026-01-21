@@ -135,6 +135,8 @@ unrecognized_map_attrs = {}
 
 def convert_params(md: str) -> str:
     
+    ### Image
+    
     def convert_image_tag(attrs_str):
         attrs = to_dict(attrs_str)
         recognized = set('id src manifest seq caption attribution description label license source cover region rotation aspect'.split(' '))
@@ -156,6 +158,27 @@ def convert_params(md: str) -> str:
         return tag
 
     md = re.sub(r'`image\s+\b([^`]*)`', lambda m: convert_image_tag(m.group(1).strip()), md)
+    
+    
+    ### Image Compare
+    
+    def convert_image_compare_tag(attrs_str):
+        attrs = to_dict(attrs_str)
+        tag = '{% include embed/image-compare.html '
+        for attr in attrs:
+            if attr.startswith('#'):
+                tag += f'id="{attr[1:]}" '
+                
+        for attr in 'id before after caption aspect'.split(' '):
+            if attr in attrs and attrs[attr]:
+                tag += f'{attr}="{attrs[attr]}" '
+        tag += 'class="right" %}'
+        return tag
+    
+    md = re.sub(r'`image-compare\b([^`]*)`', lambda m: convert_image_compare_tag(m.group(1).strip()), md)
+
+
+    ## Map
     
     def convert_map_block(block):
         markers = []
@@ -217,7 +240,44 @@ def convert_params(md: str) -> str:
     )
     
     md = MAP_BLOCK_RE.sub(lambda m: convert_map_block(m.group(0)), md)
-                    
+    
+    ### Iframe
+    
+    def convert_iframe_tag(attrs_str):
+        attrs = to_dict(attrs_str)
+        tag = '{% include embed/iframe.html '
+        for attr in attrs:
+            if attr.startswith('#'):
+                tag += f'id="{attr[1:]}" '
+                
+        for attr in 'id src caption aspect'.split(' '):
+            if attr in attrs and attrs[attr]:
+                tag += f'{attr}="{attrs[attr]}" '
+        tag += 'class="right" %}'
+        return tag
+    
+    md = re.sub(r'`iframe\b([^`]*)`', lambda m: convert_iframe_tag(m.group(1).strip()), md)
+
+    ### YouTube
+    
+    def convert_youtube_tag(attrs_str):
+        attrs = to_dict(attrs_str)
+        print(json.dumps(attrs, indent=2))
+        tag = '{% include embed/youtube.html '
+        for attr in attrs:
+            if attr.startswith('#'):
+                tag += f'id="{attr[1:]}" '
+                
+        for attr in 'id vid caption aspect'.split(' '):
+            if attr in attrs and attrs[attr]:
+                tag += f'{attr if attr != "vid" else "id"}="{attrs[attr]}" '
+        tag += 'class="right" %}'
+        print(tag)
+        return tag
+    
+    md = re.sub(r'`youtube\b([^`]*)`', lambda m: convert_youtube_tag(m.group(1).strip()), md)
+
+           
     return md
 
 

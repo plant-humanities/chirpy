@@ -6,7 +6,7 @@ date: 2025-01-01
 image: 
     path: Monument_valley.jpg
     alt: Monument Valley
-layout: post
+layout: post-2col
 categories: [ examples ]
 tags: [ Monument Valley ]
 media_subpath:  https://raw.githubusercontent.com/rsnyder/chirpy/main/assets/monument-valley
@@ -22,6 +22,7 @@ pin: true
 
 Major rock formations include [West](image/zoomto/pct:10.94,27.88,21.05,30){: label="West Mitten Butte"} and [East Mitten](image/zoomto/pct:40.59,35.80,21.91,25){: label="East Mitten Butte"}  Buttes, [Merrick Butte](image/zoomto/pct:67.68,34.23,23.22,27), Hunts Mesa, Eagle Mesa, Sentinel Mesa, Brighams Tomb, Castle Rock, Stagecoach, Big Indian, Rain God Mesa, Spearhead Mesa, Mitchell Mesa, Mitchell Butte, Gray Whiskers, Elephant Butte, Camel Butte, Cly Butte, King-on-his-Throne, Rooster Rock, and Setting Hen. Another notable formation is [Totem Pole](Q7828304), a highly eroded butte remanent. The valley also includes large stone structures, such as the "Eye of the Sun". [People](image/zoomto/pct:48.49,66.82,11.31,7.44)
 
+{% include embed/iframe.html src="https://archive.org/embed/herballorgeneral00gera_2/page/1225/mode/1up" caption="Test Caption" class="right" %}
 
 # Geography and geology
 
@@ -49,8 +50,8 @@ Monument Valley includes much of the area surrounding Monument Valley Navajo Tri
 
 Monument Valley has been featured in many forms of media since the 1930s. Famed director John Ford used the location for a number of his Westerns. Film critic Keith Phipps wrote that "its five square miles [13 km2] have defined what decades of moviegoers think of when they imagine the American West".[^3]
 
-`youtube vid=yg0As_HOvJk #video1`
-`youtube vid=GGyiZ7SE3V4 #video2`
+{% include embed/youtube.html vid="yg0As_HOvJk" id="video1" %}
+{% include embed/youtube.html vid="GGyiZ7SE3V4" id="video2" %}
 
 [^1]: Scheffel, Richard L.; Wernet, Susan J., eds. (1980). Natural Wonders of the World. Reader's Digest. p. 255. ISBN 978-0895770875.
 [^2]: King, Farina (2018). "Náhookọs (North): New Hioes for Diné Students." The Earth Memory Compass: Diné Landscapes and Education in the Twentieth Century. University Press of Kansas. pp. 142–74. [doi:10.2307/j.ctv6mtdsj](https://doi.org/10.2307%2Fj.ctv6mtdsj). S2CID 135010884.

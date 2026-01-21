@@ -170,7 +170,7 @@ collections:
   tabs:
     output: true
     sort_by: order
-  admin:
+  docs:
     output: true
     sort_by: order
 

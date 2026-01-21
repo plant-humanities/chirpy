@@ -12,6 +12,13 @@ import "https://cdnjs.cloudflare.com/ajax/libs/scrollama/3.2.0/scrollama.min.js"
  * - Viewer is positioned to the right of the article and sized to half the article width.
  */
 
+// Touch + small viewport tends to be a better “mobile-ish” proxy than UA sniffing alone.
+const isCoarsePointer =
+  window.matchMedia?.("(pointer: coarse)")?.matches ?? false;
+const isNarrowViewport =
+  window.matchMedia?.("(max-width: 768px)")?.matches ?? false;
+const isMobile = isCoarsePointer || isNarrowViewport;
+
 const SELECTORS = {
   article: "article",
   header: "article > header",
@@ -171,4 +178,8 @@ function init2col() {
   window.addEventListener("load", requestPositionUpdate);
 }
 
-init2col();
+console.log(`isMobile=${isMobile}`);
+if (!isMobile) init2col();
+else {
+  document.querySelectorAll('.shimmer').forEach(el => el.classList.remove("shimmer"))
+}

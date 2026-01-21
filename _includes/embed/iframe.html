@@ -1,0 +1,27 @@
+{%- comment -%} Convert src → full URL {%- endcomment -%}
+{%- capture src_final -%}
+{%- include url_from_src.html src=include.src mw_width=include.mw_width media_subpath=page.media_subpath -%}
+{%- endcapture -%}
+{%- assign src_final = src_final | strip -%}
+
+{%- if include.caption -%}
+{%- assign qs = qs | append: "&caption=" | append: include.caption | uri_escape -%}
+{%- endif -%}
+
+{%- assign class = "iframe-wrapper" -%}
+{%- if include.class -%}
+{%- assign class = class | append: " " | append: include.class -%}
+{%- endif -%}
+
+<figure class="{{ class }}">
+  <iframe id="{{ include.id }}" class="embed-iframe" loading="lazy" allow="clipboard-write"
+    src="{{ src_final }}" 
+    {% if include.width %} width="{{ include.width }}" {% endif %}
+    {% if include.height %} height="{{ include.height }}" {% endif %}
+    {% if include.aspect %} style="aspect-ratio: {{ include.aspect }};" {% endif %}
+    allowfullscreen>
+  </iframe>
+  <figcaption>
+    {{ include.caption }}
+  </figcaption>
+</figure>

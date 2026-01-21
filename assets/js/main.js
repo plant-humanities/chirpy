@@ -105,7 +105,6 @@ function computeDialogWidth({ aspect }) {
 
 function showDialog(props = {}) {
     if (activeDialog) return;
-
     const aspect = parseAspect(props.aspect, 1);
     const srcUrl = safeURL(props.src);
     if (!srcUrl) {
@@ -229,6 +228,9 @@ function wrapAdjacentEmbedsAsTabs({
     iconFor = (node) => {
         if (node.classList.contains('embed-image')) return "fa-regular fa-image";
         if (node.classList.contains('embed-map')) return "fa-solid fa-map-pin";
+        if (node.classList.contains('embed-image-compare')) return "fa-regular fa-images";
+        if (node.classList.contains('embed-youtube')) return "fa-brands fa-youtube";
+        if (node.classList.contains('iframe-wrapper')) return "fa-regular fa-file-lines";
         return "fa-solid fa-square";
     },
     labelFor = (node, idx) => {
@@ -241,7 +243,7 @@ function wrapAdjacentEmbedsAsTabs({
 
     const isEmbedItem = (n) =>
         n instanceof Element &&
-        (n.tagName === "IFRAME" || (n.tagName === "P" && n.querySelector("img")));
+        (n.tagName === "IFRAME" || n.tagName === "FIGURE" || (n.tagName === "P" && n.querySelector("img")));
 
     const nextNonIgnorableSibling = (node) => {
         let n = node.nextSibling;

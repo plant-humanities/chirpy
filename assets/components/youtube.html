@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/themes/light.css" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    @keyframes fadeInOpacity {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+      animation: fadeInOpacity ease 1s;
+      background-color: white;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.5s ease-out;
+    }
+
+    figure {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      margin: 0;
+    }
+
+    .content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      width: 100%;
+      aspect-ratio: 16/9;
+    }
+
+    figcaption {
+      padding: 6px;
+      font-size: 0.9rem;
+      background-color: #f9f9f9;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      height: 100%;
+    }
+
+    .expandToggle {
+      width: 1.3rem;
+      height: 1.3rem;
+      cursor: pointer;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .info .title {
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
+
+    .info .thumbnail {
+      width: 40%;
+      max-width: 200px;
+      float: left;
+      margin-right: 0.5em;
+    }
+
+    svg.drawer-toggle {
+      width: 1.3em;
+      height: 1.3em;
+    }
+
+    .drawer-toggle {
+      cursor: pointer;
+    }
+
+    sl-drawer::part(body) {
+      padding: 0;
+      border: 1px solid #ddd;
+    }
+
+    sl-tab::part(base) {
+      padding: 0.5em 1em;
+    }
+
+    sl-tab-panel::part(base) {
+      padding: 0.5em;
+    }
+
+    sl-tab-panel::part(base) div,
+    sl-tab-panel div {
+      margin-bottom: 0.5em;
+    }
+
+    sl-copy-button::part(button) {
+      padding-top: 0;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .wrap {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      -ms-word-break: break-all;
+      word-break: break-all;
+    }
+
+    .clamp {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .embed {
+      display: flex;
+      margin-bottom: 1em;
+    }
+
+    .videoThumbnail {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      cursor: pointer;
+    }
+
+    .videoThumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .playOverlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px;
+      height: 64px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <figure style="height: 100%;">
+
+      <!-- Thumbnail container (conditionally shown) -->
+      <div class="videoThumbnail">
+        <img class="thumbnailImg" alt="YouTube thumbnail">
+        <div class="playOverlay">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="36" height="36" fill="#fff">
+            <polygon points="70,55 70,145 145,100" />
+          </svg>
+        </div>
+      </div>
+
+      <iframe id="youtubePlayer" class="content" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <figcaption>
+        <svg class="drawer-toggle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512">
+          <path
+            d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z" />
+        </svg>
+        <div class="label clamp"></div>
+        <svg class="expandToggle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path
+            d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" />
+        </svg>
+      </figcaption>
+
+      <sl-drawer contained class="drawer" no-header
+        style="--size: calc(100% - 32px); display: flex; flex-direction: column; height: 100%;">
+        <sl-tab-group>
+          <sl-tab slot="nav" active panel="info">Video info</sl-tab>
+          <sl-tab slot="nav" panel="embed">Embed</sl-tab>
+          <sl-tab-panel active name="info">
+            <div class="info">
+              <img class="thumbnail"></img>
+              <div class="title"></div>
+              <div class="author"></div>
+            </div>
+          </sl-tab-panel>
+          <sl-tab-panel name="embed">
+            <div class="embed wrap">
+              <pre><code id="embed-code"></code></pre>
+              <sl-copy-button from="embed-code"></sl-copy-button>
+            </div>
+            For more information, visit <span id="juncture-link">https://juncture-digital.io</span><sl-copy-button
+              from="juncture-link"></sl-copy-button>
+            <div>
+          </sl-tab-panel>
+        </sl-tab-group>
+      </sl-drawer>
+    </figure>
+
+  </main>
+
+  <script type="module">
+
+    import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js"
+
+    // import any needed Shoelace components (https://shoelace.style/)
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/components/copy-button/copy-button.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/components/drawer/drawer.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/components/tab/tab.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/components/tab-group/tab-group.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.18.0/cdn/components/tab-panel/tab-panel.js';
+
+    const main = document.querySelector('main')
+    const figure = main.querySelector('figure')
+    const youtubePlayer = figure.querySelector('#youtubePlayer')
+    const videoThumbnail = figure.querySelector('.videoThumbnail')
+    const thumbnailImg = figure.querySelector('.thumbnailImg')
+    const captionEl = figure.querySelector('figcaption')
+    const captionLabel = captionEl.querySelector('.label')
+    const drawerToggle = captionEl.querySelector('.drawer-toggle')
+
+    const drawer = document.querySelector('.drawer')
+    const tabGroup = drawer.querySelector('sl-tab-group')
+    // tabGroup.addEventListener('sl-tab-show', e => { console.log(e) })
+
+    drawerToggle?.addEventListener('click', e => drawer.open = !drawer.open)
+
+    const props = {
+      ...{              // default properties
+        alt: null,
+        autoplay: false,
+        caption: null,
+        end: null,
+        muted: false,
+        nocaption: false,
+        poster: null,
+        start: 0,
+        static: false,
+        vid: null  // YouTube video id
+      },
+      ...Object.fromEntries( // URLSearchParams to object
+        Array.from(new URLSearchParams(location.search).entries())
+          .map(([key, value]) => [key, (value === 'true' || !value) ? true : value === 'false' ? false : value])
+      )
+    }
+    console.log(props)
+
+    const expandToggle = figure.querySelector('.expandToggle')
+    if (props['in-dialog']) expandToggle.style.display = 'none'
+    else {
+      expandToggle.addEventListener('click', e => {
+        window.parent.postMessage(
+          { type: "showDialog", props: { aspect: 1.0, src: `${location.href}&max` } },
+          "*"
+        );
+      })
+    }
+
+    thumbnailImg.src = `https://img.youtube.com/vi/${props.vid}/hqdefault.jpg`
+    youtubePlayer.src = `https://www.youtube-nocookie.com/embed/${props.vid}?enablejsapi=1`;
+    if (props.static) youtubePlayer.style.display = 'none'
+    else videoThumbnail.style.display = 'none'
+
+    let inIframe = window.location !== window.parent.location // flag indicating if the page is in an iframe
+    const md2Html = (md) => marked.parse(md).slice(3, -5) // convert markdown to HTML
+
+    const setWindowAspect = () => {
+      let contentAspect = youtubePlayer.clientWidth / youtubePlayer.clientHeight
+      let aspect = main.clientWidth / (main.clientWidth / contentAspect + captionEl.clientHeight)
+      window.parent.postMessage({ type: 'setAspect', aspect }, '*');
+    }
+
+    let pauseAt
+
+    const youtubeMetadata = async (videoId) => {
+      let videoUrl = encodeURI(`https://www.youtube.com/watch?v=${videoId}`)
+      let url = `https://youtube.com/oembed?url=${videoUrl}&format=json`
+      let resp = await fetch(url)
+      let data = await resp.json()
+      data.aspect = data.width / data.height
+      return data
+    }
+
+    const updateInfoPanel = (metadata) => {
+      if (metadata.thumbnail_url) document.querySelector('.info .thumbnail').src = metadata.thumbnail_url
+      if (metadata.title) document.querySelector('.info .title').innerHTML = metadata.title
+      if (metadata.author_name && metadata.author_url) document.querySelector('.info .author').innerHTML = `<a href="${metadata.author_url}" target="_blank">${metadata.author_name}</a>`
+      drawer.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', e => {
+          e.stopPropagation()
+          e.preventDefault()
+          window.parent.postMessage({ type: 'openLink', url: a.href }, '*');
+        })
+      })
+    }
+
+    youtubeMetadata(props.vid).then(metadata => {
+      // console.log(metadata)
+      captionLabel.innerHTML = metadata.title
+      updateInfoPanel(metadata)
+    })
+    youtubePlayer.addEventListener('load', e => {
+      youtubePlayer.contentWindow.postMessage('{"event": "listening"}', '*')
+      // setWindowAspect()
+      main.style.visibility = 'visible'
+      main.style.opacity = '1'
+      // new ResizeObserver(() => setWindowAspect() ).observe(document.body)
+    })
+
+    const sendMsg = (func, args) => {
+      youtubePlayer.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func, args: args || [] }),
+        '*'
+      );
+    }
+
+    const play = (start, end) => {
+      if (start !== null) sendMsg('seekTo', [start, true])
+      pauseAt = end ? end : null
+      sendMsg('playVideo')
+    }
+
+    const pause = () => sendMsg('pauseVideo')
+
+    let playerStates = {
+      '-1': 'unstarted',
+      '0': 'ended',
+      '1': 'playing',
+      '2': 'paused',
+      '3': 'buffering',
+      '5': 'video cued',
+    }
+    let playerState
+    const watch = (event) => {
+      // console.log(event)
+      if (event.playerState !== undefined && event.playerState !== playerState) {
+        playerState = event.playerState
+        // console.log(playerStates[`${playerState}`])
+      }
+      if (pauseAt !== null && event.currentTime > pauseAt) {
+        pauseAt = null
+        pause()
+      }
+    }
+
+    window.addEventListener('message', (event) => {
+      let eventData = JSON.parse(event.data)
+      if (eventData.event === 'infoDelivery') watch(eventData.info)
+      if (eventData.channel === 'widget') return
+
+      let action = eventData.action?.toLowerCase()
+      let args = eventData.args
+
+      if ('play' === action) {
+        let start = args.length > 0 ? hmsToSeconds(args[0]) : null
+        let end = args.length > 1 ? hmsToSeconds(args[1]) : null
+        play(start, end)
+      } else if ('pause' === action) pause()
+
+    });
+
+
+    const monitor = async () => {
+      getCurrentTime().then(time => EventBus.emit('video-at-time', { time: Math.round(time) }))
+
+      setInterval(async () => {
+        isMuted = await getIsMuted()
+        isPlaying = await getIsPlaying()
+
+        if (isPlaying) getCurrentTime().then(time => EventBus.emit('video-at-time', { time: Math.round(time) }))
+
+      }, 1000)
+    }
+
+    const getIsPlaying = async () => await mediaPlayer.getPlayerState() === 1
+
+    const getIsMuted = async () => await mediaPlayer.isMuted()
+
+    const setMuted = (mute) => {
+      if (mute) mediaPlayer.mute()
+      else mediaPlayer.unMute()
+    }
+
+    const getCurrentTime = async () => mediaPlayer.getCurrentTime()
+
+    const hmsToSeconds = (str) => {
+      var p = str.split(':').slice(0, 3).map(pe => parseInt(pe, 10))
+      let secs = 0, m = 1
+      while (p.length > 0) {
+        let val = p.pop() || 0
+        secs += m * val
+        m *= 60
+      }
+      return secs
+    }
+
+    let timeoutId = null
+    let forceMuteOnPlay = false
+
+    const seekTo = (start, end) => {
+      end = end || ''
+      let startSecs = hmsToSeconds(start)
+      let endSecs = end ? hmsToSeconds(end) + 1 : -1
+
+      // clear delayed pause
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+        timeoutId = null
+      }
+
+      let wasMuted = isMuted
+
+      mediaPlayer.playVideo()
+      mediaPlayer.seekTo(startSecs).then((_) => {
+        if (endSecs >= startSecs) {
+          timeoutId = setTimeout(() => {
+            mediaPlayer.pauseVideo().then((_) => {
+              timeoutId = null
+              if (!wasMuted && forceMuteOnPlay) setMuted(false)
+            })
+          }, endSecs === startSecs ? 200 : (endSecs - startSecs) * 1000)
+        }
+      })
+
+    }
+
+    // initYoutubePlayer()
+
+  </script>
+</body>
+
+</html>
