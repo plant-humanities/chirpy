@@ -1,0 +1,105 @@
+{% assign post = include.post %}
+
+{%- comment -%}
+Grid card version of the standard post list item.
+Uses the same include vars: include.post (and lang from outer scope, like Chirpy).
+{%- endcomment -%}
+
+{%- assign raw_src = nil -%}
+{%- assign src = nil -%}
+{%- assign final_src = nil -%}
+{%- assign lqip_attr = nil -%}
+
+{%- if post.image -%}
+{% assign raw_src = post.image.path | default: post.image %}
+
+{%- capture src -%}
+{%- include url_from_src.html src=raw_src media_subpath=post.media_subpath mw_width=600 -%}
+{%- endcapture -%}
+{%- assign src = src | strip -%}
+
+{%- assign commons_thumb_prefix = "https://upload.wikimedia.org/wikipedia/commons/thumb" -%}
+{%- assign do_resize = true -%}
+
+{%- if post.image.resize == false -%}
+{%- assign do_resize = false -%}
+{%- elsif src contains commons_thumb_prefix -%}
+{%- assign do_resize = false -%}
+{%- endif -%}
+
+{%- if do_resize -%}
+{%- assign base = "https://res.cloudinary.com/dmceci9t1/image/fetch/" -%}
+{%- assign transform_safe = "w_800,h_450,c_fill,g_auto" -%}
+{%- assign src_safe = src | url_encode -%}
+{%- assign final_src = base | append: transform_safe | append: "/" | append: src_safe -%}
+{%- else -%}
+{%- assign final_src = src -%}
+{%- endif -%}
+
+{%- if post.image.lqip -%}
+{% assign lqip = post.image.lqip %}
+
+{% if post.media_subpath %}
+{% unless lqip contains 'data:' %}
+{% assign lqip = post.media_subpath
+| append: '/'
+| append: lqip
+| replace: '///', '/'
+| replace: '//', '/'
+%}
+{% endunless %}
+{% endif %}
+
+{% assign lqip_attr = 'lqip="' | append: lqip | append: '"' %}
+{%- endif -%}
+{%- endif -%}
+
+{%- assign alt = post.image.alt | xml_escape | default: 'Preview Image' -%}
+
+<article class="post-grid-card card h-100">
+    <a href="{{ post.url | relative_url }}" class="post-grid-link d-flex flex-column h-100">
+
+        {%- if final_src -%}
+        <div class="post-grid-media">
+            <img class="post-grid-img" src="{{ final_src }}" alt="{{ alt }}" loading="lazy" {{ lqip_attr }}>
+        </div>
+        {%- endif -%}
+
+        <div class="card-body d-flex flex-column">
+            <h2 class="card-title mt-0 mb-2">{{ post.title }}</h2>
+
+            <div class="card-text content post-excerpt-wrap mb-3">
+                <p class="post-excerpt">{% include post-summary.html %}</p>
+
+                <button class="post-excerpt-toggle" type="button" aria-expanded="false">
+                    More
+                </button>
+            </div>
+
+            <div class="post-meta mt-auto d-flex align-items-end">
+                <div class="me-auto">
+                    <i class="far fa-calendar fa-fw me-1"></i>
+                    {% include datetime.html date=post.date lang=lang %}
+
+                    {% if post.categories.size > 0 %}
+                    <span class="ms-2">
+                        <i class="far fa-folder-open fa-fw me-1"></i>
+                        <span class="categories">
+                            {% for category in post.categories %}
+                            {{ category }}{%- unless forloop.last -%},{%- endunless -%}
+                            {% endfor %}
+                        </span>
+                    </span>
+                    {% endif %}
+                </div>
+
+                {% if post.pin %}
+                <div class="pin ms-2">
+                    <i class="fas fa-thumbtack fa-fw"></i>
+                    <span>{{ site.data.locales[lang].post.pin_prompt }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+</article>

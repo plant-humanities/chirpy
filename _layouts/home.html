@@ -2,6 +2,97 @@
 layout: default
 ---
 
+<style>
+  .post-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  @media (min-width: 768px) {
+    .post-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .post-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Card internals */
+  .post-grid-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .post-grid-media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  .post-grid-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-excerpt-wrap {
+    position: relative;
+  }
+
+  /* Clamp */
+  .post-excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+  }
+
+  /* Subtle fade at bottom */
+  .post-excerpt-wrap::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1.75rem;
+    /* leaves room for button */
+    height: 2.5rem;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.9));
+  }
+
+  /* Toggle styling */
+  .post-excerpt-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--bs-link-color);
+    cursor: pointer;
+    align-self: flex-end;
+    display: block;
+    margin-left: auto;
+  }
+
+  /* Expanded state */
+  .post-grid-card.is-expanded .post-excerpt {
+    -webkit-line-clamp: unset;
+    display: block;
+  }
+
+  .post-grid-card.is-expanded .post-excerpt-wrap::after {
+    display: none;
+  }
+</style>
+
 {{ content }}
 
 {% include lang.html %}
@@ -48,13 +139,41 @@ layout: default
 {% endfor %}
 {% endif %}
 
+{%- assign index_format = page.format | default: "list" -%}
+
+{% if index_format == "grid" %}
+<div id="post-grid" class="flex-grow-1 px-xl-1 post-grid">
+  {% for post in posts %}
+  {% include post-card-grid.html post=post %}
+  {% endfor %}
+</div>
+{% else %}
 <div id="post-list" class="flex-grow-1 px-xl-1">
   {% for post in posts %}
   {% include post_list_item.html post=post %}
   {% endfor %}
 </div>
-<!-- #post-list -->
+{% endif %}
 
 {% if paginator.total_pages > 1 %}
 {% include post-paginator.html %}
 {% endif %}
+
+
+<script>
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".post-excerpt-toggle");
+    if (!btn) return;
+
+    // Don’t navigate when the button is inside the <a> card link
+    e.preventDefault();
+    e.stopPropagation();
+
+    const card = btn.closest(".post-grid-card");
+    if (!card) return;
+
+    const expanded = card.classList.toggle("is-expanded");
+    btn.setAttribute("aria-expanded", expanded ? "true" : "false");
+    btn.textContent = expanded ? "Less" : "More";
+  });
+</script>
