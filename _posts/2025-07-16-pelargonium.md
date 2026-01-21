@@ -14,6 +14,7 @@ published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/pelargonium
 image:
   path: https://ids.lib.harvard.edu/ids/iiif/435776338/full/full/0/default.jpg
+  resize: false
 ---
 
 

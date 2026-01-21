@@ -5,17 +5,32 @@
     {% assign card_body_col = '12' %}
 
     {% if post.image %}
+
     {% assign raw_src = post.image.path | default: post.image %}
 
-    {%- capture src_final -%}
-    {%- include url_from_src.html src=raw_src media_subpath=post.media_subpath -%}
+    {%- capture src -%}
+    {%- include url_from_src.html src=raw_src media_subpath=post.media_subpath mw_width=360 -%}
     {%- endcapture -%}
-    {%- assign src = src_final | strip -%}
+    {%- assign src = src | strip -%}
 
+    {%- assign commons_thumb_prefix = "https://upload.wikimedia.org/wikipedia/commons/thumb" -%}
+
+    {%- assign do_resize = true -%}
+
+    {%- if post.image.resize == false -%}
+    {%- assign do_resize = false -%}
+    {%- elsif src contains commons_thumb_prefix -%}
+    {%- assign do_resize = false -%}
+    {%- endif -%}
+
+    {%- if do_resize -%}
     {%- assign base = "https://res.cloudinary.com/dmceci9t1/image/fetch/" -%}
-    {%- assign src_safe = raw_src | strip | replace: ' ', '%20' -%}
-    {%- assign transform_safe = 'w_360,h_190' -%}
-    {%- assign cloudinary_src = base | append: transform_safe | append: '/' | append: src -%}
+    {%- assign transform_safe = "w_360,h_190" -%}
+    {%- assign src_safe = src | url_encode -%}
+    {%- assign final_src = base | append: transform_safe | append: "/" | append: src_safe -%}
+    {%- else -%}
+    {%- assign final_src = src -%}
+    {%- endif -%}
 
     {% if post.image.lqip %}
     {% assign lqip = post.image.lqip %}
@@ -37,7 +52,7 @@
     {% assign alt = post.image.alt | xml_escape | default: 'Preview Image' %}
 
     <div class="col-md-5">
-      <img src="{{ cloudinary_src }}" alt="{{ alt }}" {{ lqip_attr }}>
+      <img src="{{ final_src }}" alt="{{ alt }}" {{ lqip_attr }}>
     </div>
 
     {% assign card_body_col = '7' %}
