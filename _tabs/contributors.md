@@ -9,8 +9,18 @@ media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/as
     h1, h2, h3, h4, h5 { clear: both; }
     p:has(img) {
         float: right;
-        width: 50%;
+        width: 40%;
+        margin-left: 1em;
     }
+    p a,
+    p a img {
+        width: 100%;
+    }
+
+    p a img {
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
 </style>
 
 
