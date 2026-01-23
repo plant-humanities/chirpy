@@ -6,7 +6,7 @@ date: 2025-01-01
 image: 
     path: Monument_valley.jpg
     alt: Monument Valley
-layout: post-2col
+layout: post
 categories: [ examples ]
 tags: [ Monument Valley ]
 media_subpath:  https://raw.githubusercontent.com/rsnyder/chirpy/main/assets/monument-valley

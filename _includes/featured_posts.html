@@ -4,21 +4,11 @@
 
 <h1>Featured Essays</h1>
 
-{%- assign index_format = page.format | default: "list" -%}
-
-{% if index_format == "grid" %}
-<div id="post-grid" class="flex-grow-1 px-xl-1 post-grid">
+<div id="featured-essays" class="post-index flex-grow-1 px-xl-1 view-list">
   {% for post in featured %}
-  {% include post-card-grid.html post=post %}
+  {% include post_index_item.html post=post %}
   {% endfor %}
 </div>
-{% else %}
-<div id="post-list" class="flex-grow-1 px-xl-1">
-  {% for post in featured %}
-  {% include post_list_item.html post=post %}
-  {% endfor %}
-</div>
-{% endif %}
 
 <h1>All Essays</h1>
 

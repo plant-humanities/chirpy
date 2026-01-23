@@ -9,6 +9,23 @@ script_includes:
 - comment
 ---
 
+<script>
+  let sidebar = document.querySelector('div.sidebar-bottom');
+  let modeToggle = document.createElement('a');
+  modeToggle.id = 'col-mode-toggle';
+  modeToggle.setAttribute('aria-label', 'Column Mode Toggle');
+  modeToggle.setAttribute('rel', 'noopener noreferrer');
+  modeToggle.style.cursor = 'pointer';
+  let icon = document.createElement('i');
+  icon.className = 'fa-solid fa-table-columns';
+  modeToggle.appendChild(icon);
+
+  const ghLink = sidebar.children[2];
+  if (ghLink) {
+    ghLink.replaceWith(modeToggle);
+  }
+</script>
+
 <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
 
 {% include lang.html %}
@@ -152,9 +169,10 @@ script_includes:
 
   <hr />
 
-  <div class="content">
-    {{ content }}
-  </div>
+  <main>
+    <div class="post-content">{{ content }}</div>
+    <div class="viewer"></div>
+  </main>
 
   <div class="post-tail-wrapper text-muted">
     <!-- categories -->
@@ -203,4 +221,27 @@ script_includes:
   <!-- div.post-tail-wrapper -->
 </article>
 
-<script src="{{ '/assets/js/main.js' | relative_url }}" type="module"></script>
+<script type="module">
+
+  import { isMobile, autoFloat, makeEntityPopups, wrapAdjacentEmbedsAsTabs, addActionLinks, init2col } from "{{ '/assets/js/main.js' | relative_url }}";
+
+  makeEntityPopups();
+  wrapAdjacentEmbedsAsTabs();
+  addActionLinks();
+
+  let doAutoFloat = '{{ page.auto_float | default: "false" }}'.toLowerCase() === 'true';
+  if (doAutoFloat && !isMobile) autoFloat();
+
+  let mainWrapper = document.getElementById('main-wrapper');
+  mainWrapper.classList.add('col1');
+  document.getElementById('col-mode-toggle')?.addEventListener('click', () => {
+    if (mainWrapper.classList.contains('col2')) {
+      mainWrapper.classList.remove('col2');
+      mainWrapper.classList.add('col1');
+    } else {
+      mainWrapper.classList.remove('col1');
+      mainWrapper.classList.add('col2');
+      init2col();
+    }
+  });
+</script>

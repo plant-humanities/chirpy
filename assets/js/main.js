@@ -22,6 +22,7 @@ import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/components/dro
 import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/components/tab/tab.js";
 import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/components/tab-group/tab-group.js";
 import "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.js";
+import "https://cdnjs.cloudflare.com/ajax/libs/scrollama/3.2.0/scrollama.min.js";
 
 /* ---------------------------------------------
  * Environment / config
@@ -104,6 +105,7 @@ function computeDialogWidth({ aspect }) {
 }
 
 function showDialog(props = {}) {
+    // console.log('showDialog');
     if (activeDialog) return;
     const aspect = parseAspect(props.aspect, 1);
     const srcUrl = safeURL(props.src);
@@ -239,6 +241,7 @@ function wrapAdjacentEmbedsAsTabs({
         return `Item ${idx + 1}`;
     }
 } = {}) {
+    console.log('wrapAdjacentEmbedsAsTabs');
     const isIgnorableText = (n) => n.nodeType === Node.TEXT_NODE && n.nodeValue.trim() === "";
 
     const isEmbedItem = (n) =>
@@ -289,7 +292,7 @@ function wrapAdjacentEmbedsAsTabs({
                 }
 
                 const tabGroup = document.createElement("sl-tab-group");
-                tabGroup.classList.add(wrapperClass, "right");
+                // tabGroup.classList.add(wrapperClass, "right");
 
                 parent.insertBefore(tabGroup, run[0]);
 
@@ -327,50 +330,30 @@ function wrapAdjacentEmbedsAsTabs({
     }
 }
 
-wrapAdjacentEmbedsAsTabs();
 
 /* ---------------------------------------------
- * Float repositioning: wrap media + paragraphs
+ * Auto floating: swap order of embed (or embed group) with prior paragraph
  * ------------------------------------------- */
 
-function repositionFloats({ root = document.body } = {}) {
-    // Avoid re-wrapping
-    const floats = Array.from(root.querySelectorAll(".left, .right")).reverse();
+function autoFloat({ root = document.body } = {}) {
+    console.log('autoFloat');
+    const embeds = Array.from(root.querySelectorAll('iframe, sl-tab-group')).reverse();
 
-    floats.forEach((floatedEl) => {
-        if (floatedEl.closest(".media-pair")) return;
+    embeds.forEach((embed) => {
+        if (embed.classList.contains('full') || embed.classList.contains('right')) return;
 
-        const parent = floatedEl.parentNode;
+        let previousSib = embed.previousElementSibling;
+        if (previousSib?.nodeName !== 'P') return;
+
+        const parent = embed.parentNode;
         if (!parent) return;
 
-        // Find contiguous preceding <p> blocks
-        let p = floatedEl.previousElementSibling;
+        embed.classList.add('right');
 
-        const paras = [];
-        while (p && p.tagName === "P" && !p.classList.contains("left") && !p.classList.contains("right")) {
-            p.classList.add("text");
-            paras.push(p);
-            p = p.previousElementSibling;
-        }
-
-        if (paras.length === 0) {
-            parent.insertBefore(floatedEl, parent.firstElementChild);
-            return;
-        }
-
-        paras.reverse();
-        const anchor = paras[0];
-
-        const wrapper = document.createElement("div");
-        wrapper.className = "media-pair";
-
-        parent.insertBefore(wrapper, anchor);
-        wrapper.appendChild(floatedEl);
-        paras.forEach((pEl) => wrapper.appendChild(pEl));
+        parent.insertBefore(embed, previousSib);
     });
 }
 
-if (!isMobile) repositionFloats();
 
 /* ---------------------------------------------
  * Action links -> iframe postMessage
@@ -416,6 +399,7 @@ function parseActionLink(a) {
 }
 
 function addActionLinks({ root = document.body } = {}) {
+    // console.log('addActionLinks');
     const iframes = Array.from(root.querySelectorAll("iframe")).filter((i) => i.id);
 
     if (!iframes.length) return;
@@ -468,6 +452,10 @@ function addActionLinks({ root = document.body } = {}) {
         if (a.hasAttribute("href")) {
             a.setAttribute("data-href", parsed.href);
             a.removeAttribute("href");
+            a.setAttribute("data-action", action);
+            a.setAttribute("data-target", target);
+            a.setAttribute("data-label", parsed.label);
+            a.setAttribute("data-args", args);
         }
 
         a.classList.add("trigger");
@@ -476,14 +464,13 @@ function addActionLinks({ root = document.body } = {}) {
 
         a.addEventListener("click", (e) => {
             e.preventDefault();
-            const msg = { event: "action", action, text: parsed.label, args };
-            // Your iframe side expects JSON strings; keep compatibility
-            iframe.contentWindow?.postMessage(JSON.stringify(msg), "*");
+            const msg = { event: "action", action: e.target.dataset.action, text: e.target.dataset.label, args: [e.target.dataset.args] }
+            let target = document.querySelector(`.col2 [data-id="${e.target.dataset.target}"]`) || document.getElementById(e.target.dataset.target);
+            target.contentWindow?.postMessage(JSON.stringify(msg), "*");
         });
     }
 }
 
-addActionLinks();
 
 /* ---------------------------------------------
  * Wikidata / Wikipedia helpers
@@ -671,6 +658,7 @@ async function getEntityData(qids, language = "en") {
  * add them back explicitly in the card footer.
  */
 async function makeEntityPopups({ root = document.body, language = "en" } = {}) {
+    // console.log('makeEntityPopups')
     const anchors = Array.from(root.querySelectorAll("a"));
     const qids = new Set();
 
@@ -756,9 +744,188 @@ async function makeEntityPopups({ root = document.body, language = "en" } = {}) 
     }
 }
 
-makeEntityPopups();
+
+/**
+ * Two-column scrollytelling:
+ * - Left column: article text steps
+ * - Right column: "viewer" mirrors the most recent media element before the active paragraph
+ *
+ * Behavior:
+ * - On entering a step paragraph, mark it active and update the viewer.
+ * - Viewer content is cloned from the nearest preceding IFRAME or element with class "right".
+ * - Viewer is positioned to the right of the article and sized to half the article width.
+ */
+
+const SELECTORS = {
+    article: "article",
+    header: "article > header",
+    viewer: ".viewer",
+    step: ".col2 .post-content > p, .col2 .post-content > blockquote",
+};
+
+const scroller = scrollama();
+
+let els = {
+    article: null,
+    header: null,
+    viewer: null,
+};
+
+// Cache last rendered "source" node so we don’t redraw unnecessarily
+let lastSourceEl = null;
+
+// rAF throttle for position updates
+let rafPending = false;
+
+function qs(sel, root = document) {
+    return root.querySelector(sel);
+}
+
+function setActive(el) {
+    const prior = qs(".active");
+    if (prior) prior.classList.remove("active");
+    el.classList.add("active");
+}
+
+/**
+ * Walk backward from a step paragraph to find the nearest content element
+ * that should be mirrored into the right viewer.
+ *
+ * Rules (matching your original):
+ * - Use an IFRAME, OR
+ * - Use an element with class "right"
+ */
+function findViewerSource(stepEl) {
+    let toMatch = ['IFRAME', 'SL-TAB-GROUP'];
+
+    let node = stepEl?.previousElementSibling || null;
+    if (node?.classList.contains('right') || node?.classList.contains('left')) return node
+
+    node = stepEl?.nextElementSibling;
+    if (node.nodeType === Node.ELEMENT_NODE && toMatch.includes(node.nodeName)) return node
+
+    node = stepEl?.previousElementSibling || null;
+    while (node) {
+        if (node.nodeType === Node.ELEMENT_NODE && toMatch.includes(node.nodeName)) return node
+        node = node.previousElementSibling;
+    }
+    return null;
+}
+
+/**
+ * Clone the source node into the viewer.
+ * - Removes `.shimmer` class if present (avoids placeholder styles in clone).
+ */
+function renderViewerFrom(sourceEl) {
+    if (!els.viewer || !sourceEl) return;
+
+    // Avoid replacing if the source element is the same as last time.
+    if (sourceEl === lastSourceEl) return;
+    lastSourceEl = sourceEl;
+
+
+    const clone = sourceEl.cloneNode(true);
+    clone.removeAttribute('id');
+    clone.setAttribute('data-id', sourceEl.id);
+
+    // Some nodes might not support querySelector; guard it.
+    if (clone && clone.querySelector) {
+        clone.querySelector(".shimmer")?.classList.remove("shimmer");
+    }
+
+    // In case original was hidden
+    if (clone?.style) clone.style.display = "block";
+
+    // Replace viewer content atomically
+    els.viewer.replaceChildren(clone);
+}
+
+function updateViewerForStep(stepEl) {
+    const source = findViewerSource(stepEl);
+    if (!source) return;
+    renderViewerFrom(source);
+}
+
+/**
+ * Compute and apply viewer position and size.
+ * Original behavior:
+ * - viewer height = viewport minus header bottom (with small fudge)
+ * - viewer width = half article width
+ * - viewer right offset = distance from article right to window right
+ */
+function positionViewer() {
+    if (!els.article || !els.header || !els.viewer) return;
+
+    const articleRect = els.article.getBoundingClientRect();
+    const headerRect = els.header.getBoundingClientRect();
+
+    // Height available below header (clamp to >= 0)
+    const availableH = Math.max(0, window.innerHeight - headerRect.bottom - 2);
+
+    const viewerW = articleRect.width / 2;
+    const rightOffset = Math.max(0, window.innerWidth - articleRect.right);
+
+    els.viewer.style.height = `${availableH}px`;
+    els.viewer.style.width = `${viewerW}px`;
+    els.viewer.style.right = `${rightOffset}px`;
+}
+
+/**
+ * Throttle position updates to animation frames (avoids layout thrash on scroll).
+ */
+function requestPositionUpdate() {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+        rafPending = false;
+        positionViewer();
+    });
+}
+
+function handleStepEnter(response) {
+    const stepEl = response?.element;
+    // console.log('handleStepEnter', stepEl)
+    if (!stepEl) return;
+
+    setActive(stepEl);
+    updateViewerForStep(stepEl);
+
+    // Sometimes layout changes when viewer content changes; reposition.
+    requestPositionUpdate();
+}
+
+function init2col() {
+    console.log('init2col')
+    els.article = qs(SELECTORS.article);
+    els.header = qs(SELECTORS.header);
+    els.viewer = qs(SELECTORS.viewer);
+
+    if (!els.article || !els.header || !els.viewer) {
+        // Fail quietly; this script may be used on pages without the 2-col layout.
+        return;
+    }
+
+    // Position updates on scroll/resize
+    window.addEventListener("scroll", requestPositionUpdate, { passive: true });
+    window.addEventListener("resize", requestPositionUpdate);
+
+    // Initial position (next frame is usually better than setTimeout)
+    requestPositionUpdate();
+
+    scroller
+        .setup({
+            step: SELECTORS.step,
+            offset: 0.08,
+            debug: false,
+        })
+        .onStepEnter(handleStepEnter);
+
+    // Optional: if images/iframes load late and change layout, reposition.
+    // (Cheap, but you can remove if unnecessary.)
+    window.addEventListener("load", requestPositionUpdate);
+}
 
 /* ---------------------------------------------
  * Optional exports (if you import this elsewhere)
  * ------------------------------------------- */
-// export { repositionFloats, makeEntityPopups, wrapAdjacentEmbedsAsTabs, addActionLinks, showDialog };
+export { isMobile, autoFloat, makeEntityPopups, wrapAdjacentEmbedsAsTabs, addActionLinks, init2col };
