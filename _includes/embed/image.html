@@ -1,11 +1,18 @@
-{%- comment -%} Convert src → full URL {%- endcomment -%}
+{%- if include.src -%}
 {%- capture src_final -%}
 {%- include url_from_src.html src=include.src mw_width=include.mw_width media_subpath=page.media_subpath -%}
 {%- endcapture -%}
 {%- assign src_final = src_final | strip -%}
-
-{%- comment -%} Build query string {%- endcomment -%}
 {%- assign qs = "src=" | append: src_final | uri_escape -%}
+{%- endif -%}
+
+{%- if include.manifest -%}
+{%- assign qs = "manifest=" | append: include.manifest | uri_escape -%}
+{%- endif -%}
+
+{%- if include.seq -%}
+{%- assign qs = qs | append: "&seq=" | append: include.seq | uri_escape -%}
+{%- endif -%}
 
 {%- if include.caption -%}
 {%- assign qs = qs | append: "&caption=" | append: include.caption | uri_escape -%}

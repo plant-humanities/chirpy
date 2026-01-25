@@ -351,6 +351,9 @@ function autoFloat({ root = document.body } = {}) {
         embed.classList.add('right');
 
         parent.insertBefore(embed, previousSib);
+        let hr = document.createElement('hr');
+        parent.insertBefore(hr, embed);
+
     });
 }
 
@@ -798,18 +801,27 @@ function setActive(el) {
 function findViewerSource(stepEl) {
     let toMatch = ['IFRAME', 'SL-TAB-GROUP'];
 
-    let node = stepEl?.previousElementSibling || null;
-    if (node?.classList.contains('right') || node?.classList.contains('left')) return node
+    let node = stepEl?.previousElementSibling;
+    if (node?.classList.contains('right') || node?.classList.contains('left')) {
+        console.log('prior');
+        return node;
+    }
 
     node = stepEl?.nextElementSibling;
-    if (node.nodeType === Node.ELEMENT_NODE && toMatch.includes(node.nodeName)) return node
+    if (node?.nodeType === Node.ELEMENT_NODE && toMatch.includes(node?.nodeName)) {
+        console.log('next');
+        return node
+    }
 
     node = stepEl?.previousElementSibling || null;
     while (node) {
-        if (node.nodeType === Node.ELEMENT_NODE && toMatch.includes(node.nodeName)) return node
+        if (node.nodeType === Node.ELEMENT_NODE && toMatch.includes(node.nodeName)) {
+            console.log('ancestor');
+            return node;
+        }
         node = node.previousElementSibling;
     }
-    return null;
+    return found;
 }
 
 /**

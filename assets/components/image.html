@@ -43,7 +43,7 @@
       position: relative;
       margin-top: 0.25rem;
       padding: 0 36px;
-      /* reserve space so the right icon doesn’t overlap text */
+      /* reserve space so the right icon doesn't overlap text */
       font-size: 1em;
       line-height: 1.4;
       color: #6d6c6c;
@@ -280,6 +280,8 @@
     const params = new URLSearchParams(location.search);
     const cfg = {
       src: params.get("src"),
+      manifest: params.get("manifest"),
+      seq: params.get("seq") || "0",
       caption: params.get("caption"),
       attribution: params.get("attribution"),
       cover: params.get("cover") === "1",
@@ -288,14 +290,88 @@
       max: ['', 'true', '1'].includes(params.get("max")),
     };
 
-    if (!cfg.src) {
-      showMsg(`Missing <code>?src=</code> parameter.`);
-      throw new Error("Missing src");
+    if (!cfg.src && !cfg.manifest) {
+      showMsg(`Missing <code>?src=</code> or <code>?manifest=</code> parameter.`);
+      throw new Error("Missing src or manifest");
     }
 
     console.log(cfg)
 
     setContainerHeight();
+
+    // =========================================================================
+    // IIIF Manifest Support
+    // =========================================================================
+    async function fetchIIIFManifest(manifestUrl) {
+      try {
+        const resp = await fetch(manifestUrl);
+        if (!resp.ok) throw new Error(`Failed to fetch manifest: ${resp.status}`);
+        return await resp.json();
+      } catch (err) {
+        console.error('IIIF manifest fetch error:', err);
+        throw err;
+      }
+    }
+
+    function getInfoJsonFromManifest(manifest, seqIndex = 0) {
+      const idx = parseInt(seqIndex, 10) || 0;
+
+      // Detect IIIF version
+      const context = manifest['@context'];
+      const isV3 = context && (
+        context.includes('http://iiif.io/api/presentation/3/context.json') ||
+        context === 'http://iiif.io/api/presentation/3/context.json'
+      );
+
+      if (isV3) {
+        // IIIF Presentation API 3.0
+        const items = manifest.items || [];
+        if (idx >= items.length) {
+          console.warn(`Sequence index ${idx} out of range, using 0`);
+          return items[0]?.items?.[0]?.items?.[0]?.body?.service?.[0]?.id ||
+            items[0]?.items?.[0]?.items?.[0]?.body?.service?.[0]?.['@id'];
+        }
+
+        const canvas = items[idx];
+        const annoPage = canvas?.items?.[0];
+        const anno = annoPage?.items?.[0];
+        const body = anno?.body;
+        const service = body?.service?.[0];
+
+        return service?.id || service?.['@id'];
+      } else {
+        // IIIF Presentation API 2.x
+        const sequences = manifest.sequences || [];
+        const sequence = sequences[0];
+        const canvases = sequence?.canvases || [];
+
+        if (idx >= canvases.length) {
+          console.warn(`Sequence index ${idx} out of range, using 0`);
+          return canvases[0]?.images?.[0]?.resource?.service?.['@id'];
+        }
+
+        const canvas = canvases[idx];
+        const image = canvas?.images?.[0];
+        const resource = image?.resource;
+        const service = resource?.service;
+
+        return service?.['@id'] || service?.id;
+      }
+    }
+
+    function normalizeInfoJsonUrl(serviceId) {
+      if (!serviceId) return null;
+
+      // Remove trailing slash if present
+      let url = serviceId.replace(/\/$/, '');
+
+      // Add /info.json if not already present
+      if (!url.endsWith('/info.json')) {
+        url += '/info.json';
+      }
+
+      return url;
+    }
 
     // =========================================================================
     // Small utilities
@@ -475,16 +551,59 @@
       return url.startsWith('wc:') || url.includes('wikimedia.org') || url.includes('wikipedia.org');
     }
 
+    // =========================================================================
+    // Process source/manifest
+    // =========================================================================
+    let tileSource = null;
+    let fallbackImageUrl = null;
 
-    if (looksLikeWikimedia(cfg.src)) {
-      cfg.src = mwImage(cfg.src, cfg.max ? -1 : 1200);
-      let wcTitle = wcTitleFromUrl(cfg.src);
-      let wcMeta = await getWcMetadata(wcTitle);
+    if (cfg.manifest) {
+      try {
+        const manifest = await fetchIIIFManifest(cfg.manifest);
+        const infoJsonServiceId = getInfoJsonFromManifest(manifest, cfg.seq);
 
-      const { captionHtml } = buildCommonsCaption(wcMeta, wcTitle, cfg.caption);
-      cfg.caption = captionHtml;
+        if (infoJsonServiceId) {
+          const infoJsonUrl = normalizeInfoJsonUrl(infoJsonServiceId);
+          console.log('Using IIIF info.json:', infoJsonUrl);
+          tileSource = infoJsonUrl;
+
+          // Set fallback to src if provided
+          if (cfg.src) {
+            fallbackImageUrl = cfg.src;
+          }
+        } else {
+          throw new Error('Could not extract info.json URL from manifest');
+        }
+      } catch (err) {
+        console.error('IIIF manifest processing error:', err);
+
+        // Fall back to src if available
+        if (cfg.src) {
+          console.warn('Falling back to src parameter');
+          tileSource = null;
+          fallbackImageUrl = cfg.src;
+        } else {
+          showMsg(`Failed to process IIIF manifest: ${err.message}`);
+          throw err;
+        }
+      }
     } else {
-      cfg.src = `https://res.cloudinary.com/dmceci9t1/image/fetch/${cfg.max ? '' : 'w_431,'}q_auto,f_auto/${cfg.src}`
+      // No manifest, use src directly
+      fallbackImageUrl = cfg.src;
+    }
+
+    // Process Wikimedia or Cloudinary URLs for fallback
+    if (fallbackImageUrl) {
+      if (looksLikeWikimedia(fallbackImageUrl)) {
+        fallbackImageUrl = mwImage(fallbackImageUrl, cfg.max ? -1 : 1200);
+        let wcTitle = wcTitleFromUrl(fallbackImageUrl);
+        let wcMeta = await getWcMetadata(wcTitle);
+
+        const { captionHtml } = buildCommonsCaption(wcMeta, wcTitle, cfg.caption);
+        cfg.caption = captionHtml;
+      } else {
+        fallbackImageUrl = `https://res.cloudinary.com/dmceci9t1/image/fetch/${cfg.max ? '' : 'w_431,'}q_auto,f_auto/${fallbackImageUrl}`
+      }
     }
 
     function clamp(v, lo, hi) { return Math.max(lo, Math.min(v, hi)); }
@@ -574,7 +693,7 @@
       const iframe = window.frameElement;
       const caption = document.getElementById('caption')
       let width = document.getElementById('osd').clientWidth;
-      if (width) {
+      if (iframe && width) {
         if (!imageAspectRatio) {
           const raw = iframe?.style.getPropertyValue("aspect-ratio");
           imageAspectRatio = parseAspectRatio(raw);
@@ -657,8 +776,25 @@
     // Allow page scroll in static mode
     viewer.container.style.touchAction = cfg.max ? "none" : "pan-y";
 
+    // Handle tile source errors and fall back to regular image
+    let hasTriedFallback = false;
     viewer.addHandler("open-failed", () => {
-      showMsg("Failed to load image. The image host may not allow cross-origin access (CORS).");
+      if (!hasTriedFallback && fallbackImageUrl) {
+        console.warn('IIIF tile source failed, falling back to image URL');
+        hasTriedFallback = true;
+        viewer.open({ type: "image", url: fallbackImageUrl });
+      } else {
+        showMsg("Failed to load image. The image host may not allow cross-origin access (CORS).");
+      }
+    });
+
+    viewer.addHandler("tile-load-failed", (event) => {
+      console.warn('Tile load failed:', event);
+      if (!hasTriedFallback && fallbackImageUrl) {
+        console.warn('Switching to fallback image due to tile errors');
+        hasTriedFallback = true;
+        viewer.open({ type: "image", url: fallbackImageUrl });
+      }
     });
 
     // =========================================================================
@@ -856,6 +992,7 @@
 
     window.addEventListener('message', (event) => {
       const data = safeParseMessageData(event.data);
+      console.log(data)
       if (!data) return;
 
       const action = String(data.action || '').toLowerCase();
@@ -1168,8 +1305,12 @@
       updateIframeAspectTip();
     });
 
-    // Open image
-    viewer.open({ type: "image", url: cfg.src });
+    // Open image - use IIIF tile source or fallback
+    if (tileSource) {
+      viewer.open(tileSource);
+    } else if (fallbackImageUrl) {
+      viewer.open({ type: "image", url: fallbackImageUrl });
+    }
 
     // Static mode: click opens parent dialog + modifier wheel zoom
     if (!cfg.max) {

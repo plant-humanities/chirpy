@@ -26,7 +26,7 @@ Like many plants, it has been moved great distances, far beyond its own propagat
 
 Because it was spread through the Pacific Islands by human migration, its presence is part of the evidence for understanding patterns in those movements.[^3] Human selection for particular properties over a long time has resulted in variations in the tree’s being and behavior, including the predominance of seedless varieties and the loss of beneficial fungi.[^4] Zerega et al. call this “loss of fertility,” resulting from a condition called “[triploidy](Q504558)." This is caused by having three sets of chromosomes, but this loss is offset for humans by resulting in greater vigor, dark green leaves, and larger flowers or fruit.
 
-`youtube vid=Vb8_f1K6FZA aspect=1.6`
+{% include embed/youtube.html id="Vb8_f1K6FZA" aspect="1.6" class="right" %}
 
 As the previous video makes clear, the breadfruit still has a very important role in Pacific culture. Diane Ragone, who appears in the video, is a prominent researcher on the tree. She and Catherine G. Cavaletto tell us that breadfruit is “currently grown in 86 countries and 26 additional countries have ecological conditions suitable for its cultivation."[^5] Breadfruit is especially popular in the Caribbean, which is why its complicated history there is particularly important. They go on:
 
@@ -70,7 +70,7 @@ The breadfruit’s journeys across time and space can be traced through a number
 
 All plants moved around the expanding British empire were collected at Kew Gardens. Greenhouses were to become a defining feature as tropical plants needed protection from a temperate zone. There is much to be learned from exploring botanical drawings of plants non-native to Britain, observed overseas, and brought to Kew. They were and are essential scientific evidence. Sometimes painterly interpretation occurred, and occasionally is of critical importance. The representation of a breadfruit tree with a person sitting beneath it by John Tyley, done for Alexander Anderson’s botanic garden in St. Vincent, breaks with scientific focus and offers a challenge to us (as it must have to its contemporary viewers) of how to interpret it. The British botanists sent to develop and nurture colonial collections of plants had to rely on local labor (which at the time of the arrival of the breadfruit in 1793 on St. Vincent, where Tyley worked, was likely to be forced—done by enslaved people.[^12] Tyley had been freed from enslavement, but was also given space to paint beyond botanical accuracy—and the painting was preserved so we can see it today.
 
-`youtube vid=wbBJJCNL5O0 aspect=1.6`
+{% include embed/youtube.html id="wbBJJCNL5O0" aspect="1.6" class="right" %}
 
 The unusual nature of his painting may be understood by comparison with an 1800 drawing from India of the breadfruit done in “Company Style," presumably the ruthless East India Company, where rules prevailed.[^13]
 
@@ -144,7 +144,7 @@ This story reveals how deeply involved with slavery and issues of hunger and bru
 
 This support of the breadfruit is borne out by the following demonstration online of its preparation.
 
-`youtube vid=b68OdOa1nX0 aspect=1.6`
+{% include embed/youtube.html id="b68OdOa1nX0" aspect="1.6" class="right" %}
 
 There are many references to breadfruit in Caribbean literature, scribal and oral, and other aspects of culture, but not all are as positive as Clarke and Walcott's.  [Jamaica Kincaid](Q275601), born in Antigua, has made her writing career entirely in the U.S. She has written critically of Antigua in _A Small Place_, and not surprisingly, her take on the breadfruit there is not positive.[^28]  In _My Garden (Book)_, she makes her case in a chapter entitled “What Joseph Banks Wrought,” which directly references the breadfruit’s journey, since Banks became the major shaper of Kew Gardens and the dispatch of plants from one corner of the empire to another. She tells how he sent the breadfruit to the Caribbean but adds the detail “(Perhaps Antiguan children sense intuitively the part this food has played in the history of injustice and so they will not eat it.)"[^29]
 
@@ -160,21 +160,21 @@ Clearly the breadfruit, through no fault of its own, could have been simply a me
 
 Nevertheless it has prospered, not just botanically, as we saw earlier, but also culturally in the Caribbean. St. Vincent, the first place Bligh dropped breadfruit plants, has [an annual breadfruit festival](https://tourism.gov.vc/tourism/index.php/festivals-a-events/65-breadfruit-festival) and their national dish is roasted breadfruit with fried jack fish.
 
-`youtube vid=hgbfPEbH8nE aspect=1.6`
+{% include embed/youtube.html id="hgbfPEbH8nE" aspect="1.6" class="right" %}
 
 # Breadfruit in Contemporary Culture and Cuisine
 
 Breadfruit can be boiled, baked, turned into chips or snacks, or roasted, pretty much anything that can be done with potato. It is tricky to keep, because it has to be cooked at the right moment between unripe and ripe, which is not always possible to predict. Some say fully ripe, soft  breadfruit is enjoyable as a sort of dessert. It is rich in complex carbohydrates and fiber, as well as calcium, potassium, magnesium, iron, thiamin, and niacin, also vitamins C and A. It has no gluten and a moderate glycemic index. Thus, it is a highly nutritious and healthy food.[^32]
 
-`youtube vid=eYVWuXKEwDs aspect=1.6`
+{% include embed/youtube.html id="eYVWuXKEwDs" aspect="1.6" class="right" %}
 
 Not only St. Vincent but its close neighbor, Grenada, have national dishes based on breadfruit. But its popularity as a food can sometimes lead to complications. Roast breadfruit is very popular in Jamaica. A Jamaican psychiatrist used the term to describe psychological trauma caused by choosing to cope with being Black in Britain by over-adapting to white cultural mores, thus being metaphorically Black on the outside and white within.[^33]
 
-`youtube vid=Xc-vzkFGZDo aspect=1.6`
+{% include embed/youtube.html id="Xc-vzkFGZDo" aspect="1.6" class="right" %}
 
 The fact that ordinary people have grown fond of it is revealed through popular culture, such as folk sayings, songs, and traditional medicine.
 
-`youtube vid=fyhtP_IQPsA aspect=1.6`
+{% include embed/youtube.html id="fyhtP_IQPsA" aspect="1.6" class="right" %}
 
 Richard Allsopp’s _Dictionary of Caribbean English Usage_ lists a number of sayings about breadfruit, including that someone “has more guts than breadfruit” (it is a solid fruit, not soft, so this would signify being courageous), or that someone is a “breadfruit-swopper," which signifies very low social status, because breadfruit is the only thing possessed in surplus, to be able to be given away or swopped.[^34] One of the ironies of the breadfruit’s history is that it maintained people who had little income, providing excellent nutrition. Had the more privileged realized that their preferred white rice and potatoes were not as beneficial, they might have denied the poor this important resource by making it valuable in monetary terms.
 

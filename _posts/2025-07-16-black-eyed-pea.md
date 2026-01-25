@@ -42,7 +42,7 @@ Since [classical antiquity](Q486761), the black-eyed pea has been a cultural mar
 
 Authors of the ancient world have described black-eyed peas in accounts of plants and nature. The Roman chronicler [Pliny the Elder](Q82778) (23/24–79 CE) wrote that priests should avoid eating the food for fear its rough nature would upset their delicate constitutions. He also notes that [Pythagoras](Q10261) (c.570–c.495 BCE) and his followers did not eat black-eyed peas because they "believed the souls of the dead to be contained within" the dried beans.[^ref4] This belief may have been informed by some cultural groups in Africa that understood the black eye of the pea as the watchful presence of a supreme deity.[^ref5] Such accounts, together with later botanical texts expressing ever-changing ideas of the bean’s origins and classification, demonstrate a long confusion regarding the plant’s common and Latin names in Europe.[^ref6] They also provide a wealth of information about the cultural and social role played by the bean in the European context.
 
-`iframe src=https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html source=1-bgb9ieXKIJb0mj1LuB2lfcJXRcH4IJdq6l6NrFpUWw height=650`
+{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html" class="right" %}
 
 Records of black-eyed pea consumption and use within Europe during the [Middle Ages](Q12554) are relatively scarce. Understood as a food for peasants and livestock, black-eyed peas would have been considered subject matter too lowly for inclusion in the annals of history. Throughout the [early modern period](Q5308718), the dried bean continued to be associated with persons of low social standing. But by the late sixteenth century, the bean seemed at least worthy of representation. In the Italian artist [Annibale Carracci’s](Q7824) (1560–1609) painting _The Bean Eater_, from circa 1590, the artist’s brush strokes depict a man and his bowl of black-eyed peas, visually articulating their mutual low standing. Even though the beans had been a vital part of the Mediterranean diet and culture for centuries, they are here presented as both marginal and familiar.
 
@@ -50,7 +50,7 @@ Records of black-eyed pea consumption and use within Europe during the [Middle A
 
 In contrast, many more artists took inspiration from the [green pea](Q25237)—be it the leaves, delicate blossoms, or sinuous tendril-filled vines—which became an emblem for love, fertility, and even lust. Verdant green peas were considered domestic to Europe, and served the elite not only for food, but for decorating their homes and gardens.
 
-`iframe src=https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1goBeScMb3Depvqjmo89tMojcRHDbVY4YOktgo-P7oV4 height=650`
+{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1goBeScMb3Depvqjmo89tMojcRHDbVY4YOktgo-P7oV4" class="right" %}
 
 # Peas and Beans in Early Modern Texts and Images
 
@@ -104,11 +104,11 @@ The black-eyed pea’s global journey is well documented in the [Economic Botany
 
 Today, black-eyed peas are grown commercially in at least 33 countries, reflecting the widespread embrace of the bean among geographically disparate peoples, places, and cultures.[^ref20] As acclaimed food historian and chef [Michael W. Twitty](Q49562413) points out: "Very few people in the modern West eat one cuisine or live within one culinary construct," but rather enjoy a multiplicity of culinary histories.[^ref21] Twitty coined the term "identity cooking" to characterize "how we construct complex identities and then express them through how we eat," an idea that is useful for any discussion of food as widely used across culinary traditions as black-eyed peas.[^ref22]
 
-`youtube vid=R6l8jRF-eGA caption="A feast of African-American culinary contributions, baked into the South’s DNA"`
+{% include embed/youtube.html id="R6l8jRF-eGA" caption="A feast of African-American culinary contributions, baked into the South’s DNA" class="right" %}
 
 Black-eyed peas are a staple of the [Southern American](Q49042) diet and an iconic component of African American culinary history. The beans are key ingredients for everything from stews to salads to savory bean and rice dishes, but perhaps they are most known for their association with New Year’s celebrations. [Hoppin’ John](Q1763911), a popular rice, bean, and pork dish that is thought to bring good luck and prosperity, is an absolute must for any modern Southerner on New Year’s Day. It is often served with greens to symbolize wealth.[^ref23] [Thiebou niebe](Q1810575), a classic Senegalese dish of black-eyed peas, rice, and ham, may be the basis for the recipe.[^ref24] 
 
-`youtube vid=v7HwKxDus9E caption="Tiebou yapp niébé"`
+{% include embed/youtube.html id="v7HwKxDus9E" caption="Tiebou yapp niébé" class="right" %}
 
 Hoppin’ John’s origins are from brutal conditions of American plantations. Enslaved workers grew black-eyed peas and other African crops in their subsistence gardens outside the long hours they were forced to labor in their enslaver’s fields. Additionally, enslaved women often had to cook for the planter’s family as well as their own. As a result, they created new meals from West African recipes and the crops and foods they had access to. White southerners at first saw black-eyed peas as a lowly food meant to feed livestock and the enslaved. To them, the beans fit in alongside the pork scraps used to cook Hoppin’ John.[^ref25] However, by the latter half of the nineteenth century, white women began including these recipes in their homemaker cookbooks, often without crediting the women who pioneered them.[^ref26]
 
@@ -130,17 +130,17 @@ Today, the [Food and Agriculture Organization of the United Nations](Q82151) est
 
 [Agriculture](Q11451) is having to adapt to our changing climate, both in terms of practices and what crops can be grown where. Even though black-eyed peas are considered very hardy, the crop may struggle as temperatures rise and rains become more erratic. Crop breeding is one way to make commercial black-eyed peas more resilient, while perhaps also making them more digestible and nutritious. Hardy wild [relatives](Q1141015) of the black-eyed pea may hold genes or genetic traits that will allow the crop to survive hotter, drier conditions, and perhaps be more pest-resistant.[^ref34] If these traits can be bred into commercial varieties then the black-eyed pea may hold one of the answers to ensuring food security throughout the world. 
 
-`image-compare before=wc:Drying_cowpeas.jpg after=wc:Wild_and_cultivated_cowpea_%287856427546%29.jpg aspect=1.5`
+{% include embed/image-compare.html before="wc:Drying_cowpeas.jpg" after="wc:Wild_and_cultivated_cowpea_%287856427546%29.jpg" aspect="1.5" class="right" %}
 
 The [Crop Wild Relatives Project](https://www.croptrust.org/work/projects/crop-wild-relatives/) is researching 11 primary relatives of the black-eyed pea in partnership with 33 countries and global seed banks, including the [International Institute of Tropical Agriculture](Q1142738) and Royal Botanic Garden, Kew’s [Millennium Seed Bank](Q2603353).[^ref35] Southern and western Africa are hotspots for wild black-eyed pea genetic variation. The importance of such relatives demonstrates how vital it is to protect wild plants and wild habitats. In a telling [quote](https://www.cwrdiversity.org/cowpea/) from Ousame Boukar, a Nigerian cowpea breeder: "The cowpea has nourished people for many centuries, but now it needs a hand to ensure it can continue to be an unfailing friend even while the climate crisis is affecting production." Programs like the Crop Wild Relatives Project bring us full circle, back to the wild plants of Africa and the adoption of the ancient practices of growing, seed collecting, and crop breeding.
 
-`youtube vid=pqmBsUHSkBg caption="Beyond the gardens, the crop wild relatives project" aspect=1.6`
+{% include embed/youtube.html id="pqmBsUHSkBg" caption="Beyond the gardens, the crop wild relatives project" aspect="1.6" class="right" %}
 
 # A Food of the Future
 
 Black-eyed pea’s many names reflect its worldwide appeal. It is known as crowder pea, caupi, southern pea, alubia carilla, neibe, and frijole, as well as chowlee in India, gubgub in the West Indies, and akkerboon in South Africa.[^ref36] And black-eyed peas and other legumes are globally growing in status as key cooking ingredients and foods of the future. Highly nutritious and relatively easy to grow, black-eyed peas will no doubt play an important part in future [food security](Q1229911): providing food in changing climates and helping small-scale farmers combat poverty and hunger.[^ref37] As the climate becomes warmer and more unpredictable, and as human populations grow and resources become more limited, crops such as black-eyed peas, with its many virtues, will contribute to the diets of more people.[^ref38]
 
-`image-compare before=wc:Kids_%E2%80%98n_Fiber_%286120828233%29.jpg after=1708_0hi.jpg aspect=1.8`
+{% include embed/image-compare.html before="wc:Kids_%E2%80%98n_Fiber_%286120828233%29.jpg" after="1708_0hi.jpg" aspect="1.8" class="right" %}
 
 [^ref1]: A. C. D’Andrea et al., "Early Domesticated Cowpea (_Vigna Unguiculata_) from Central Ghana," _Antiquity_ 81, no. 313 (September 2007): 686–98. [https://doi.org/10.1017/S0003598X00095661](https://www.cambridge.org/core/journals/antiquity/article/abs/early-domesticated-cowpea-vigna-unguiculata-from-central-ghana/141865EBCB5341EC2120B636874BFD5E)
 [^ref2]: Amanda Logan, _The Scarcity Slot: Excavating Histories of African Food Security_ (Berkeley: University of California Press, 2020).

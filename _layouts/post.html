@@ -233,15 +233,27 @@ script_includes:
   if (doAutoFloat && !isMobile) autoFloat();
 
   let mainWrapper = document.getElementById('main-wrapper');
-  mainWrapper.classList.add('col1');
-  document.getElementById('col-mode-toggle')?.addEventListener('click', () => {
-    if (mainWrapper.classList.contains('col2')) {
-      mainWrapper.classList.remove('col2');
-      mainWrapper.classList.add('col1');
-    } else {
-      mainWrapper.classList.remove('col1');
-      mainWrapper.classList.add('col2');
-      init2col();
+  const toggleBtn = document.querySelector('#col-mode-toggle');
+  const toggleIcon = toggleBtn?.querySelector('i');
+
+  function setViewMode(mode) {
+    const isCol2 = mode === 'col2';
+    mainWrapper.classList.toggle('col2', isCol2);
+    mainWrapper.classList.toggle('col1', !isCol2);
+
+    if (toggleIcon) {
+      toggleIcon.className = isCol2 ? 'fa-regular fa-square' : 'fa-solid fa-table-columns';
     }
+    if (isCol2) init2col();
+
+    localStorage.setItem('postViewMode', mode);
+  }
+
+  document.getElementById('col-mode-toggle')?.addEventListener('click', () => {
+    const isCurrentlyCol2 = mainWrapper?.classList.contains('col2');
+    setViewMode(isCurrentlyCol2 ? 'col1' : 'col2');
   });
+
+  setViewMode(localStorage.getItem('postViewMode') === 'col2' ? 'col2' : 'col1');
+
 </script>

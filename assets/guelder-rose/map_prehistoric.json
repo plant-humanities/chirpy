@@ -1,0 +1,53 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "coordinates": [
+         9.810635,
+         55.394211
+        ],
+        "type": "Point",
+        "title": "Tybrind Vig"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "coordinates": [
+          -7.420011008004994,
+          53.6660674709904
+        ],
+        "type": "Point",
+        "title": "Clonava-1"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "coordinates": [
+          4.251812, 
+          51.285347
+        ],
+        "type": "Point",
+        "title": "Doel Sector M"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "coordinates": [
+          -8.551325620026535,
+          53.20698674768145
+        ],
+        "type": "Point",
+        "title": "Greeneenagh"
+      }
+    }
+  ]
+}

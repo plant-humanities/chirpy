@@ -26,7 +26,7 @@ The Venus flytrap, _[Dionaea muscipula](Q155825)_, is easily the most infamous o
 
 [Carl Linnaeus](Q1043), having seen no small number of extraordinary plants in his lifetime, declared the Venus flytrap *miraculum naturae*, "miracle of nature," in his [_Systema Vegetabilium_](https://www.biodiversitylibrary.org/page/1479854) (1774). [Charles Darwin](Q1035) even considered it to be among the "most wonderful" plants in the world.[^ref2] The story of this carnivorous curiosity highlights transatlantic networks of correspondence and specimen exchange as critical to the rise of early modern botany, and traces the terrifying delights this tiny plant inspired through centuries of visual, poetic, and empirical mediums. Furthermore, this narrative reveals our tendency to anthropomorphize and gender the "Queen of the Carnivorous Plants," alongside countless other denizens of the plant kingdom.
 
-`youtube vid=ee7muQ_qKU0 aspect=1.6`
+{% include embed/youtube.html id="ee7muQ_qKU0" aspect="1.6" class="right" %}
 
 # Discovering Carnivory
 
@@ -50,7 +50,7 @@ Ellis’ contemporary William Young (1742–1785), tasked by [Queen Charlotte](Q
 
 Nearly a decade after its first description by Dobbs, Linnaeus received word from John Ellis, his longtime correspondent, of this mysterious New World plant. In his [23 September 1768 letter,](https://www.alvin-portal.org/alvin/view.jsf?dswid=7212&searchType=EXTENDED&query=&aq=%5B%5B%7B%22A_FQ%22%3A%22dionaea%22%7D%5D%5D&aqe=%5B%5D&af=%5B%5D&pid=alvin-record%3A232608&c=2#alvin-record%3A232608) Ellis provided a detailed account of the Venus flytrap, in which he described "minute sharp red spines, as if design’d by nature to stick into the insect, that is caught, to prevent it, escape by struggling."[^ref9] Linnaeus, who confessed that he had "never seen such a wonderful phenomenon," presented this "most rare and singular plant Dionaea" to the [Royal Society of Sciences at Uppsala](Q537736), relaying to Ellis the Society’s thanks "for the most valuable communication ever received." Indeed, he considered Ellis’s description so complete that "nothing can be added."[^ref10] We now understand that Ellis misinterpreted the function of the red spines, which serve as a triggering mechanism for the snap-trap leaves. 
 
-`youtube vid=O7eQKSf0LmY aspect=1.6`
+{% include embed/youtube.html id="O7eQKSf0LmY" aspect="1.6" class="right" %}
 
 By 1770, Ellis published an edited version of his 1768 letter in his pamphlet [*Directions for bringing over seeds and plants, from the East Indies ...*,](https://www.biodiversitylibrary.org/page/48674418) which included the first published illustration of the Venus flytrap. In another 1768 letter to physician and botanist David Skene (1731–1770), Ellis mentioned that at a meeting of the [ Royal Society](Q123885) a "Lord Moreton" (likely [James Douglas](Q377335), 14th Earl of Morton) had posed a "Shrewd question … Do you think Sr that the plant receives any nourishment from the Insects it catches?"[^ref11] Put on the spot, Ellis had to admit his ignorance in the matter. Yet this idea seemed to appeal to him, and later he described the plant as having a capacity to [catch food in its leaves](img2/zoomto/1192,1670,925,721), pointing to the possibility of insects serving as nutriment.
 
@@ -172,7 +172,7 @@ The latter half of [Erasmus Darwin’s](Q234050) two-part poem [*The Botanic Gar
 
 Erasmus considered the "viscous material" of the *Drosera* merely a mechanism to prevent "small insects from infesting the leaves," "[a]s the ear-wax in animals seems to be in part designed to prevent fleas and other insects from getting into their ears."[^ref18]  He further conveyed in his extensive notes to the reader that "[i]n the Dionaea Muscipula there is a still more wonderful contrivance to prevent the depredations of insects: [...] so irritable, that when an insect creeps upon them, they fold up, and crush or pierce it to death."[^ref19] Erasmus witnessed this "irritable" behavior of *Dionaea* firsthand in 1788 at Ashburn Hall, Derbyshire, subsequently receiving a colored illustration of the flytrap from writer and botanist [Maria Elizabetha Jacson](Q18936200) (1754—1842). Jacson would later bring attention to plant carnivory in her [*Sketches of the Physiology of Vegetable Life*](https://www.google.com/books/edition/Sketches_of_the_Physiology_of_Vegetable/zAAAAAAAQAAJ?hl=en&gbpv=1) (1811). Most eighteenth-century illustrations of the Venus flytrap—including the one featured in Erasmus Darwin’s text, seen here—were simply modeled after James Roberts’ original plate. Comparing the two reveals near-mirror images.
 
-`image-compare before=48674418.jpg after=55098696.jpg`
+{% include embed/image-compare.html before="48674418.jpg" after="55098696.jpg" class="right" %}
 
 Erasmus Darwin’s conviction that such mechanisms—"curious contrivance[s]" to "prevent various insects from plundering the honey, or devouring the seed"—were a defense against insects is perplexing, placing so much emphasis on the damage a tiny fly could inflict on these plants. Was he perhaps allowing poetic metaphors to guide his understanding of biological phenomena? While painting a vivid picture of "The fell SILENE and her sisters fair," who "[s]kill’d in destruction, spread the viscous snare," he was inclined to present his anthropomorphized botanical actors as righteous wardens rather than scheming hunters.[^ref20]
 
@@ -181,7 +181,7 @@ Erasmus Darwin’s conviction that such mechanisms—"curious contrivance[s]" to
 
 Charles Darwin began pondering the lethal activities of carnivorous plants in 1860, and over the course of the decade sporadically worked with the [Droseraceae.](https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:77126644-1) Among those who facilitated his study of these plants were the American naturalist [Mary Treat](Q6780853) (1830—1923) and Joseph Dalton Hooker (1817—1911). Hooker, Darwin’s close friend and then director of [Royal Botanic Gardens, Kew](Q188617) supplied him with ample living specimens. Armed with this network of correspondents and the global resources of Kew, Darwin was able to carry out detailed investigations of plant carnivory from his backyard greenhouse at [Down House](Q3038318). Indeed, an important aspect of Darwin’s enduring impact on biology was his work that examined evolutionary adaptation through various botanical lenses, with the Venus flytrap and other carnivorous plants serving as prime examples. Francis Darwin sought to further develop the book’s findings by conducting his own [experiments](https://www.darwinproject.ac.uk/commentary/life-sciences/dipsacus-and-drosera-frank-s-favourite-carnivores) on plant carnivory and publishing a revised second edition in 1888.
 
-`iframe src=https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1Hmhbx0rEUdgxkbwUs5TMjhjopCpeUOR_oUe0rEvapcc& timenav-position=bottom&hash-bookmark=false&initial-zoom=1&height=680 height=680`
+{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1Hmhbx0rEUdgxkbwUs5TMjhjopCpeUOR_oUe0rEvapcc&" class="right" %}
 
 # "Vegetable Wickedness" on Display
 

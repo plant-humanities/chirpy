@@ -50,7 +50,7 @@ In 1750, Swedish botanist [Carl Linnaeus](Q1043) (1707-1778) identified the genu
 
 In the *Herbarium Amboinense*, which Linnaeus also used to classify dozens of new [genera](Q34740), Rumphius described a type of Myrtle tree, known in native Malay as "Caju-puti," to which he added the Latin "Arbor alba" (white tree) and Dutch "Witte boom." He also provided an additional name, "Brant-boomen" (fire tree), noting the apparent mystery that, though no witness had ever seen the tree on fire, "the bottom of this trunk is always most black, as if it had been burnt."[^14] This suggested to Rumphius that the heat of the summer sun would scorch the dry and delicate bark without actually bursting it into flame.
 
-`iframe src="https://books.google.com/books?id=3gpiDsqePMcC&newbks=0&dq=Herbarium%20amboinense%20%3A%20plurimas%20conplectens%20arbores%2C%20frutices%2C%20herbas%2C%20plantas%20terrestres&pg=PA68-IA1&output=embed" aspect=0.6`
+{% include embed/iframe.html src="https://books.google.com/books?id=3gpiDsqePMcC&newbks=0&dq=Herbarium%20amboinense%20%3A%20plurimas%20conplectens%20arbores%2C%20frutices%2C%20herbas%2C%20plantas%20terrestres&pg=PA68-IA1&output=embed" aspect="0.6" class="right" %}
 
 Rumphius’ description of the paperbark’s appearance following a bushfire, its white, flakey bark patchy under a scorched outer layer, remains a strong association for many. In a recent [work](https://en.wikipedia.org/wiki/Parrot_and_Olivier_in_America), Australian novelist [Peter Carey](Q313254) depicts a character, disfigured by burns, whose "pale blue eyes peered out from his own tattered skin as if they were prisoners inside the trunk of a blackened antipodean paperbark."[^15]  
 
@@ -67,7 +67,7 @@ Rumphius’ description of the paperbark’s appearance following a bushfire, it
 
 The paperbark’s centrality to Indigenous communities predates its eighteenth-century "discovery" by thousands of years. The tree goes by countless names across the Australian continent: in [Bibbulmun](Q22918391), spoken by the south-western [Noongar peoples](Q1996477), it is known as the "Mudrooroo"; in the northern languages of [Ngalakgan](Q3913796) and [Kunwinjku](Q1406574), it is the "Gu-got" and "Kun-kod," respectively.[^19] To a vast number of Indigenous peoples, including those of New Caledonia and New Guinea, the paperbark is no villain. In sharp contrast to its status in the United States, it holds a pivotal role among Aboriginal cultures.
 
-`youtube vid=1n-zJNdfQJI caption="Paperbark, Aboriginal Spirit by Shaman Creative" aspect=1.6`
+{% include embed/youtube.html id="1n-zJNdfQJI" caption="Paperbark, Aboriginal Spirit by Shaman Creative" aspect="1.6" class="right" %}
 
 Its many uses intersect with daily life, including as a source of food, medicine, fuel, and protection from the elements. Its bark is easily peeled and used for shelter, construction, fuel, lumber, wrapping food, lining earth ovens, bundling babies, and as an antiseptic-laden bandage. The hardy tree also has environmental benefits, including soil conservation, windbreaking, erosion control, and providing habitats and sustenance for a multitude of organisms. Birds, bats, and invertebrates are among the creatures that live in or feast upon the paperbark.
 
@@ -200,7 +200,7 @@ As a result, Aboriginal Australians were born into paperbark, lived in paperbark
 Aboriginal Australians value paperbark so highly that some have incorporated it into their names. The most famous is [Oodgeroo Noonuccal](Q457278) (1920-1993), an Aboriginal Australian activist, educator, and artist. Formerly known as Kath Walker, the name she adopted in 1988 translates as "paperbark tree of the Noonuccal," her ancestral tribe. Noonuccal devoted her life to combating social inequality for the Indigenous and advocating for the environment. Her writing explores themes of cultural identity, spirituality, place, and time, interwoven with rich descriptions of Australia’s natural environment. Her poem "Oodgeroo" tells the story of a woman, severed from her culture and people who, with the help of the Good Spirit Biami, spent many years recording lost tribal stories on paperbark. It concludes with the female protagonist finding peace in a tribe of paperbark trees, free from her old foe, Time.[^28] "Oodgeroo" is exemplary in its exploration of ecological symbiosis, capturing both the *Melaleuca*’s utility and kinship with Aboriginal communities.
 
 <!-- Video no no longer available
-`youtube vid=ZPQr30eEQdY caption="Oodgeroo Noonuccal Reading Her Poems"`
+{% include embed/youtube.html id="ZPQr30eEQdY" caption="Oodgeroo Noonuccal Reading Her Poems" class="right" %}
  -->
 
 # Climate Change and Indigenous Management
@@ -239,7 +239,7 @@ Should this framing of conflict and warfare give us pause for thought? The label
 
 These questions have faced pushback. In the case of the paperbark, the ecological reality of its dominance in Florida cannot be denied, regardless of the language used to describe its spread. This debate is nevertheless part of the paperbark tree’s history. Its vilification arose at the same moment toward the end of the twentieth century. Just as "invasives" were entering mainstream consciousness as ecological villains, the USDA placed *Melaleuca quinquenervia* on the Federal Noxious Weed List, restricting its sale, circulation, and importation in the United States.[^51] In the later part of the 1990s, this zeal for prevention morphed into one for eradication, and significant sums of money, from federal agencies and NGOs, were put toward removing stands in Florida. Legislation supported by its invasive status began to imply that nearly anything, including development, was preferable to the tree's presence.[^52] In the space of a century, *M. quinquenervia* had fallen from a plant of immense possibility to an invasive "garbage" weed. Nothing in the plant had changed. What did change was our illusion of control. The tree escaped the settings and roles that Floridian planters had hoped to consign to it, serving as a reminder that human interests are but one force shaping our dynamic, global environment.
 
-`iframe src=https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html source=1eIQ8ZtzRcfK8AHuPcBqMNI-AQAuLnkoVsjklVtHTR6Y timenav-position=bottom hash-bookmark=false initial-zoom=1 height=500  aspect=1.5`
+{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html" aspect="1.5" class="right" %}
 
 [^1]: Robert Peckham, "Hygienic Nature: Afforestation and the greening of colonial Hong Kong," *Modern Asian Studies* 83, no. 2 (2015): 1194, https://www.jstor.org/stable/24495425.
 [^2]: Peckham, 1179.

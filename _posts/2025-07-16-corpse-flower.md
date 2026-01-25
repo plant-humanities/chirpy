@@ -22,7 +22,7 @@ image:
 
 In the late afternoon of a hot summer day in June 2019, an extraordinary and rare flower began to bloom at the [New York Botanical Garden (NYBG)](Q636275). A press release was immediately sent out as visitors had only 24 to 36 hours to the see the world’s largest inflorescence (flower-bearing structure) in peak bloom. It was not just the size of the _[Amorphophallus titanum](Q431224)_, however, that would attract hundreds of thousands of visitors. It was also the fact that, as its common name "corpse flower" suggests, this gigantic plant, when in bloom, smells like rotting flesh. 
 
-`youtube vid="5upF4rJUxC4" caption="NYBG 2019 Corpse Flower Timelapse" aspect=1.6`
+{% include embed/youtube.html id="5upF4rJUxC4" caption="NYBG 2019 Corpse Flower Timelapse" aspect="1.6" class="right" %}
 
 The putrid smell of the _Amorphophallus titanum_ (or titan arum), which has been described by the Huntington Botanical Garden as a combination of Limburger cheese, garlic, rotting fish, and smelly feet, is actually a pollination strategy. The powerful scent emitted by the plant along with the crimson, [meaty-color of its open spathe](corpse-1/zoomto/1706,1802,1461,1098) (the frilly leaf around the flower spike) are designed to attract insect pollinators – [carrion beetles](Q303626) and [flesh flies](Q978302) – that typically feast on dead animals.[^1] 
 
@@ -31,12 +31,12 @@ The putrid smell of the _Amorphophallus titanum_ (or titan arum), which has been
 Adding to the allure of the plant is the rarity and brevity in which it blooms. The corpse flower does not have an annual blooming cycle. On average, it takes the plant 5 to 10 years to store enough energy to flower. Despite the unpredictable nature of the plant’s blooms, they are nothing short of spectacular. When the US Botanic Garden’s _Amorphophallus titanum_ went on display to the public Friday, July 22, 2016, it measured 3.5 feet tall. The bloom eventually opened early in the morning on August 2, and by the time it collapsed three days later, it stood over 7 feet tall. 
 
 {% include embed/image.html src="cm16465_titan_arum_life_cycle_17x11.jpg" caption="Corpse Flower Lifecycle, USGB" source="https://www.usbg.gov/sites/default/files/images/cm16465_titan_arum_life_cycle_17x11.jpg" aspect="1.55" class="right" %}
-`youtube vid=lQwFAZKLxEE aspect=1.8`
+{% include embed/youtube.html id="lQwFAZKLxEE" aspect="1.8" class="right" %}
 
 It is easy to see why the corpse flower plant has become an attraction for the dozen or so US botanic gardens that boast one in bloom. Blooms at the NYBG, the [United States Botanic Garden](Q1848855)(Washington, DC),[The Huntington](Q1400558) (Pasadena, CA), Chicago Botanic Garden, Denver Botanic Garden, and Greater Des Moines Botanical Garden in the past few years that have attracted hundreds of thousands of visitors. Each institution also has numerous news stories and webpages dedicated to the plant along with live streams, time-lapse videos of their rare blooms, and educational programing, all of which are watched by millions more online. For these institutions, cultivating a giant smelly plant is an excellent way to attract visitors to botanic gardens, and hopefully inspire a new generation of botanist. 
 
 {% include embed/image.html src="corpsefloweredit003-f2deaf4f87f4496766a0148e12ad0b50e6158980-s1000-c85.jpg" caption="Crowds at the USBG line up to catch a glimps of a corpse flower in full bloom." source="https://media.npr.org/assets/img/2013/07/23/corpsefloweredit003-f2deaf4f87f4496766a0148e12ad0b50e6158980-s1000-c85.jpg" aspect="1.5" class="right" %}
-`youtube vid="L-Tp9cDj7Vg" caption="USBG Corpse Flower 2020: Live Horticulture Q&A" aspect=1.8`
+{% include embed/youtube.html id="L-Tp9cDj7Vg" caption="USBG Corpse Flower 2020: Live Horticulture Q&A" aspect="1.8" class="right" %}
 
 European botanists have long been fascinated with the study and cultivation of the _Amorphophallus titanum_. An Italian botanist, [Odoardo Beccari](Q361037), was the first European to encounter the species in [Sumatra](Q3492), where it is native, while traveling through Southeast Asia in 1878. Beccari sent seeds of the impressive plant back to his native Florence, where the plant was germinated. 
 

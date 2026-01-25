@@ -52,7 +52,7 @@ How did apparently isolated Amazonian communities come to know the synergistic e
 
 While these are veritable feats of botanical research, Indigenous ways of knowing are not necessarily measured by such standards nor rely exclusively on observations and collection of written data. Many _ayahuasqueros_ in the Peruvian Amazon learn ayahuasca recipes through oral traditions from elders, but the "teacher" is considered to be the brew and its sacred plants, not the elder alone.[^ref14] Learning through plant teachers involves at times solitude (_dietas_), long periods of sensorial interactions with the plant, and incorporating dreams and visions as significant teachings.[^ref15]
 
-`youtube vid=jc8UYDscHEs caption="The Huni Kuin science of Ayahuasca, the Pajé/healer Txana Ixã speaks about the healing qualities of the brew. Mapping Medicine, YouTube."`
+{% include embed/youtube.html id="jc8UYDscHEs" caption="The Huni Kuin science of Ayahuasca, the Pajé/healer Txana Ixã speaks about the healing qualities of the brew. Mapping Medicine, YouTube." class="right" %}
 
 For outsider researchers hailing from the West, identifying plant species used in ayahuasca decoctions has been difficult for several reasons. Recipes are often closely guarded by Indigenous knowledge keepers and precise measurements of the ingredients are not always recorded. Additionally, Indigenous groups may classify plants according to more refined and specific criteria than Western scientists have, identifying nuanced variations in leaf shape, size, breadth, flowering patterns, psychoactive effects, as well as the guardian spirits associated with the plant.[^ref16] Indigenous groups using these complex classification systems will at times refer to the same plant species by many names or use the same name for different plants, all depending on their uses. In the case of ayahuasca, "different" species are used to create brews with varying strength and purpose.[^ref17] 
 
@@ -78,13 +78,13 @@ For the [Shipibo people](Q36411) of modern-day Peru, ayahuasca rituals also revo
 
 More than just visual, the ayahuasca ceremony is a multisensory journey, with music being a vital component in several ayahuasca traditions. In Peru, ayahuasca healing ceremonies include whistled chants, _[icaros](Q5985066)_, carried out by _ayahuasqueros_ or _vegetalistas_. The chants are meant to invoke spiritual forces so that they may open doorways and help to complete tasks, as well as to invoke guardian spirits of the vine. The chants likely also help to orient those who have imbibed the decoction, providing grounding while the participants are otherwise disoriented by its effects.[^ref26]
 
-`youtube vid=d06W6to3Wc0 caption="Maestro Gilberto Picota Lopez Sings a Shipibo Icaro. Spirit of the Jaguar, YouTube." aspect=1.6`
+{% include embed/youtube.html id="d06W6to3Wc0" caption="Maestro Gilberto Picota Lopez Sings a Shipibo Icaro. Spirit of the Jaguar, YouTube." aspect="1.6" class="right" %}
 
 # Ethnobotanical Encounters
 
 The rich descriptions of ayahuasca ceremonies we know today have been written in the last five decades or so. Interestingly, the few materials that document early encounters with the brew often mention vernacular plant names or botanical traits of hallucinogenic plants. These details, however brief and meager, became relevant for twentieth-century ethnobotany. Selected episodes of ethnobotanical encounters, shown here, reveal how ayahuasca shaped the development of this discipline. Despite persistent religious and intellectual barriers, outsider researchers began to build their understanding of ayahuasca as early as the 1700s. The convergences and dissonances with Amazonian plant knowledge reveal different episodes of land and knowledge colonization. 
 
-{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1zRzuoBAx7zFxTPSvJ64o5bPtbkrZrq9OB7e1HYisy6Y&timenav-position=bottom&hash-bookmark=false&height=100%" width="100%" height="650px" caption="Caption test" %}
+{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html" class="right" %}
 
 [Jesuits](Q36380) overseeing [missions in the Amazon](Q7125152) in the eighteenth century were among the first Europeans to explicitly mention ayahuasca (or _marari_) as a brew for ritual and medicinal purposes. Missionaries like [Pablo Maroni](Q7121682) (1695–1757) found it difficult to prove whether spiritual leaders had a pact with the devil but still were concerned about the divinatory purposes of "a white devil’s trumpet (floripondio)" and "a vine called vulgarly ayahuasca." In their view, spiritual leaders (usually referred to as sorcerers–_mohanes y hechiceros_) were only tricking and deceiving people in their community.[^ref27]
 
@@ -96,8 +96,8 @@ The rich descriptions of ayahuasca ceremonies we know today have been written in
 In contrast, descriptions of individual plant species were devoid of demonic or ritual associations. In the late eighteenth century, the celebrated Spanish explorers and botanists [Hipólito Ruíz (1754–1816) and José Pavón (1754–1840)](Q4948434) described a shrub from the western Amazon and named it _Psychotria viridis_.[^ref28] Even though these botanists sought to obtain knowledge from local herbalists and sorcerers, the  hallucinogenic properties and use of _P. viridis_ in ayahuasca brews were never reported and remained unknown to westerners until the twentieth century.[^ref29]
 
 <!-- Broken images
-{% include embed/image.html src="bf59b0f6caeb2fb92bfba25e4b08012203ad6a4f7b1d971aa9c4d8feb7b71d1a.yaml" class="right" %}
-{% include embed/image.html src="0b4d2805ee6de36911fb255f51988b716418e4edf59c055d56569a7847571b7f.yaml" class="right" %}
+{% include embed/image.html manifest="bf59b0f6caeb2fb92bfba25e4b08012203ad6a4f7b1d971aa9c4d8feb7b71d1a.yaml" class="right" %}
+{% include embed/image.html manifest="0b4d2805ee6de36911fb255f51988b716418e4edf59c055d56569a7847571b7f.yaml" class="right" %}
 -->
 
 In the 1870s, the Portuguese missionary Manuel Rodrigues Pinto Rubens echoed the Jesuit views on ayahuasca when he wrote about the _[Ticuna](Q5363631)_ in the northern Amazon. He recognized the importance of medical specialists of this community (called _pagés_) but also called them "impostors" who frightened the overly "superstitious indians"  of the region.[^ref30] Pinto Rubens’ work stands out from previous missionary accounts because it has great [ethnographic](Q132151) detail about Indigenous rituals combined with botanical references to the plants used by the Ticuna. It also features several watercolors, including one of a _pagé_ who apparently is using ayahuasca to understand a patient’s ailment and find its cure.
@@ -152,7 +152,7 @@ Miller’s patent was eventually overturned, but not because the courts recogniz
 
 The popularity of ayahuasca continues to transcend boundaries of space, time, and culture. In fact, as interest in [traditional medicine](Q771035) has surged, the intensive study of and therapeutic application of the ayahuasca brew has expanded tremendously.[^ref47] As scientists test and probe the remedies and rituals of Indigenous peoples, the ongoing question and battle of whose judgement of "truth," "reality," and "efficacy," matters the most rages on. As "authentic ayahuasca retreats" occur worldwide, the sacred nature of ayahuasca and its use is degraded and commodified. With respect to these complexities, the narrative of ayahuasca is ever unfolding and evolving.
 
-`youtube vid=MXpvWYCDpFc caption="Yagé is Our Life" aspect=1.6`
+{% include embed/youtube.html id="MXpvWYCDpFc" caption="Yagé is Our Life" aspect="1.6" class="right" %}
 
 [^ref1]: Luis Eduardo Luna, "Indigenous and mestizo use of ayahuasca: An overview," in _The Ethnopharmacology of Ayahuasca_, ed. Rafael Guimarães dos Santos (Kerala: Transworld Research Network, 2011); Ede Frecska, Petra Bokor, and Michael Winkelman, "The Therapeutic Potentials of Ayahuasca: Possible Effects against Various Diseases of Civilization," _Front Pharmacol_ 7 (March 2016): 35–35. [DOI: 10.3389/fphar.2016.00035](https://pubmed.ncbi.nlm.nih.gov/26973523/)
 [^ref2]: James C. Callaway, et al., "Quantitation of N,N-Dimethyltryptamine and Harmala Alkaloids in Human Plasma after Oral Dosing with Ayahuasca," _Journal of Analytical Toxicology_ 20, no. 6 (1996): 492–97. [DOI: 10.1093/jat/20.6.492](https://pubmed.ncbi.nlm.nih.gov/8889686/); Jonathan Hamill, et al., "Ayahuasca: Psychological and Physiologic Effects, Pharmacology and Potential Uses in Addiction and Mental Illness," _Current Neuropharmacology_ 17, no. 2 (2019): 108–28. [DOI: 10.2174/1570159X16666180125095902](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6343205/)

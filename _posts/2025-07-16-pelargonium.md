@@ -14,7 +14,6 @@ published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/pelargonium
 image:
   path: https://ids.lib.harvard.edu/ids/iiif/435776338/full/full/0/default.jpg
-  resize: false
 ---
 
 
@@ -47,7 +46,7 @@ The pelargonium and its relatives geranium and [erodium](Q162920) belong to the 
 
 Other morphological traits distinguish members of the genera pelargonium from geranium. This diagram highlights several key differences that can be observed by comparing the reproductive systems of the two plants: the [flowers](Q506). The pelargonium flower parts are arranged bilaterally around one axis, making them quite distinct from the radially oriented ones of the geranium. Another difference is that, while the geranium has five [nectaries](Q687699) (nectar-secreting glands) at the base of the petals, the pelargonium has only one embedded in the receptacle. Yet another divergence is the number of fertile [stamens](Q103129) and their groupings. The pelargonium has between one and seven stamens, attached at the base; the geranium has either five or ten free stamens. Finally, pelargonium flowers are either red, light yellow, mauve, purple, pink, or white; geranium flowers are either dark blue, purple, pink, or white, but never scarlet (as Dickens would have known it).
 
-`image-compare before=Bois_Atlas_des_plantes_de_jardins_Bibliotheque_nationale_de_France_public_domain.jpg after=Veronica_Matallana_Differences_between_Geranium_and_Pelargonium_flowers_Copyright_Veronica_Matallana_2020.jpg`
+{% include embed/image-compare.html before="Bois_Atlas_des_plantes_de_jardins_Bibliotheque_nationale_de_France_public_domain.jpg" after="Veronica_Matallana_Differences_between_Geranium_and_Pelargonium_flowers_Copyright_Veronica_Matallana_2020.jpg" class="right" %}
 
 # Introduction to Europe and Nomenclature Confusion
 
@@ -68,7 +67,7 @@ In the wake of that initial nomenclature confusion, seventeenth-century botanist
 
 <!-- TimelineJS spreadsheet data not found -->
 
-`iframe src=https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=11nYkAFDtVbdE5tjZDSfYpv_8BXnmmjHc6uQRkwDHA3U&&font=Default&lang=en&timenav_position=bottom&hash_bookmark=false&initial_zoom=1&height=500 height=500`
+{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=11nYkAFDtVbdE5tjZDSfYpv_8BXnmmjHc6uQRkwDHA3U&&font=Default&lang=en&timenav_position=bottom&hash_bookmark=false&initial_zoom=1&height=500" class="right" %}
 
 # Technology, Breeding, and the Modern Pelargonium
 

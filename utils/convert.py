@@ -153,11 +153,15 @@ def convert_params(md: str) -> str:
                 
         for attr in 'id src manifest seq caption attribution description label license source cover region rotation aspect'.split(' '):
             if attr in attrs:
-                tag += f'{attr}="{attrs[attr]}" '
+                if attr == 'src' and ('seq' in attrs or attrs[attr].split('.')[-1].lower() not in ['jpg', 'jpeg', 'png', 'svg', 'tif', 'tiff']):
+                    tag += f'manifest="{attrs[attr]}" '
+                else:
+                    tag += f'{attr}="{attrs[attr]}" '
         tag += 'class="right" %}'
+        print(tag)
         return tag
 
-    md = re.sub(r'`image\s+\b([^`]*)`', lambda m: convert_image_tag(m.group(1).strip()), md)
+    md = re.sub(r'`image(?:\s+([^`]*))?`', lambda m: convert_image_tag((m.group(1) or "").strip()), md)
     
     
     ### Image Compare
@@ -262,7 +266,6 @@ def convert_params(md: str) -> str:
     
     def convert_youtube_tag(attrs_str):
         attrs = to_dict(attrs_str)
-        print(json.dumps(attrs, indent=2))
         tag = '{% include embed/youtube.html '
         for attr in attrs:
             if attr.startswith('#'):
@@ -272,7 +275,6 @@ def convert_params(md: str) -> str:
             if attr in attrs and attrs[attr]:
                 tag += f'{attr if attr != "vid" else "id"}="{attrs[attr]}" '
         tag += 'class="right" %}'
-        print(tag)
         return tag
     
     md = re.sub(r'`youtube\b([^`]*)`', lambda m: convert_youtube_tag(m.group(1).strip()), md)
@@ -417,7 +419,7 @@ def convert(src: str, dest: str, max: Optional[int] = None, **kwargs):
             break
     
     print(json.dumps(unrecognized_image_attrs, indent=2))
-    print(json.dumps(unrecognized_map_attrs, indent=2))
+    # print(json.dumps(unrecognized_map_attrs, indent=2))
 
 
 # ============================================================================

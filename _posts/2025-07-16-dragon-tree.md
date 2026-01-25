@@ -34,7 +34,7 @@ As the eleventh labor of his famous twelve, [Hercules](Q122248) was sent to stea
 {% include embed/image.html src="Dragons_blood_tree_Flickr__Rod_Waddington_CC_BY_SA_2.0.jpg" aspect="0.77" class="right" %}
 
 <!-- The after image now returns a 404
-`image-compare before=Dragons_blood_tree_Flickr__Rod_Waddington_CC_BY_SA_2.0.jpg after=45a005cbd95f77cd2ae2ec3f11b724a48fc269497d7224d3f331013775d874e5.yaml aspect=`
+{% include embed/image-compare.html before="Dragons_blood_tree_Flickr__Rod_Waddington_CC_BY_SA_2.0.jpg" after="45a005cbd95f77cd2ae2ec3f11b724a48fc269497d7224d3f331013775d874e5.yaml" class="right" %}
 -->
 
 European understandings of the dragon tree evolved as scientific botany developed from the late medieval through the [early modern periods](Q5308718), and the myths and legends of antiquity surrounding the tree became artifacts of the past. Native to the [Canary Islands](Q5813), [Cape Verde](Q1011), and [Madeira](Q26253)—and recently found growing natively on the west coast of Morocco—_D. draco_ is somewhat ubiquitous along the northwestern coast of Africa. Evidently, the tree and its resin were an important feature of the economy and magico-medicine of the Canary Islands even before colonial contact. Thus, when French explorer [Jean de Béthencourt](Q447602) became the first European to write of _D. draco_ in 1402, he recounted an elaborate trade of fishing hooks, knives, and iron in exchange for figs and dragon’s blood between his crew and 500 Guanches, the indigenous population of the Canary Islands.[^ref4]
@@ -49,7 +49,7 @@ The [Guanches](Q219995) used dragon’s blood for a variety of purposes, ranging
 
 After decades of violent attacks against the Guanches, Spanish conquistadors vanquished the last of the Canary Islands in 1496. The [Guanche language](Q415) soon disappeared, with the exception of their distinct whistling language, known as Silbo Gomero. Due to the traditional Western preference for written records rather than oral histories, much of what we now know of pre-Columbian culture on the Canaries comes from European colonial interlocutors.
 
-`youtube vid=C0CIRCjoICA caption="Sylbo, The Last Speakers of the Lost Whistling Language." aspect=1.6`
+{% include embed/youtube.html id="C0CIRCjoICA" caption="Sylbo, The Last Speakers of the Lost Whistling Language." aspect="1.6" class="right" %}
 
 Throughout its dissemination into European spaces from the [Age of Discovery](Q133641), dragon’s blood was understood chiefly as a medicament. Soon after its introduction, the sticky scarlet resin became nothing short of a [panacea](Q910154) with widespread potential to prevent a host of illnesses.[^ref8] As a result, the so-called "_draco arbor_" features in famous early modern herbals, such as [John Gerard’s](Q1333338) [_Herball or generall Historie of Plantes_](https://www.biodiversitylibrary.org/item/33580#page/1/mode/1up) (1633) and [John Parkinson’s](Q256288) [_Theatrum botanicum_](https://www.biodiversitylibrary.org/item/256142#page/13/mode/1up) (1640). Both authors pointed to the Atlantic islands (comprising the Canary Islands, as well as the Portuguese [Azores](Q4058447) and Madeira), as the tree’s most common habitat. As for _D. draco_’s medical uses, Gerard and Parkinson also agreed: its resin was believed to have effective astringent properties to treat gonorrhea, dysentery, spitting blood, and loose teeth. Gerard noted that "smiths also use it to varnish over their works," while Parkinson doubted "painters can bring it to be a fit color to be used in their works."[^ref9]
 
