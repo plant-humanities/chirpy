@@ -16,6 +16,7 @@ published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/how-to-read-an-herbarium-specimen
 image:
   path: Rauwolf.jpg
+auto_float: true
 ---
 
 There are over 340,000 known flowering plant species: a lot to keep track of. With many species threatened by environmental change, it’s particularly important to document what is growing where. This is one of the functions of herbarium specimens, preserved plants often in the form of pressed cuttings that have been collected since the 16th century.[^1]  The [technique](https://www.youtube.com/watch?v=zEevM61u4Ew) now used to create them is very similar to that originally employed:  a cutting is carefully spread out on absorbent paper, covered by another sheet, and pressed between boards so the plant doesn't curl up as it dries. A specimen can then last indefinitely if kept from the three most common threats: water, fire, and insects.  
@@ -24,7 +25,7 @@ There are over 340,000 known flowering plant species: a lot to keep track of. Wi
 
 In the past, herbarium sheets were often bound into book form to preserve them, as with the Italian [En Tibi](https://bioportal.naturalis.nl/en/highlights/en_tibi) herbarium now in the Naturalis Biodiversity Center in the Netherlands. This page from about 1558 is typical of collecting’s early years when little more than a plant’s name was given, usually in Latin, and often two or more species were attached to a sheet. To the right is a [tomato plant](tomato-plant/zoomto/2364,477,2843,4101)(*Solanum lycopersicum*), an early example of this Latin American species grown and preserved in Europe. A small sample of this specimen was used to sequence its DNA, and the plant was found to be a domesticated variety.[^2]  Examples like this reveal that a number of Latin American and Asian species were found in many European countries early in the history of European exploration. 
 
-`image #tomato-plant src=En_Tibi_Herbarium_Tomato_Specimen.jpg aspect=0.65`
+{% include embed/image.html id="tomato-plant" src="En_Tibi_Herbarium_Tomato_Specimen.jpg" aspect="0.65" %}
 
 # Collecting Voyages and Naming Plants: The Case of *Darlingtonia*
 
@@ -32,24 +33,24 @@ From the 16th century on plant collectors were dispatched around the world in se
 
 Torrey named the species *[Darlingtonia californica](Q1138945)* after his friend [William Darlington](Q8007604) of Pennsylvania with whom he traded specimens. It was often through such connections that plants received their names. The specimen shown here is called the type specimen because it is the one that Torrey described in the article he published; this is how plants are officially named, made public to the botanical community.[^3] Types are considered particularly important in referencing species’ traits. As with this specimen, they are usually [marked](darlingtonia-californica/zoomto/pct:28.23,84.75,35.47,9.29) and often stored separately with extra security against damage.  In anticipation of publication, Torrey sent a portion of the specimen to a botanical illustrator who returned a sketch giving dimensionality to the flattened plant. The drawing gave form to the specimen, and it was lithographed for the article on *Darlingtonia*. The photograph on the right reveals what is lost when a plant is dried.  
 
-`image #darlingtonia-californica src=Darlingtonia_californica.jpg aspect=0.67`
+{% include embed/image.html id="darlingtonia-californica" src="Darlingtonia_californica.jpg" aspect="0.67" %}
 
 ## Comparison
 
-`image #darlingtonia-illustration src=Darlingtonia_Illustration.jpg aspect=`
-`image #darlingtonia-photo src=Darlingtonia_photo.jpg aspect=0.70`
+{% include embed/image.html id="darlingtonia-illustration" src="Darlingtonia_Illustration.jpg" aspect="" %}
+{% include embed/image.html id="darlingtonia-photo" src="Darlingtonia_photo.jpg" aspect="0.70" %}
 
 # The Continuing Story of Specimens: The Lewis and Clark Collections
 
 Specimens can also hold stories about what happened to them after collection. When [President Thomas Jefferson](Q11812) appointed [Meriwether Lewis](Q313492) and [William Clark](Q355348) to lead an expedition into the newly acquired [Louisiana Purchase](Q193155) territory, he made sure Lewis was tutored in plant identification and collection by [Benjamin Barton](Q276825), a leading Philadelphia botanist. Some of Lewis’s specimens were lost in transit, a common problem for expeditions. However, many did reach Barton who then asked botanist [Frederick Pursh](Q67353) to study them. Pursh became dissatisfied with his compensation and left with some of the specimens, eventually sailing to England where he published descriptions of expedition plants. He then sold the specimens to [Aylmer Bourke Lambert](Q374894), a British botanist. Lambert's collection was auctioned after his death. Specimens from such unexplored areas were often of considerable worth because botanists hoped to find undescribed species among the sheets. The Lewis material was bought by an American botanist who donated them to the [Academy of Natural Sciences](Q2822400) in Philadelphia.[^4] A specimen of the Oregon grape (*Berberis aquifolium*) is one that [Pursh](oregon-grape/zoomto/pct:75.36,21.55,23.92,9.20) took to England and has the stamp of the Lambert Herbarium.
 
-`image #oregon-grape src=Berberis.jpg caption="Oregon Grape" aspect=0.67`
+{% include embed/image.html id="oregon-grape" src="Berberis.jpg" caption="Oregon Grape" aspect="0.67" %}
 
 {: .wrap .left}
 
 The remainder of the collection was left unstudied in Philadelphia’s [American Philosophical Society](Q466089) until the late 19th century when it were reunited at the Academy of Natural Sciences with the Lambert material, 227 sheets in all. Some of this history can be read on the specimens. The long-leaved sage (*Artemesia longifolia*) specimen remained in Philadelphia and has the [original Lewis label](142,637,441,638,386db45b) of colored blotting paper he used to press specimens; only 34 of these still exist. Pursh had rewritten many of Lewis’s labels and then disposed of the originals, a rather common practice at the time. Today, every bit of information on a specimen is retained in case it may be valuable in the future. More recent slips note botanists who have examined the specimens and confirmed identifications. Lewis's specimens provide microhistories of who has researched them over more than two centuries. When they are studied along with the expedition’s journals and other documentation, they provide a fuller picture of where and when they were collected and what has happened to them since. These plants are historical documents as much as they are scientific ones.
 
-{% include embed/image.html src="Long-Leafed_Sage.jpg" caption="Long-Leafed Sage" aspect="0.67" class="right" %}
+{% include embed/image.html src="Long-Leafed_Sage.jpg" caption="Long-Leafed Sage" aspect="0.67" %}
 
 # Recording Indigenous Knowledge: Richard Spruce's Herbarium
 
@@ -57,7 +58,7 @@ The British botanist [Richard Spruce](Q1349394) often took notes on the indigeno
 
 The history of plant collecting is closely tied to the history of colonization worldwide. Nations like Britain had powerful navies that sailed around the world often with naturalists to survey the resources of lands they visited. Because they knew little about these areas, collectors had to rely on indigenous peoples to find and identify plants and their uses. When reporting on their travels, collectors sometimes ignored or minimized these contributions. In other cases, this information was lost in transit or discarded by those who didn’t consider it important. In this way indigenous contributions to plant discovery were often erased.[^5] This is not the case here, where Spruce gave detailed information gained by direction observation of the daily lives of the individuals he encountered. Today, the Royal Botanic Gardens, Kew, this specimen's home, is working with indigenous peoples from the Amazon region where Spruce collected, both informing them about the collection and seeking their knowledge and experience to better understand it and use it in the future.[^6]
 
-{% include embed/image.html src="Parica.jpg" aspect="0.59" class="right" %}
+{% include embed/image.html src="Parica.jpg" aspect="0.59" %}
 
 # Today’s Labels: Information for Tracking Biodiversity and Climate Change
 
@@ -65,7 +66,7 @@ A label with at least the plant’s name identifies the herbarium specimen.  Ear
 
 This additional data makes specimens useful in research beyond plant identification. [Geographic coordinates](narrowleaf-silkgrass/zoomto/pct:31.57,79.91,42.60,17.91) are employed in mapping a species’ range and in predicting the effects of global warming on it. Since specimens have been collected for centuries, particularly intensively in the last two, they provide evidence of changes in flowering and fruiting times due to climate change. Over the past decade, there have been massive efforts to digitize specimen data to make them available to researchers worldwide in order to study environmental changes and document the earth’s biodiversity as it comes under increasing threat.[^7] Online access also means increased availability of plant data for those in the global south, where biodiversity is greater, despite the fact that a much higher percentage of specimens are stored in herbaria in the global north, one of the effects of centuries of collecting by colonial powers.[^8]
 
-`image #narrowleaf-silkgrass src=Narrowleaf_Silkgrass.jpg aspect=0.63`
+{% include embed/image.html id="narrowleaf-silkgrass" src="Narrowleaf_Silkgrass.jpg" aspect="0.63" %}
 
 # More
 
