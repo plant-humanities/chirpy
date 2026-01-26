@@ -502,7 +502,10 @@
         .replace(/Special:FilePath\//, 'File:')
         .split('File:').pop()
         .replace(/^\d+px-/, '');
-      mwImg = decodeURIComponent(mwImg).replace(/ /g, '_').replace(/\.svg\.png/, '.svg');
+      mwImg = decodeURIComponent(mwImg)
+        .replace(/ /g, '_')
+        .replace(/\.svg\.png/, '.svg')
+        .replace(/\.tiff\.jpg/, '.tiff');
       const _md5 = md5(mwImg);
       console.log(mwImg, _md5.slice(0, 2),)
 

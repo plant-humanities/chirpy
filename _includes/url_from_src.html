@@ -39,7 +39,11 @@ prepend page.media_subpath if present else site.cdn (if either is set).
 | replace: 'Special:FilePath/', 'File:'
 | split: 'File:'
 | last
+| replace: '+', '%252B'
+| replace: '%2B', '%252B'
+| replace: '%2b', '%252B'
 | url_decode
+| replace: '%2B', '+'
 | replace: ' ', '_'
 -%}
 
