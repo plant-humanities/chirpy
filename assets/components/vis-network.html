@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juncture Component Template</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/themes/light.css" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      font-family: system-ui, sans-serif;
+    }
+
+    figure {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    figure>*:not(figcaption) {
+      flex: 1;
+    }
+
+    figcaption {
+      font-size: 16px;
+      line-height: 1.2;
+      padding: 8px 0;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      background: #fff;
+    }
+
+    figcaption svg {
+      width: 1em;
+      height: 1em;
+      margin-inline: .3em;
+      flex: none;
+      fill: currentColor;
+      cursor: pointer;
+    }
+
+    sl-drawer::part(base) {
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+
+    sl-drawer::part(body) {
+      padding: 0;
+      margin: 3px;
+    }
+
+    sl-drawer::part(footer) {
+      padding: 0.5em;
+      border-top: 1px solid #ccc;
+    }
+
+    sl-tab::part(base) {
+      padding: 0.5em 1em;
+    }
+
+    sl-tab-panel::part(base) {
+      padding: 0.5em;
+    }
+
+    sl-tab-panel[aria-hidden=true] {
+      display: none !important;
+    }
+
+    .expandToggle {
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .clamp {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+  <figure>
+    <div class="content"></div>
+    <figcaption>
+      <svg class="drawerToggle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 512">
+        <path
+          d="M64 360a56 56 0 1 0 0 112 56 56 0 1 0 0-112zm0-160a56 56 0 1 0 0 112 56 56 0 1 0 0-112zM120 96A56 56 0 1 0 8 96a56 56 0 1 0 112 0z" />
+      </svg>
+      <div class="label clamp"></div>
+      <svg class="expandToggle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path
+          d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" />
+      </svg>
+    </figcaption>
+  </figure>
+
+  <sl-drawer contained class="drawer" no-header style="--size: calc(100% - 30px);">
+    <sl-tab-group>
+      <sl-tab slot="nav" active panel="info">Content info</sl-tab>
+      <sl-tab-panel active name="info">
+        Content Info
+      </sl-tab-panel>
+    </sl-tab-group>
+    <sl-button slot="footer" variant="primary" size="small" class="close">Close</sl-button>
+  </sl-drawer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.js"
+    integrity="sha512-GE9mKnPrTn2DY5AZuIC9yE6K4FF8T+9lsO7jwHn+RW9rEjnHzF/in0oGwlPzRwjhQ+oJiawmtfvleX+l6h5/cA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+  <script type="module">
+    import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/components/button/button.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/components/drawer/drawer.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/components/tab/tab.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/components/tab-group/tab-group.js';
+    import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace/cdn/components/tab-panel/tab-panel.js';
+
+    const md2Html = (md) => marked.parse(md).slice(3, -5) // convert markdown to HTML
+    const kebabToCamel = (input) => input.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase() })
+
+    const props = {
+      ...{                   // default properties
+        caption: null,
+        nocaption: false,
+        dataid: null,
+        max: false
+      },
+      ...Object.fromEntries( // URLSearchParams to object
+        Array.from(new URLSearchParams(location.search).entries())
+          .map(([key, value]) => [kebabToCamel(key), (value === 'true' || value === '') ? true : value === 'false' ? false : value])
+      )
+    }
+    console.log(props)
+
+    const figure = document.querySelector('figure');
+    const content = figure.firstElementChild
+    const figcaption = figure.querySelector('figcaption')
+    const captionText = figcaption.querySelector('.label')
+    const drawer = document.querySelector('.drawer')
+    let id
+
+    if (props.nocaption === true) figcaption.style.display = 'none'
+    else if (props.caption) captionText.innerHTML = md2Html(props.caption)
+
+    const drawerToggle = figcaption.querySelector('.drawerToggle')
+    drawerToggle?.addEventListener('click', e => drawer.open = !drawer.open)
+
+    function postShowDialog() {
+      window.parent.postMessage(
+        { type: "showDialog", props: { aspect: 1.0, src: `${location.href}&dataid=${props.dataid}&max` } },
+        "*"
+      );
+    }
+
+    const expandToggle = figcaption.querySelector('.expandToggle')
+    if (props.max) expandToggle.style.display = 'none'
+    else {
+      expandToggle?.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        postShowDialog();
+      })
+    }
+
+    const buildGraph = (csv) => {
+      let nodes = []
+      let edges = []
+      const { data, errors } = Papa.parse(csv, {
+        header: false,        // treat first row as keys
+        dynamicTyping: true,  // convert "123" → 123
+        skipEmptyLines: true,
+      });
+      data.forEach(row => {
+        if (row[0] === 'node') nodes.push({ id: row[1], label: row[2], image: row[2] })
+        else if (row[0] === 'edge') edges.push({ from: row[1], to: row[2], label: row[3] })
+      })
+      let options = {
+        autoResize: false,    // don’t constantly reflow
+        height: '100%'        // only set once, up front
+      }
+      let network = new vis.Network(content, {
+        nodes: new vis.DataSet(nodes),
+        edges: new vis.DataSet(edges),
+      }, options);
+    }
+
+    // get the nodes and edges from the parent window using iframe ID
+    window.addEventListener('message', (event) => {
+      let eventData = JSON.parse(event.data)
+      if (eventData.event === 'id') {
+        id = eventData.id
+        props.dataid = `${id}-csv`
+        window.parent.postMessage({ type: 'getElementById', id: props.dataid }, '*')
+      } if (eventData.event === 'element' && eventData.html) {
+        buildGraph(new DOMParser().parseFromString(eventData.html, 'text/html').querySelector('body').firstElementChild.textContent)
+      }
+    });
+    if (props.dataid) {
+      window.parent.postMessage({ type: 'getElementById', id: props.dataid }, '*')
+    } else
+      window.parent.postMessage({ type: 'getId' }, '*')
+
+
+  </script>
+
+</body>
+
+</html>

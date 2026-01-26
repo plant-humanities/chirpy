@@ -170,7 +170,7 @@ node,Q3327760,Writing material
 edge,Q3327760,Q2207288
 {: #paperbark-csv}
 
-`vis-network #paperbark caption="Uses of Paperbark" aspect=1`
+{% include embed/vis-network.html id="paperbark" aspect="1" %}
 
 Part of what attracted European botanists and explorers to the paperbark was its many medicinal applications. Tea brewed from young bruised leaves is drunk for headaches and general sickness. The leaf oil is used to treat respiratory ailments, colds, and rheumatism and has antiseptic properties used to treat cuts and sores.[^20] Ironically, in the United States, the *Malaleuca* has been labeled an allergen and respiratory irritant. While Florida authorities used human health concerns to justify a 1990 ban on its sale, transportation, collection, cultivation, or possession of *Melaleuca*, recent studies have found it is not a significant source of aeroallergen or a respiratory irritant.[^21] The essential oil produced by *M. quinquenervia* is used as an antibacterial, [fungicide](Q193237), and insect repellant, often intended to treat superficial skin conditions. However, modern producers derive commercially available [tea tree oil](Q48832) from *M. alternifolia*, not *M. quinquenervia*. Commonly known as [Niaouli](Q60849514), some sellers market the oil from the *M. quinquenervia* as having more robust properties than the more common tea tree oil.
 

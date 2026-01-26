@@ -90,7 +90,7 @@ node,Q380360,Christophe Plantin
 edge,Q380360,Q333372
 {: #clusius3-csv}
 
-`vis-network #clusius3 caption="Part of Carolus Clusius's expansive and influential network, reconstructed from letters." aspect=1`
+{% include embed/vis-network.html id="clusius3" caption="Part of Carolus Clusius's expansive and influential network, reconstructed from letters." aspect="1" %}
 
 After meeting Drake and many of his crew, Clusius returned to the continent and published _Aliquot notae in Garciae aromatum historiam_ (1582), which detailed Drake’s botanical discoveries and was the first substantial published record of Drake’s voyage. In this work, Clusius described a valuable root that Drake had collected. He even named the root, "Drakena Radix," or Drake’s Root, in honor of Drake. Clusius described the root as half an inch thick, swelling with knots, and irregular; blackish on the outside, white on the inside, and fibrous. He also noted that it was astringent in taste and biting to the tongue but became agreeable in the mouth. 
 

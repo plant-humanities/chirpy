@@ -98,7 +98,7 @@ The Language of Flowers inspired a greater inclusion of plants in decorative art
 
 Perhaps the most famous instance of passionflowers in Victorian decorative arts are those on the ceiling of Hintze Hall in London’s Natural History Museum (opened 1881). The ceiling is composed of 162 panels painted in the [Arts and Crafts style](https://en.wikipedia.org/wiki/Arts_and_Crafts_movement) and is meant to emphasize the botanical undercurrents of the British empire. The idea for the panels is credited to Alfred Waterhouse, while they were painted in situ by Charles James Lea. Hintze Hall was intended to showcase the wonders of the empire, especially those plants with economic value, such as tobacco or cotton; exotics like the passionflower were included as well.[^32]   
 
-{% include embed/image.html src="Natural_History_Museum.jpg" caption="Hintze Hall. Image source: Wikimedia Commons." aspect="1.32" %}
+{% include embed/image.html src="wc:Natural_History_Museum_Main_Hall,_London,_UK_-_Diliff.jpg" caption="Hintze Hall. Image source: Wikimedia Commons." aspect="1.32" %}
 {% include embed/image.html src="Hintze_Hall_East.jpg" caption="Hintze Hall panels. Image source: Wikimedia Commons." aspect="1.33" %}
 {% include embed/image.html src="passionflower_panel.png" caption="Ceiling panel showing passionflower. Image source: Wikimedia Commons (cropped)." aspect=".96" %}
 

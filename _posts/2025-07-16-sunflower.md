@@ -119,7 +119,7 @@ node,Q65968,House of Habsburg
 edge,Q65968,Q150862,member of
 {: #Helianthus-annuus-network-csv}
 
-`vis-network #Helianthus-annuus-network caption="Network of botanists who authored or translated herbals in which the cultivated sunflower was described and, in some cases, represented visually" aspect=1.2`
+{% include embed/vis-network.html id="Helianthus-annuus-network" caption="Network of botanists who authored or translated herbals in which the cultivated sunflower was described and, in some cases, represented visually." aspect="1.2" %}
 
 # Sunflower Aesthetics in Full Bloom
 

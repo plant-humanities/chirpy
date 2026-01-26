@@ -181,6 +181,7 @@ function addMessageHandler() {
         if (!isOriginAllowed(event.origin)) return;
 
         const data = event.data;
+        console.log(data)
 
         // Accept either raw objects OR JSON strings (some of your code uses JSON.stringify elsewhere)
         let msg = data;
@@ -214,6 +215,28 @@ function addMessageHandler() {
             window.open(url.toString(), msg.newtab ? "_blank" : "_self");
             return;
         }
+
+        if (msg.type === 'getId') {
+            // if (event.origin !== location.origin) return;
+            console.log(event.source)
+            const iframes = document.querySelectorAll('iframe');
+            for (const iframe of iframes) {
+                if (iframe.contentWindow === event.source) {
+                    let msg = { event: 'id', id: iframe.id || iframe.getAttribute('data-id') }
+                    event.source.postMessage(JSON.stringify(msg), '*')
+                    break;
+                }
+            }
+            return;
+        }
+
+        if (msg.type === 'getElementById') {
+            // if (event.origin !== location.origin) return;
+            let el = document.getElementById(event.data.id)
+            event.source.postMessage(JSON.stringify({ event: 'element', id: event.data.id, html: el?.outerHTML }), '*')
+            return;
+        }
+
     });
 }
 
@@ -343,6 +366,9 @@ function autoFloat({ root = document.body } = {}) {
         if (embed.classList.contains('full') || embed.classList.contains('right')) return;
 
         let previousSib = embed.previousElementSibling;
+        while (previousSib?.nodeName === 'P' && previousSib.id.indexOf('-csv') > 0) {
+            previousSib = previousSib.previousElementSibling;
+        }
         if (previousSib?.nodeName !== 'P') return;
 
         const parent = embed.parentNode;

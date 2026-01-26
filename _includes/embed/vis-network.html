@@ -1,0 +1,14 @@
+{%- assign qs = "" -%}
+
+{%- if include.dataid -%}
+{%- assign qs = "dataid=" | append: include.dataid -%}
+{%- endif -%}
+
+{%- if include.caption -%}
+{%- assign qs = qs | append: "&caption=" | append: include.caption | uri_escape -%}
+{%- endif -%}
+
+<iframe id="{{ include.id }}" class="{{ class }}" loading="lazy" title="Juncture network viewer" allow="clipboard-write"
+  {% if include.aspect %} style="aspect-ratio: {{ include.aspect }};" {% endif %}
+  src="{{ '/assets/components/vis-network.html' | relative_url }}?{{ qs }}" allowfullscreen>
+</iframe>
