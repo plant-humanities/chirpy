@@ -337,7 +337,7 @@ function wrapAdjacentEmbedsAsTabs({
 
 function autoFloat({ root = document.body } = {}) {
     console.log('autoFloat');
-    const embeds = Array.from(root.querySelectorAll('iframe, sl-tab-group')).reverse();
+    const embeds = Array.from(root.querySelectorAll('iframe, sl-tab-group, figure.iframe-wrapper')).reverse();
 
     embeds.forEach((embed) => {
         if (embed.classList.contains('full') || embed.classList.contains('right')) return;

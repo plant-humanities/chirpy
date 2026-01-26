@@ -94,37 +94,41 @@ def front_matter_to_str(fm: Dict[str, Any], encoding: str = "utf-8"):
         default_flow_style=False,
         allow_unicode=True,
     )
-    
-def to_dict(s: str, *, warn: bool = True) -> Dict[str, Any]:
-    """
-    Parse a key=value attribute string into a dict.
 
-    - Respects quotes when valid
-    - Tolerates missing closing quotes
-    - Emits a warning with the offending text on syntax errors
-    """
+def unquote(value: str) -> str:
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in ("'", '"'):
+        return value[1:-1]
+    return value
+
+import shlex
+from typing import Any, Dict
+
+def to_dict(s: str, *, warn: bool = True) -> Dict[str, Any]:
     attrs: Dict[str, Any] = {}
+
+    def unquote(v: str) -> str:
+        if len(v) >= 2 and v[0] == v[-1] and v[0] in ('"', "'"):
+            return v[1:-1]
+        return v
 
     lexer = shlex.shlex(s, posix=True)
     lexer.whitespace_split = True
     lexer.commenters = ''
+    lexer.quotes = '"'   # preserve apostrophes in unquoted tokens
 
     try:
         tokens = list(lexer)
     except ValueError as e:
-        # Unterminated quotes or similar
         if warn:
             print("WARNING: attribute parse error")
             print(f"  error: {e}")
             print(f"  text : {s}")
-
-        # Fallback: split on whitespace only
         tokens = s.split()
 
     for token in tokens:
         if '=' in token:
             key, value = token.split('=', 1)
-            attrs[key] = value.strip('"\'')
+            attrs[key] = unquote(value)
         else:
             attrs[token] = None
 
@@ -150,15 +154,15 @@ def convert_params(md: str) -> str:
         for attr in attrs:
             if attr.startswith('#'):
                 tag += f'id="{attr[1:]}" '
-                
+        
+        print(json.dumps(attrs, indent=2))
         for attr in 'id src manifest seq caption attribution description label license source cover region rotation aspect'.split(' '):
             if attr in attrs:
-                if attr == 'src' and ('seq' in attrs or attrs[attr].split('.')[-1].lower() not in ['jpg', 'jpeg', 'png', 'svg', 'tif', 'tiff']):
+                if attr == 'src' and ('seq' in attrs or (not attrs[attr].startswith('wc:') and attrs[attr].split('.')[-1].lower() not in ['jpg', 'jpeg', 'png', 'svg', 'tif', 'tiff'])):
                     tag += f'manifest="{attrs[attr]}" '
                 else:
                     tag += f'{attr}="{attrs[attr]}" '
-        tag += 'class="right" %}'
-        print(tag)
+        tag += '%}'
         return tag
 
     md = re.sub(r'`image(?:\s+([^`]*))?`', lambda m: convert_image_tag((m.group(1) or "").strip()), md)
@@ -232,7 +236,7 @@ def convert_params(md: str) -> str:
             tag += f'markers="{"|".join(markers)}" '
         if geojsons:
             tag += f'geojson="{"|".join(geojsons)}" '
-        tag += 'class="right" %}'
+        tag += '%}'
         return tag
         
     MAP_BLOCK_RE = re.compile(
@@ -256,8 +260,10 @@ def convert_params(md: str) -> str:
                 
         for attr in 'id src caption aspect'.split(' '):
             if attr in attrs and attrs[attr]:
+                if attr == 'src' and 'knightlab.com' in attrs[attr]:
+                    attrs[attr] = re.sub(r'&height=\d+', '', attrs[attr])
                 tag += f'{attr}="{attrs[attr]}" '
-        tag += 'class="right" %}'
+        tag += '%}'
         return tag
     
     md = re.sub(r'`iframe\b([^`]*)`', lambda m: convert_iframe_tag(m.group(1).strip()), md)
@@ -271,10 +277,11 @@ def convert_params(md: str) -> str:
             if attr.startswith('#'):
                 tag += f'id="{attr[1:]}" '
                 
-        for attr in 'id vid caption aspect'.split(' '):
+        for attr in 'id vid caption'.split(' '):
             if attr in attrs and attrs[attr]:
-                tag += f'{attr if attr != "vid" else "id"}="{attrs[attr]}" '
-        tag += 'class="right" %}'
+                # tag += f'{attr if attr != "vid" else "id"}="{attrs[attr]}" '
+                tag += f'{attr}="{attrs[attr]}" '
+        tag += 'aspect="1.55" %}'
         return tag
     
     md = re.sub(r'`youtube\b([^`]*)`', lambda m: convert_youtube_tag(m.group(1).strip()), md)
@@ -398,6 +405,7 @@ def convert(src: str, dest: str, max: Optional[int] = None, **kwargs):
                 
         fm['media_subpath'] = f'https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/{base_fname}'
         fm['image'] = {'path': header['img']}
+        fm['auto_float'] = True
 
         try:
             body = convert_params(body)

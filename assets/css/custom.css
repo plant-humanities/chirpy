@@ -178,8 +178,16 @@ attribution {
 
 /* ****** End Entity Popup ****** */
 
-iframe.embed-youtube {
+iframe {
+    box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+}
+
+sl-tab-panel>iframe.embed-image {
     width: 100%;
+}
+
+iframe.embed-youtube {
+    /* width: 100%; */
     aspect-ratio: 1.55;
 }
 
@@ -193,6 +201,10 @@ figure.iframe-wrapper figcaption {
     text-align: center;
     font-size: 16px;
     line-height: 28px;
+}
+
+.col2 .viewer figure {
+    width: 100%;
 }
 
 .post-content {

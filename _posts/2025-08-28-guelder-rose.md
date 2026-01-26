@@ -7,7 +7,6 @@ description: The guelder rose has evolved from a prehistoric European food and f
 author: Anna Hogarth, Nidhish Birhade, and Matthew Turetsky
 date: 2025-08-01
 layout: post
-auto_float: true
 thumbnail: guelderrose.jpg
 permalink: /guelder-rose
 tags: flower fruit medicinal ornamental shrub temperate
@@ -16,6 +15,7 @@ featured: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/guelder-rose
 image:
   path: wc:Viburnum_opulus_%28Guelder_Rose%29_-_Flickr_-_S._Rae.jpg
+auto_float: true
 ---
 
 
@@ -65,7 +65,7 @@ The plant’s "hoax" lies in its morphology. Its emblematic [outer white flowers
 
 Discussion of guelder rose is often centered on its widely grown [cultivar](Q4886), the roseum, which gave the plant its name "snowball." The roseum consists of only sterile flowers, which results in the inflorescence becoming a striking ball of white petals.[^16] It can only reproduce with human intervention. 
 
-{% include embed/image.html src="wc:Viburnum_opulus_Roseum_Kalina_koralowa_odm._płonna_2021-06-02_02.jpg" aspect="1.33" %}
+{% include embed/image.html src="wc:Viburnum_opulus_'Roseum'_Kalina_koralowa_odm._płonna_2021-06-02_02.jpg" aspect="1.33" %}
 
 The guelder rose fruit has a bitter taste due to the presence of [saponin](Q207653) glycosides and slightly toxic viburnine.[^17] It is usually cooked or frozen before human consumption. The plant’s berries ripen in the fall but remain on the shoots till  winter. This is because seed dispersers, which are integral to plant reproduction, are averse to their taste, preferring to eat more palatable fruits first and turning to the guelder rose berries only when food is scarce.[^18] The bright red berries thus persist through most of winter, forming a powerful image. They signal how the interplay between the plant’s reproductive clock and the landscape’s seasonal transformation could become culturally significant: the red fruit stands out, set against the white snow of winter, particularly in regions with harsher winters like Ukraine and Russia. 
 
@@ -90,12 +90,12 @@ In Ukraine, the red berries are embedded in the plant’s vernacular name. "Cher
 
 According to the writer and researcher of Ukrainian folk art Orysia Paszczak Tracz, it would be difficult to find a village house in Ukraine where there is not at least one _kalyna_ growing in the garden or appearing right at the gate to welcome guests. Preference is given to images with red, from towels and shirts to skirts and shoes, and _kalyna_ berries as well.[^22] [Petrykivka](Q12140171), a type of traditional Ukrainian ornamental painting, often features the berry. Named after a village in Ukraine, an artist would decorate their living quarters with this style of painting that depicted roosters and other birds, along with local flowers, including _viburnum_ berries. Families would pass down this tradition, and local schools would teach the fundamentals.[^23] This painting style was added to the [List of the Intangible Cultural Heritage of Humanity](Q110319947) of UNESCO in 2013, and the Vice Prime Minister of Ukraine at the time, Olexandr Vilkul, stated, "Petrykivka is a national brand of Ukraine."[^24]
 
-{% include embed/image.html src="wc:%D0%A2%D0%B0%D1%80%D1%96%D0%BB%D1%8C_%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%2527%D1%8F%D0%BD%D0%B0_%22%D0%A1%D0%B5%D1%80%D0%BF%D0%B5%D0%BD%D1%8C%22.jpg" caption="Petrykivka painting; a rooster stands for spiritual awakening." aspect="1.1" %}
-{% include embed/image.html src="wc:Петриківка.jpg" caption="Petrykivka painting" aspect="0.75" %}
+{% include embed/image.html src="wc:%D0%A2%D0%B0%D1%80%D1%96%D0%BB%D1%8C_%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%2527%D1%8F%D0%BD%D0%B0_%22%D0%A1%D0%B5%D1%80%D0%BF%D0%B5%D0%BD%D1%8C%22.jpg" caption="Petrykivka painting; a rooster stands for spiritual awakening." aspect="1" %}
+{% include embed/image.html src="wc:Петриківка.jpg" caption="Petrykivka painting" aspect="0.76" %}
 
 In 2022, in Independence Square, standing under the maidan statue holding the golden guelder rose branch, Varvara Logvyn was painting red berries in the Petrykivka style beside steel antitank obstacles lining the square. She was inspired to paint the kalyna plant because of a famous Ukraine patriotic song, "Oh, the Red Viburnum in the Meadow." She described her work as "my way to talk with the world about Ukraine, about our war, about our values. We have to defend our culture. Culture is the basis of a nation, and [Petrykivka painting] shows that Ukraine is very bright."[^25]
 
-{% include embed/youtube.html id="TKGmpT1IeKA" aspect="1.8" %}
+{% include embed/youtube.html vid="TKGmpT1IeKA" aspect="1.55" %}
 
 Towels (Рушники) are an important object in late-nineteenth-century Ukrainian folk art and were presented as gifts at births and weddings, to guests, and more. They are also a common decorative feature of Ukrainian homes, both rural and urban. One towel at the Dnipro National Historical Museum was made by Nadiya Kovalenko, from the Petrykivka village in 1908. It is a girl’s towel, featuring a viburnum branch with a nightingale on it, symbolizing the continuation of family. The towel is further decorated with ornamental flowers, like cornflower and an ear of corn.[^26]
 
@@ -132,11 +132,11 @@ The guelder rose flute seemingly takes on a rhetoric of fraternity in Oleksandr 
 
 In Russian folk tradition, the red color of fire and guelder rose berries symbolizes beauty. Together with the sweetness of raspberries, they serve as a symbol of love. The guelder rose and the raspberries later came to represent a beautiful maiden, someone who epitomizes passionate love. The folk song "Kalinka," a diminutive of _kalyna,_ begins: "Kalinka, kalinka, kalinka, my sweet/ beauty berry in the garden malinka/ my sweet, eh."[^38] Russian folk culture even has the phrase, ["kalina krasnaya"](https://en.wikipedia.org/wiki/Kalina_krasnaya), which is common in folksongs and contemporary songs, connoting love, passion, beauty, and even sadness and grief.[^39]
 
-{% include embed/youtube.html id="FAT3G-1mdBw" aspect="1.8" %}
+{% include embed/youtube.html vid="FAT3G-1mdBw" aspect="1.55" %}
 
 The iconic movie [The Red Snowball Tree (1974)](https://en.wikipedia.org/wiki/The_Red_Snowball_Tree), or Калина красная (Kalina Krasnaya), also uses the plant as a symbol. In this highest-grossing Soviet film of all time, the protagonist Yegor Prokudin is released from prison and forced to make a new life for himself in the countryside where guelder rose bushes grow. However, the redness of the berries foreshadows a bloody and painful future for Yegor, just as the bitterness of the berries symbolizes the tragedy of love and sudden death. Ultimately, Yegor is shot and both he and his lover die.[^40]
 
-{% include embed/youtube.html id="a-RLbCXVvwI" aspect="1.8" %}
+{% include embed/youtube.html vid="a-RLbCXVvwI" aspect="1.55" %}
 
 Even in Fyodor Dostoevsky’s _[The Brothers Karamazov](Q183157)_ there is a climactic scene in which brother Dmitri sneaks up to a window with the intent to kill his father. It is the sight of the guelder rose berries on a bush, just outside the window, that stops him: "‘Snowball berries, how red they are!’ he whispered, not knowing why."[^41] Later, in a trial scene, Dmitri claims that he did not kill his father because his mother was looking down, watching him at that moment, perhaps referring both to the berries and to [Mother Russia](Q913523). 
 
@@ -158,13 +158,13 @@ In many respects, the 2022 invasion was more an escalation of prior Russian aggr
 
 Russia and Ukraine have had a contentious past long before this latest conflict. Untangling this history is especially important both to understand the significance of the guelder rose in the region and its importance in the context of the Russian-Ukraine War because of Vladimir Putin’s frequent invocation of history. Putin argues that since the beginning Russia and Ukraine were one nation, and therefore, a separate Ukrainian identity and independence poses a threat. Under the Russian Empire, Ukraine was called "[Little Russia](Q1048315)," signaling the proximity to the center of the Russian Empire and the empire’s power over the Ukrainian territory. "Little Russia" later took on greater political and nationalist meanings that was a precursor to Ukrainian nation-building.[^43] As the scholar William Artlett explains, "To Putin, anyone opposing the invasion of Ukraine either does not understand this fundamental historical truth or is a traitor."[^44] But Putin’s historical arguments have been denounced by governments and historians, such as Timothy Snyder’s essay in the New Yorker, for being ahistorical and for spreading propaganda about Russia’s invasion. As Snyder explains, Ukrainian national identity is rooted more in the Cossacks, a free people who lived in the Ukrainian steppes, than imperial Russia, which acted as a colonial power over Ukraine for centuries since at least the 1700s.[^45]
 
-{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1k6u-Y-cDqx49yJXEzKm5r1T8AJobz1PDbmmX2G6kLTg&timenav-position=bottom&hash-bookmark=false&initial-zoom=1&height=650" %}
+{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1k6u-Y-cDqx49yJXEzKm5r1T8AJobz1PDbmmX2G6kLTg&timenav-position=bottom&hash-bookmark=false&initial-zoom=1" %}
 
 # Music, Symbol of Patriotism, and Military Identity
 
 The song "Chervona Kalyna" offers a counterexample to what we think of as nationalist music. As the music historian Phillip Vilas Bohlman explains, there are two types of nationalist music. Music "from above"—for example, national anthems, military marches, and other songs created or popularized by state institutions—and "from below," meaning folk songs and dances, minority song cultures, and poems.[^46] "Chervona Kalyna" is in the middle of this spectrum. What began as a folk song and was made popular by rank-and-file soldiers and social media users has become the unofficial national anthem of  Ukraine. Guelder rose, historically a symbol of the people, has now become the symbol of the state as well. As a result, Russia has banned the song  again: playing it in Russian territory has resulted in fines and arrests.[^47]
 
-{% include embed/image.html manifest="wc:%D0%94%D0%B5%D1%80%D0%B6%D0%B0%D0%B2%D0%BD%D0%B8%D0%B9_%D0%B3%D1%96%D0%BC%D0%BD_%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B8.pdf" caption="Sheet music of Ukraine's Official National Anthem, 'Ukraine Glory and Freedom.' Chervona Kalyna has been deemed an unofficial national anthem." aspect="1.5" %}
+{% include embed/image.html src="wc:Гімн_України_-_1_з_3.jpg" caption="Sheet music of Ukraine's Official National Anthem, 'Ukraine Glory and Freedom.' Chervona Kalyna has been deemed an unofficial national anthem." aspect="1.5" %}
 
 The guelder rose, once a frequent symbol in Ukrainian, Russian, and British traditions now firmly represents Ukrainian culture. Whether through the towering Independence Monument or a patriotic song to build military support, the bush with white flowers and red berries has become one of the most important plants in Ukraine. In 2024, Russia also targeted another important plant for Ukraine and the world: wheat. Wheat is so important to Ukrainian culture and economy, that it appears as a gold band on Ukraine’s flag, symbolizing an endless field of wheat. Russia’s initial blockade of seaports and halting a deal that would allow for grain shipments to resume was a war waged on the Ukrainian economy and global hunger.[^48] If wheat encapsulates the economics of the war in Ukraine, then the guelder rose encapsulates the fraught cultural and ideological context in which the war is being fought.
 

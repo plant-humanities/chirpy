@@ -66,8 +66,8 @@
     /* Right-side expand button */
     .caption-action {
       position: absolute;
-      right: 0;
-      top: 8px;
+      right: 6px;
+      top: 12px;
       transform: translateY(-50%);
 
       /* big, easy hit target */
@@ -502,9 +502,10 @@
         .replace(/Special:FilePath\//, 'File:')
         .split('File:').pop()
         .replace(/^\d+px-/, '');
-      mwImg = decodeURIComponent(mwImg).replace(/ /g, '_');
-
+      mwImg = decodeURIComponent(mwImg).replace(/ /g, '_').replace(/\.svg\.png/, '.svg');
       const _md5 = md5(mwImg);
+      console.log(mwImg, _md5.slice(0, 2),)
+
       const ext = mwImg.split('.').pop().toLowerCase();
 
       let url = `https://upload.wikimedia.org/wikipedia/commons${width > 0 ? '/thumb' : ''}`;
@@ -532,7 +533,7 @@
       let resp = await fetch(`https://commons.wikimedia.org/w/api.php? origin=*&format=json&action=query&titles=File:${encodeURIComponent(mwTitle)}&prop=imageinfo&iiprop=extmetadata|size|mime`, { headers: { 'User-Agent': 'Mozilla/5.0' } })
       resp = await resp.json()
       const page = Object.values(resp.query.pages)[0];
-      const info = page.imageinfo[0];
+      const info = page.imageinfo?.[0] || { extmetadata: [] };
 
       let metadata = {
         ...Object.fromEntries(
@@ -564,7 +565,7 @@
 
         if (infoJsonServiceId) {
           const infoJsonUrl = normalizeInfoJsonUrl(infoJsonServiceId);
-          console.log('Using IIIF info.json:', infoJsonUrl);
+          // console.log('Using IIIF info.json:', infoJsonUrl);
           tileSource = infoJsonUrl;
 
           // Set fallback to src if provided
@@ -597,8 +598,8 @@
       if (looksLikeWikimedia(fallbackImageUrl)) {
         fallbackImageUrl = mwImage(fallbackImageUrl, cfg.max ? -1 : 1200);
         let wcTitle = wcTitleFromUrl(fallbackImageUrl);
+        console.log(wcTitle)
         let wcMeta = await getWcMetadata(wcTitle);
-
         const { captionHtml } = buildCommonsCaption(wcMeta, wcTitle, cfg.caption);
         cfg.caption = captionHtml;
       } else {
@@ -732,9 +733,15 @@
       els.arTip.textContent = iframeAspectText(w, h);
     }
 
+    function decodeHtml(html) {
+      const txt = document.createElement("textarea");
+      txt.innerHTML = html;
+      return txt.value;
+    }
+
     // Caption init
     if (cfg.caption) {
-      els.captionText.innerHTML = cfg.caption;
+      els.captionText.innerHTML = decodeHtml(cfg.caption);
       if (cfg.attribution) els.captionText.innerHTML += `<br><small>${cfg.attribution}</small>`
       els.caption.style.display = "block";
       updateIframeAspectTip(); // caption affects wrap height
@@ -778,13 +785,14 @@
 
     // Handle tile source errors and fall back to regular image
     let hasTriedFallback = false;
-    viewer.addHandler("open-failed", () => {
+    viewer.addHandler("open-failed", (e) => {
       if (!hasTriedFallback && fallbackImageUrl) {
         console.warn('IIIF tile source failed, falling back to image URL');
         hasTriedFallback = true;
         viewer.open({ type: "image", url: fallbackImageUrl });
       } else {
-        showMsg("Failed to load image. The image host may not allow cross-origin access (CORS).");
+        console.log(e)
+        showMsg("Failed to load image. The image host may not allow cross-origin access (CORS). " + e.message);
       }
     });
 
@@ -992,7 +1000,6 @@
 
     window.addEventListener('message', (event) => {
       const data = safeParseMessageData(event.data);
-      console.log(data)
       if (!data) return;
 
       const action = String(data.action || '').toLowerCase();
