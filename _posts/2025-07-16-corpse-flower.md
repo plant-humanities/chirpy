@@ -27,7 +27,7 @@ In the late afternoon of a hot summer day in June 2019, an extraordinary and rar
 
 The putrid smell of the _Amorphophallus titanum_ (or titan arum), which has been described by the Huntington Botanical Garden as a combination of Limburger cheese, garlic, rotting fish, and smelly feet, is actually a pollination strategy. The powerful scent emitted by the plant along with the crimson, [meaty-color of its open spathe](corpse-1/zoomto/1706,1802,1461,1098) (the frilly leaf around the flower spike) are designed to attract insect pollinators – [carrion beetles](Q303626) and [flesh flies](Q978302) – that typically feast on dead animals.[^1] 
 
-{% include embed/image.html id="corpse-1" src="wc:Corpse_Flower_%28Amorphophallus_Titanum%29_1_of_5.jpg"" caption=""Corpse" aspect="1.05" %}
+{% include embed/image.html id="corpse-1" src="wc:Corpse_Flower_%28Amorphophallus_Titanum%29_1_of_5.jpg" caption=""Corpse" aspect="1.05" %}
 
 Adding to the allure of the plant is the rarity and brevity in which it blooms. The corpse flower does not have an annual blooming cycle. On average, it takes the plant 5 to 10 years to store enough energy to flower. Despite the unpredictable nature of the plant’s blooms, they are nothing short of spectacular. When the US Botanic Garden’s _Amorphophallus titanum_ went on display to the public Friday, July 22, 2016, it measured 3.5 feet tall. The bloom eventually opened early in the morning on August 2, and by the time it collapsed three days later, it stood over 7 feet tall. 
 
