@@ -8,7 +8,7 @@ tags: [typography]
 pin: true
 math: true
 mermaid: true
-layout: post
+layout: docpost
 permalink: /docs/text-and-typography
 ---
 

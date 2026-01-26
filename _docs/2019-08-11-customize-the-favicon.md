@@ -4,7 +4,7 @@ author: cotes
 date: 2019-08-11 00:34:00 +0800
 categories: [Blogging, Tutorial]
 tags: [favicon]
-layout: post
+layout: docpost
 permalink: /docs/customize-the-favicon
 ---
 

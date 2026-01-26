@@ -9,7 +9,7 @@ categories: [Blogging, Tutorial]
 tags: [getting started]
 pin: true
 media_subpath: '/posts/20180809'
-layout: post
+layout: docpost
 permalink: /docs/getting-started
 ---
 

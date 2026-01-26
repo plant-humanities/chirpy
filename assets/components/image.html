@@ -967,6 +967,7 @@
     }
 
     function zoomto(regionStr, caption) {
+      console.log('Zoomto region:', regionStr, 'caption:', caption);
       viewer.clearOverlays();
 
       if (zoomedToRegion === regionStr) {

@@ -829,25 +829,21 @@ function findViewerSource(stepEl) {
 
     let node = stepEl?.previousElementSibling;
     if (node?.classList.contains('right') || node?.classList.contains('left')) {
-        console.log('prior');
         return node;
     }
 
     node = stepEl?.nextElementSibling;
     if (node?.nodeType === Node.ELEMENT_NODE && toMatch.includes(node?.nodeName)) {
-        console.log('next');
         return node
     }
 
     node = stepEl?.previousElementSibling || null;
     while (node) {
         if (node.nodeType === Node.ELEMENT_NODE && toMatch.includes(node.nodeName)) {
-            console.log('ancestor');
             return node;
         }
         node = node.previousElementSibling;
     }
-    return found;
 }
 
 /**
