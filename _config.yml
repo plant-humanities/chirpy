@@ -195,6 +195,11 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  - scope:
+      path: ""
+      type: docs
+    values:
+      layout: page 
 
 sass:
   style: compressed
