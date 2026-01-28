@@ -6,15 +6,17 @@ description: Despite its mythical name, “dragon’s blood” is a vivid red re
   iconic trees in the modern era.
 author: Thomas C. Anderson, Cati Kalinoski, and Lucas Mertehikian
 date: 2025-01-01
-layout: post
-thumbnail: dragon_tree.jpg
 permalink: /dragon-tree
 tags: succulent ornamental subtropical
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/dragon-tree
 image:
   path: wc:Parque_del_Drago_-_Drago_de_Icod_de_los_Vinos_02.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

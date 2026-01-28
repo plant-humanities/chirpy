@@ -6,15 +6,17 @@ description: Though now beloved for its sweet red flesh, watermelon was historic
   with cultural stereotypes, revealing its complex global and social history.
 author: Anna Lawrence, Camilo Uribe Botta, and May Wang
 date: 2025-01-01
-layout: post
-thumbnail: watermelon.jpg
 permalink: /watermelon
 tags: fruit tropical temperate
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/watermelon
 image:
   path: wc:Albert_Eckhout_1610-1666_Brazilian_fruits.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

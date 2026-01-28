@@ -7,15 +7,17 @@ description: The Venus flytrap (Dionaea muscipula), once dubbed a “miracle of 
   naturalists across continents and eras.
 author: John R. Schaefer
 date: 2025-01-01
-layout: post
-thumbnail: venus_flytrap_thumbnail.jpg
 permalink: /venus-flytrap
 tags: carnivorous ornamental wetland temperate
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/venus-flytrap
 image:
   path: banner.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

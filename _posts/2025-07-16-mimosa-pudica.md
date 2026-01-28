@@ -7,15 +7,17 @@ description: Mimosa pudica, known for its touch-sensitive leaves, has captivated
   it.
 author: Elaina Foley, Sabrina Freidus, and Jordan Norviel
 date: 2025-01-01
-layout: post
-thumbnail: mimosapudica.jpg
 permalink: /mimosa-pudica
 tags: shrub ornamental nitrogen-fixer tropical
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/mimosa-pudica
 image:
   path: wc:Mimosa_pudica_kian-siau-chhau.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

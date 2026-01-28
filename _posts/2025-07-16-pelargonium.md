@@ -6,15 +6,17 @@ description: Charles Dickens adored the scarlet “geranium,” but the plant he
   science, industry, and culture.
 author: Daisy Reid, Verónica Matallana Chaves, and Yao Jiang
 date: 2025-01-01
-layout: post
-thumbnail: pelargonium.jpg
 permalink: /pelargonium
 tags: shrub herb ornamental temperate
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/pelargonium
 image:
   path: https://ids.lib.harvard.edu/ids/iiif/435776338/full/full/0/default.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

@@ -6,15 +6,17 @@ description: Carolina rice, once lost after the Reconstruction era, is being rev
   America.
 author: Julia Fine
 date: 2025-01-01
-layout: post
-thumbnail: carolina-rice.jpg
 permalink: /carolina-rice
 tags: grain wetland staple
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/carolina-rice
 image:
   path: G92F023_016F.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

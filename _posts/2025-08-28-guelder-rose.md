@@ -6,16 +6,18 @@ description: The guelder rose has evolved from a prehistoric European food and f
   across Ukraine and Russia, now crystallized in contemporary patriotic culture.
 author: Anna Hogarth, Nidhish Birhade, and Matthew Turetsky
 date: 2025-08-01
-layout: post
 thumbnail: guelderrose.jpg
-permalink: /guelder-rose
 tags: flower fruit medicinal ornamental shrub temperate
 published: true
 featured: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/guelder-rose
 image:
   path: wc:Viburnum_opulus_%28Guelder_Rose%29_-_Flickr_-_S._Rae.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

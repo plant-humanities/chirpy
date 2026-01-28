@@ -6,15 +6,17 @@ description: Heliconias, known for their striking tropical beauty, have long bee
   with animals and their remarkable role in shaping ecosystems.
 author: W. John Kress and Yota Batsaki
 date: 2025-01-01
-layout: post
-thumbnail: heliconia.jpg
 permalink: /heliconia
 tags: flower ornamental tropical
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/heliconia
 image:
   path: monographTrochi2Goul_0286.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

@@ -7,15 +7,17 @@ description: The corpse flower, known for its massive size and foul odor, draws 
   the U.S.
 author: Ashley Buchanan
 date: 2025-01-01
-layout: post
-thumbnail: corpse-flower.jpg
 permalink: /corpse-flower
 tags: flower ornamental tropical
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/corpse-flower
 image:
   path: wc:Corpse_flower_%2871304%29f.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

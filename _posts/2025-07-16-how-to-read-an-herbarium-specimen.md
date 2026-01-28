@@ -9,14 +9,16 @@ description: This richly illustrated article by Maura Flannery explores how herb
 author: Maura Flannery
 date: 2025-01-01
 tags: education
-layout: post
-thumbnail: specimen.jpg
 permalink: /how-to-read-an-herbarium-specimen
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/how-to-read-an-herbarium-specimen
 image:
   path: Rauwolf.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 There are over 340,000 known flowering plant species: a lot to keep track of. With many species threatened by environmental change, it’s particularly important to document what is growing where. This is one of the functions of herbarium specimens, preserved plants often in the form of pressed cuttings that have been collected since the 16th century.[^1]  The [technique](https://www.youtube.com/watch?v=zEevM61u4Ew) now used to create them is very similar to that originally employed:  a cutting is carefully spread out on absorbent paper, covered by another sheet, and pressed between boards so the plant doesn't curl up as it dries. A specimen can then last indefinitely if kept from the three most common threats: water, fire, and insects.  

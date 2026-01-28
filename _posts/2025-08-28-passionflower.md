@@ -9,8 +9,6 @@ description: The passionflower (Passiflora), native to the Neotropics, has carri
   now celebrated globally as passionfruit.
 author: Theo Detweiler, Willa Frank, Rose Kent
 date: 2025-08-01
-layout: post
-thumbnail: passionflower.jpg
 permalink: /passionflower
 tags: flower fruit medicinal ornamental tropical vine
 published: true
@@ -18,7 +16,11 @@ featured: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/passionflower
 image:
   path: wc:Passiflora_passion_flower.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

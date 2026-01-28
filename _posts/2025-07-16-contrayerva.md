@@ -7,15 +7,17 @@ description: Francis Drake’s 16th-century voyage around the globe helped spark
   Europe.
 author: Ashley Buchanan
 date: 2025-01-01
-layout: post
-thumbnail: wc:Flore_m%C3%A9dicale_des_Antilles%2C_ou%2C_Trait%C3%A9_des_plantes_usuelles_%28Pl._207%29_%288182110630%29.jpg
 permalink: /contrayerva
 tags: herb medicinal root tropical
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/contrayerva
 image:
   path: Contrayerva_Header.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

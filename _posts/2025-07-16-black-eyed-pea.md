@@ -6,15 +6,17 @@ description: The black-eyed pea has a rich global history, shifting from a sacre
   old and new traditions.
 author: Sarah Mallory, Emily Kamm, Haley Price, and Christina Hourigan
 date: 2025-01-01
-layout: post
-thumbnail: black_eyed_pea.png
 permalink: /black-eyed-pea
 tags: legume vegetable drought-tolerant staple
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/black-eyed-pea
 image:
   path: banner.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 

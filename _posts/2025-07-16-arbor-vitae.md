@@ -6,15 +6,18 @@ description: The “tree of life,” or arbor vitaæ, has long been surrounded b
   behind its botanical identification.
 author: Ashley Buchanan
 date: 2025-01-01
-layout: post
-thumbnail: arbor-vitae.jpg
 permalink: /arbor-vitae
 tags: tree conifer ornamental temperate
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/arbor-vitae
 image:
   path: wc:Neuchâtel_Herbarium_-_Thuja_occidentalis_-_NEU000099701.jpg
+auto_float
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
+: true
 ---
 
 

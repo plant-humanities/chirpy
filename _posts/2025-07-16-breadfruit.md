@@ -6,15 +6,17 @@ description: Breadfruit, a towering tree with nourishing fruit, has long been a 
   millennia transformed the plant into the seedless, resilient form we know today.
 author: Elaine Savory
 date: 2025-01-01
-layout: post
-thumbnail: wc:Breadfruit_%28Artocarpus_altilis%29%3B_fruiting_branch._Coloured_e_Wellcome_V0044288.jpg
 permalink: /breadfruit
 tags: fruit tropical staple
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/breadfruit
 image:
   path: wc:Breadfruit_1.jpg
+
+layout: post
 auto_float: true
+group_embeds: true
+col2: true
 ---
 
 The breadfruit tree is magnificent when mature, tall and broad branched, with large glossy leaves.  It provides shade and through its impressive spherical fruit, nutritious food.[^1]
