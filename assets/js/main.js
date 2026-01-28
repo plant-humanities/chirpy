@@ -271,6 +271,7 @@ function wrapAdjacentEmbedsAsTabs({
         n instanceof Element &&
         (n.tagName === "IFRAME" || n.tagName === "FIGURE" || (n.tagName === "P" && n.querySelector("img")));
 
+
     const nextNonIgnorableSibling = (node) => {
         let n = node.nextSibling;
         while (n && isIgnorableText(n)) n = n.nextSibling;
@@ -360,7 +361,7 @@ function wrapAdjacentEmbedsAsTabs({
 
 function autoFloat({ root = document.body } = {}) {
     console.log('autoFloat');
-    const embeds = Array.from(root.querySelectorAll('iframe, sl-tab-group, figure.iframe-wrapper')).reverse();
+    const embeds = Array.from(root.querySelectorAll('iframe, sl-tab-group, figure.iframe-wrapper, p:has(>img), p:has(>a>img)')).reverse();
 
     embeds.forEach((embed) => {
         if (embed.classList.contains('full') || embed.classList.contains('right')) return;
@@ -466,7 +467,10 @@ function addActionLinks({ root = document.body } = {}) {
         if (!target || !action || !args?.length) continue;
 
         const iframe = iframeById.get(target);
-        if (!iframe) continue;
+        if (!iframe) {
+            a.classList.add("disabled");
+            continue;
+        }
 
         // If isStatic, disable link but keep it readable
         if (isStatic) {
@@ -789,7 +793,7 @@ const SELECTORS = {
     article: "article",
     header: "article > header",
     viewer: ".viewer",
-    step: ".col2 .post-content > p, .col2 .post-content > blockquote",
+    step: ".col2 .post-content > p:not(:has(>img)), .col2 .post-content > blockquote",
 };
 
 const scroller = scrollama();
@@ -828,18 +832,19 @@ function findViewerSource(stepEl) {
     let toMatch = ['IFRAME', 'SL-TAB-GROUP'];
 
     let node = stepEl?.previousElementSibling;
-    if (node?.classList.contains('right') || node?.classList.contains('left')) {
-        return node;
-    }
+    if (node?.classList.contains('right') || node?.classList.contains('left')) return node;
 
     node = stepEl?.nextElementSibling;
-    if (node?.nodeType === Node.ELEMENT_NODE && toMatch.includes(node?.nodeName)) {
+    while (node?.nodeName === 'HR') node = node.nextElementSibling;
+    if (node?.nodeType === Node.ELEMENT_NODE && (toMatch.includes(node?.nodeName) || (node?.nodeName === 'P' && node.firstChild?.nodeName === 'IMG') || (node?.nodeName === 'P' && node.firstChild?.nodeName === 'A' && node.firstChild.firstChild?.nodeName === 'IMG'))) {
+        console.log(node)
         return node
     }
 
     node = stepEl?.previousElementSibling || null;
+    while (node?.nodeName === 'HR') node = node.previousElementSibling;
     while (node) {
-        if (node.nodeType === Node.ELEMENT_NODE && toMatch.includes(node.nodeName)) {
+        if (node.nodeType === Node.ELEMENT_NODE && (toMatch.includes(node?.nodeName) || (node?.nodeName === 'P' && node.firstChild?.nodeName === 'IMG') || (node?.nodeName === 'P' && node.firstChild?.nodeName === 'A' && node.firstChild.firstChild?.nodeName === 'IMG'))) {
             return node;
         }
         node = node.previousElementSibling;
@@ -899,7 +904,7 @@ function positionViewer() {
     const viewerW = articleRect.width / 2;
     const rightOffset = Math.max(0, window.innerWidth - articleRect.right);
 
-    els.viewer.style.height = `${availableH}px`;
+    // els.viewer.style.height = `${availableH}px`;
     els.viewer.style.width = `${viewerW}px`;
     els.viewer.style.right = `${rightOffset}px`;
 }
@@ -945,6 +950,9 @@ function init2col() {
 
     // Initial position (next frame is usually better than setTimeout)
     requestPositionUpdate();
+
+    setActive(document.querySelector(SELECTORS.step))
+    updateViewerForStep(document.querySelector(SELECTORS.step));
 
     scroller
         .setup({

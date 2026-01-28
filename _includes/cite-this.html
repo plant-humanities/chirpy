@@ -1,0 +1,248 @@
+<!-- Cite This modal (drop-in include) -->
+<a href="#" class="js-cite-open" aria-haspopup="dialog" aria-controls="cite-dialog" style="margin-right:1em;">
+  <i class="fas fa-quote-left"></i>
+</a>
+
+<dialog id="cite-dialog" aria-labelledby="cite-title" style="max-width: 60dvh;">
+  <form method="dialog">
+    <h2 id="cite-title" style="margin:0 0 .5rem">Cite this</h2>
+    <p style="margin:.25rem 0 .75rem; font-size:.9rem; opacity:.8">
+      Select and copy, or use the copy button.
+    </p>
+
+    <div data-cite-root data-title='{{ page.title | escape }}' data-url='{{ page.url | absolute_url }}'
+      data-publisher='{{ page.publisher | default: site.title | escape }}'
+      data-date='{{ page.date | date_to_xmlschema }}'
+      data-updated='{{ page.updated | default: page.date | date_to_xmlschema }}'
+      data-authors='{% if page.authors %}{{ page.authors | jsonify }}{% elsif page.author %}{{ page.author | jsonify }}{% else %}[]{% endif %}'>
+      <!-- Populated by JS -->
+    </div>
+
+    <div style="display:flex; gap:.5rem; margin-top:1rem">
+      <button value="cancel">Close</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  (function () {
+    const root = document.currentScript.closest('dialog')?.querySelector('[data-cite-root]') ||
+      document.querySelector('[data-cite-root]');
+    const dlg = document.getElementById('cite-dialog');
+
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('.js-cite-open');
+      if (!el) return;
+      e.preventDefault();
+      if (dlg?.showModal) dlg.showModal();
+      else alert('Citations:\n\n' + buildAll().join('\n\n'));
+    });
+
+    dlg?.addEventListener('click', (e) => {
+      const rect = dlg.getBoundingClientRect();
+      if (e.clientX < rect.left || e.clientX > rect.right ||
+        e.clientY < rect.top || e.clientY > rect.bottom) dlg.close();
+    });
+
+    if (!root) return;
+
+    const parsedAuthors = safeParse(root.dataset.authors);
+    const meta = {
+      title: root.dataset.title?.trim(),
+      url: root.dataset.url?.trim(),
+      publisher: root.dataset.publisher?.trim(),
+      date: root.dataset.date,
+      updated: root.dataset.updated,
+      authors: normalizeAuthors(parsedAuthors)
+    };
+
+    const wrapper = document.createElement('div');
+    wrapper.style.display = 'grid';
+    wrapper.style.gap = '0.75rem';
+
+    const blocks = [
+      { label: 'MLA (9th)', get: formatMLA },
+      { label: 'APA (7th)', get: formatAPA },
+      { label: 'Chicago NB', get: formatChicago }
+    ];
+
+    blocks.forEach(({ label, get }) => {
+      const citeHtml = get(meta);
+      const card = document.createElement('div');
+      card.style.border = '1px solid #ddd';
+      card.style.padding = '.75rem';
+      card.style.borderRadius = '6px';
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:.5rem; margin-bottom:.5rem">
+          <strong>${label}</strong>
+          <button type="button" data-copy style="font-size:.9rem">Copy</button>
+        </div>
+        <p data-cite style="margin:0">${citeHtml}</p>
+      `;
+
+      card.querySelector('[data-copy]').addEventListener('click', async () => {
+        const p = card.querySelector('[data-cite]');
+        const text = (p?.innerText || p?.textContent || '').trim();
+        if (!text) return;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          toast('Copied');
+        } catch {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+          toast('Copied');
+        }
+      });
+
+      wrapper.appendChild(card);
+    });
+
+    root.replaceChildren(wrapper);
+
+    function toast(msg) {
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.cssText = 'position:fixed; inset:auto 1rem 1rem auto; background:#222; color:#fff; padding:.4rem .6rem; border-radius:4px; opacity:.95; z-index:9999; font-size:.9rem';
+      document.body.appendChild(t); setTimeout(() => t.remove(), 1200);
+    }
+
+    function safeParse(s) {
+      try { return JSON.parse(s || '[]'); } catch { return []; }
+    }
+
+    function normalizeAuthors(v) {
+      if (Array.isArray(v)) {
+        return v.map(x => String(x).trim()).filter(Boolean);
+      }
+      if (typeof v === 'string') {
+        const s = v.trim();
+        if (!s) return [];
+
+        let normalized = s
+          .replace(/\s*;\s*/g, ',')
+          .replace(/\s+\&\s+/g, ',')
+          .replace(/\s+and\s+/gi, ',');
+
+        return normalized
+          .split(',')
+          .map(x => x.trim())
+          .filter(Boolean);
+      }
+      return [];
+    }
+
+    function parseDateISO(iso) {
+      if (!iso) return null;
+      const d = new Date(iso);
+      return isNaN(d) ? null : d;
+    }
+    function monthName(d) { return d.toLocaleString(undefined, { month: 'long' }); }
+    function dayNum(d) { return d.getDate(); }
+    function yearNum(d) { return d.getFullYear(); }
+    function today() { return new Date(); }
+
+    function splitName(name) {
+      const parts = (name || '').trim().split(/\s+/);
+      if (parts.length === 0) return { first: '', last: '' };
+      if (parts.length === 1) return { first: '', last: parts[0] };
+      return { first: parts.slice(0, -1).join(' '), last: parts.slice(-1)[0] };
+    }
+    function initials(name) {
+      return (name || '').split(/\s+/).filter(Boolean).map(w => w[0].toUpperCase() + '.').join(' ');
+    }
+
+    function authorsMLA(arr) {
+      if (!arr || arr.length === 0) return '';
+      if (arr.length === 1) {
+        const { first, last } = splitName(arr[0]);
+        return `${last}, ${first}`;
+      }
+      if (arr.length === 2) {
+        const a = splitName(arr[0]), b = splitName(arr[1]);
+        return `${a.last}, ${a.first}, and ${b.first} ${b.last}`;
+      }
+      const a = splitName(arr[0]);
+      return `${a.last}, ${a.first}, et al.`;
+    }
+
+    function authorsAPA(arr) {
+      if (!arr || arr.length === 0) return '';
+      const parts = arr.map(full => {
+        const { first, last } = splitName(full);
+        return `${last}, ${initials(first)}`;
+      });
+      if (parts.length === 1) return parts[0];
+      if (parts.length === 2) return `${parts[0]} & ${parts[1]}`;
+      return parts.slice(0, -1).join(', ') + ', & ' + parts.slice(-1);
+    }
+
+    function authorsChicago(arr) {
+      if (!arr || arr.length === 0) return '';
+      if (arr.length === 1) {
+        const { first, last } = splitName(arr[0]);
+        return `${first} ${last}`;
+      }
+      if (arr.length === 2) {
+        const a = splitName(arr[0]), b = splitName(arr[1]);
+        return `${a.first} ${a.last} and ${b.first} ${b.last}`;
+      }
+      const a = splitName(arr[0]);
+      return `${a.first} ${a.last} et al.`;
+    }
+
+    function formatMLA(m) {
+      const pub = m.publisher || '';
+      const d = parseDateISO(m.date);
+      const acc = today();
+      const dateStr = d ? `${dayNum(d)} ${monthName(d)} ${yearNum(d)}` : '';
+      const accStr = `${dayNum(acc)} ${monthName(acc)} ${yearNum(acc)}`;
+      const pieces = [
+        authorsMLA(m.authors),
+        m.title ? `"${m.title}."` : '',
+        pub ? `<i>${pub}</i>,` : '',
+        dateStr ? dateStr + ',' : '',
+        m.url ? m.url + '.' : ''
+      ].filter(Boolean).join(' ');
+      return `${pieces} Accessed ${accStr}.`;
+    }
+
+    function formatAPA(m) {
+      const pub = m.publisher || '';
+      const d = parseDateISO(m.date);
+      const dateStr = d ? `(${yearNum(d)}, ${monthName(d)} ${dayNum(d)}).` : '(n.d.).';
+      const pieces = [
+        authorsAPA(m.authors),
+        dateStr,
+        m.title ? `${m.title}.` : '',
+        pub ? `${pub}.` : '',
+        m.url || ''
+      ].filter(Boolean).join(' ');
+      return pieces;
+    }
+
+    function formatChicago(m) {
+      const pub = m.publisher || '';
+      const d = parseDateISO(m.updated || m.date);
+      const dateStr = d ? `${monthName(d)} ${dayNum(d)}, ${yearNum(d)}` : '';
+      const pieces = [
+        authorsChicago(m.authors),
+        m.title ? `"${m.title}."` : '',
+        pub ? `<i>${pub}</i>,` : '',
+        dateStr ? dateStr + ',' : '',
+        m.url || ''
+      ].filter(Boolean).join(' ');
+      return pieces;
+    }
+
+    function buildAll() {
+      return [formatMLA(meta), formatAPA(meta), formatChicago(meta)];
+    }
+  })();
+</script>

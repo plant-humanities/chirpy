@@ -2,10 +2,7 @@
 title: Writing a New Post
 author: cotes
 date: 2019-08-08 14:10:00 +0800
-categories: [Blogging, Tutorial]
-tags: [writing]
 render_with_liquid: false
-layout: docpost
 permalink: /docs/write-a-new-post
 ---
 
@@ -249,7 +246,7 @@ image:
 ---
 ```
 
-> You can observe LQIP in the preview image of post \"[Text and Typography](../text-and-typography/)\".
+> You can observe LQIP in the preview image of post \"[Text and Typography](../docs/text-and-typography)\".
 
 For normal images:
 

@@ -180,7 +180,7 @@
 
       <!-- Thumbnail container (conditionally shown) -->
       <div class="videoThumbnail">
-        <img class="thumbnailImg" alt="YouTube thumbnail">
+        <img class="thumbnailImg" src="https://img.youtube.com/vi/${props.vid}/hqdefault.jpg" alt="YouTube thumbnail">
         <div class="playOverlay">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="36" height="36" fill="#fff">
             <polygon points="70,55 70,145 145,100" />
@@ -208,7 +208,7 @@
           <sl-tab slot="nav" panel="embed">Embed</sl-tab>
           <sl-tab-panel active name="info">
             <div class="info">
-              <img class="thumbnail"></img>
+              <!-- img class="thumbnail" src="" alt="Info thumbnail"></img> -->
               <div class="title"></div>
               <div class="author"></div>
             </div>
@@ -311,7 +311,7 @@
     }
 
     const updateInfoPanel = (metadata) => {
-      if (metadata.thumbnail_url) document.querySelector('.info .thumbnail').src = metadata.thumbnail_url
+      // if (metadata.thumbnail_url) document.querySelector('.info .thumbnail').src = metadata.thumbnail_url
       if (metadata.title) document.querySelector('.info .title').innerHTML = metadata.title
       if (metadata.author_name && metadata.author_url) document.querySelector('.info .author').innerHTML = `<a href="${metadata.author_url}" target="_blank">${metadata.author_name}</a>`
       drawer.querySelectorAll('a').forEach(a => {

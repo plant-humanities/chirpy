@@ -1,0 +1,120 @@
+<!-- PDF download button + busy modal (drop-in include) -->
+<a href="#" class="js-pdf-open" aria-haspopup="dialog" aria-controls="pdf-busy" aria-label="Download PDF"
+    rel="noopener noreferrer" style="margin-right:1em; cursor:pointer;">
+    <i class="fas fa-file-pdf" aria-hidden="true"></i>
+</a>
+
+<dialog id="pdf-busy" aria-labelledby="pdf-busy-title" style="max-width: 28rem;">
+    <form method="dialog">
+        <h2 id="pdf-busy-title" style="margin:0 0 .5rem">Preparing PDF…</h2>
+        <p style="margin:.25rem 0 .75rem; font-size:.9rem; opacity:.8">
+            Your download will open in a new tab.
+        </p>
+
+        <div style="display:flex; gap:.5rem; margin-top:1rem">
+            <button value="cancel">Close</button>
+        </div>
+    </form>
+</dialog>
+
+<!-- Configuration anchor (optional overrides via page front-matter) -->
+<div data-pdf-root data-service="{{ include.service | default: 'https://pdf-converter-drnxe7pzjq-uc.a.run.app/pdf' }}"
+    data-viewport-width="{{ include.viewportWidth | default: 1020 }}"
+    data-keep-together="{{ include.keepTogether | default: '.section2' }}"
+    data-hide-tags="{{ include.hideTags | default: 'header' }}"
+    data-page-break-before="{{ include.pageBreakBefore | default: '.footnotes' }}"></div>
+
+<script>
+    (function () {
+        const root =
+            document.currentScript.closest('body')?.querySelector('[data-pdf-root]') ||
+            document.querySelector('[data-pdf-root]');
+
+        const dlg = document.getElementById('pdf-busy');
+
+        let inFlight = false;
+
+        function setDisabled(el, disabled) {
+            if (!el) return;
+            el.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+            el.style.pointerEvents = disabled ? 'none' : '';
+            el.style.opacity = disabled ? '.6' : '';
+        }
+
+        function showBusy() {
+            if (dlg?.showModal) dlg.showModal();
+            else toast('Preparing PDF…');
+        }
+
+        function hideBusy() {
+            if (dlg?.open) dlg.close();
+        }
+
+        dlg?.addEventListener('click', (e) => {
+            const rect = dlg.getBoundingClientRect();
+            const outside =
+                e.clientX < rect.left || e.clientX > rect.right ||
+                e.clientY < rect.top || e.clientY > rect.bottom;
+            if (outside) dlg.close();
+        });
+
+        function toast(msg) {
+            const t = document.createElement('div');
+            t.textContent = msg;
+            t.style.cssText =
+                'position:fixed; inset:auto 1rem 1rem auto; background:#222; color:#fff; padding:.4rem .6rem; border-radius:4px; opacity:.95; z-index:9999; font-size:.9rem';
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 1200);
+        }
+
+        function buildPdfUrl(pageUrl) {
+            const service = root?.dataset.service?.trim();
+            const viewportWidth = root?.dataset.viewportWidth?.trim() || '1020';
+            const keepTogether = root?.dataset.keepTogether?.trim() || '';
+            const hideTags = root?.dataset.hideTags?.trim() || '';
+            const pageBreakBefore = root?.dataset.pageBreakBefore?.trim() || '';
+
+            const u = new URL(service);
+
+            u.searchParams.set('url', pageUrl);
+            u.searchParams.set('viewportWidth', viewportWidth);
+
+            if (keepTogether) u.searchParams.set('keepTogether', keepTogether);
+            if (hideTags) u.searchParams.set('hideTags', hideTags);
+            if (pageBreakBefore) u.searchParams.set('pageBreakBefore', pageBreakBefore);
+
+            return u.toString();
+        }
+
+        document.addEventListener('click', (e) => {
+            const el = e.target.closest('.js-pdf-open');
+            if (!el) return;
+
+            e.preventDefault();
+            if (inFlight) return;
+
+            inFlight = true;
+            setDisabled(el, true);
+            showBusy();
+
+            requestAnimationFrame(() => {
+                try {
+                    const pdfUrl = buildPdfUrl(location.href);
+                    window.open(pdfUrl, '_blank', 'noopener');
+
+                    setTimeout(() => {
+                        hideBusy();
+                        inFlight = false;
+                        setDisabled(el, false);
+                    }, 1200);
+                } catch (err) {
+                    console.error(err);
+                    hideBusy();
+                    inFlight = false;
+                    setDisabled(el, false);
+                    toast('PDF download failed.');
+                }
+            });
+        });
+    })();
+</script>
