@@ -155,7 +155,7 @@ def convert_params(md: str) -> str:
             if attr.startswith('#'):
                 tag += f'id="{attr[1:]}" '
         
-        print(json.dumps(attrs, indent=2))
+        # print(json.dumps(attrs, indent=2))
         for attr in 'id src manifest seq caption attribution description label license source cover region rotation aspect'.split(' '):
             if attr in attrs:
                 if attr == 'src' and ('seq' in attrs or (not attrs[attr].startswith('wc:') and attrs[attr].split('.')[-1].lower() not in ['jpg', 'jpeg', 'png', 'svg', 'tif', 'tiff'])):
@@ -419,14 +419,21 @@ def convert(src: str, dest: str, max: Optional[int] = None, **kwargs):
         
         # Write converted file
         ctr += 1
-        with open(dest_path, 'w') as fp:
-            fp.write('---\n' + front_matter_to_str(fm) + '---\n' + body)
-        print(f'{ctr}. {root} -> {dest_path}')
+        #with open(dest_path, 'w') as fp:
+            #fp.write('---\n' + front_matter_to_str(fm) + '---\n' + body)
+        # print(f'{ctr}. {root} -> {dest_path}')
+        print('\t'.join([
+            root.split('/')[-1],
+            fm['date'], 
+            fm.get('author', fm.get('authors', '')), 
+            fm.get('title', '')
+        ]))
+        # print(json.dumps(fm, indent=2 ))
         
         if max and ctr >= max:
             break
     
-    print(json.dumps(unrecognized_image_attrs, indent=2))
+    # print(json.dumps(unrecognized_image_attrs, indent=2))
     # print(json.dumps(unrecognized_map_attrs, indent=2))
 
 
