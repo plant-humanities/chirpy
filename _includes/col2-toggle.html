@@ -1,0 +1,76 @@
+{%- assign col2_enabled = page.col2 | default: false -%}
+{%- if col2_enabled -%}
+
+<a href="#" class="js-col2-toggle" aria-label="Toggle layout" title="Toggle layout"
+    style="margin-right:1em; cursor:pointer;">
+    <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
+</a>
+
+<script type="module">
+    (function () {
+        const STORAGE_KEY = 'postViewMode';
+        const mainWrapper = document.getElementById('main-wrapper');
+        const btn = document.querySelector('.js-col2-toggle');
+        const icon = btn?.querySelector('i');
+
+        if (!mainWrapper || !btn) return;
+
+        let init2colFn = null;
+        let isMobile = false;
+
+        async function loadMain() {
+            const mod = await import('{{ "/assets/js/main.js" | relative_url }}');
+            isMobile = !!mod.isMobile;
+            init2colFn = mod.init2col;
+        }
+
+        function setIcon(isCol2) {
+            if (!icon) return;
+            icon.className = isCol2
+                ? 'fa-regular fa-square'
+                : 'fa-solid fa-table-columns';
+        }
+
+        async function setViewMode(mode) {
+            if (isMobile) mode = 'col1';
+
+            const toCol2 = mode === 'col2';
+            mainWrapper.classList.toggle('col2', toCol2);
+            mainWrapper.classList.toggle('col1', !toCol2);
+
+            setIcon(toCol2);
+
+            if (toCol2 && typeof init2colFn === 'function') {
+                try {
+                    init2colFn();
+                } catch (err) {
+                    console.error('Failed to init col2 mode:', err);
+                }
+            }
+
+            localStorage.setItem(STORAGE_KEY, mode);
+        }
+
+        (async function init() {
+            await loadMain();
+
+            // Mobile: hide button, force col1, exit
+            if (isMobile) {
+                btn.remove();
+                setViewMode('col1');
+                return;
+            }
+
+            // Desktop only from here on
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const isCurrentlyCol2 = mainWrapper.classList.contains('col2');
+                setViewMode(isCurrentlyCol2 ? 'col1' : 'col2');
+            });
+
+            const saved = localStorage.getItem(STORAGE_KEY);
+            setViewMode(saved === 'col2' ? 'col2' : 'col1');
+        })();
+    })();
+</script>
+{%- endif -%}

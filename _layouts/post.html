@@ -9,27 +9,6 @@ script_includes:
 - comment
 ---
 
-<script>
-  let enable2Col = '{{ page.col2 | default: "false" }}'.toLowerCase() === 'true';
-  if (enable2Col) {
-    let sidebar = document.querySelector('div.sidebar-bottom');
-    let modeToggle = document.createElement('a');
-    modeToggle.id = 'col-mode-toggle';
-    modeToggle.setAttribute('aria-label', 'Column Mode Toggle');
-    modeToggle.setAttribute('rel', 'noopener noreferrer');
-    modeToggle.style.cursor = 'pointer';
-    let icon = document.createElement('i');
-    icon.className = 'fa-solid fa-table-columns';
-    modeToggle.appendChild(icon);
-
-    const ghLink = sidebar.children[2];
-    if (ghLink) {
-      ghLink.replaceWith(modeToggle);
-    }
-
-  }
-</script>
-
 <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
 
 {% include lang.html %}
@@ -47,6 +26,7 @@ script_includes:
 
 <article class="px-1" data-toc="{{ enable_toc }}">
   <div id="toolbar">
+    {% include col2-toggle.html %}
     {% include cite-this.html %}
     {% include pdf-download.html %}
   </div>
@@ -245,45 +225,11 @@ script_includes:
   let doAutoFloat = '{{ page.auto_float | default: "false" }}'.toLowerCase() === 'true';
   let groupEmbeds = '{{ page.group_embeds | default: "false" }}'.toLowerCase() === 'true';
 
-  console.log(`isMobile=${isMobile} autoFloat=${doAutoFloat} groupEmbeds=${groupEmbeds} enable2Col=${enable2Col}`);
+  console.log(`isMobile=${isMobile} autoFloat=${doAutoFloat} groupEmbeds=${groupEmbeds}`);
 
   makeEntityPopups();
   if (groupEmbeds) wrapAdjacentEmbedsAsTabs();
   addActionLinks();
   if (doAutoFloat && !isMobile) autoFloat();
-
-  if (enable2Col) {
-
-    let mainWrapper = document.getElementById('main-wrapper');
-    const toggleBtn = document.querySelector('#col-mode-toggle');
-    const toggleIcon = toggleBtn?.querySelector('i');
-
-    function setViewMode(mode) {
-      if (isMobile) {
-        mainWrapper.classList.add('col1');
-      } else {
-        const isCol2 = mode === 'col2';
-        mainWrapper.classList.toggle('col2', isCol2);
-        mainWrapper.classList.toggle('col1', !isCol2);
-
-        if (toggleIcon) {
-          toggleIcon.className = isCol2 ? 'fa-regular fa-square' : 'fa-solid fa-table-columns';
-        }
-        if (isCol2) {
-          init2col();
-        }
-
-        localStorage.setItem('postViewMode', mode);
-      }
-    }
-
-    document.getElementById('col-mode-toggle')?.addEventListener('click', () => {
-      const isCurrentlyCol2 = mainWrapper?.classList.contains('col2');
-      setViewMode(isCurrentlyCol2 ? 'col1' : 'col2');
-    });
-
-    setViewMode(localStorage.getItem('postViewMode') === 'col2' ? 'col2' : 'col1');
-
-  }
 
 </script>
