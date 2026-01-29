@@ -2,34 +2,83 @@
 layout: home
 format: grid
 banner: /assets/img/header.jpg
+title: The Plant Humanities Lab
+description: Explore the cultural histories of plants and their influence on human societies
 ---
 
-{% if paginator and paginator.page == 1 %}
-
 <style>
-    .banner {
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
+    .page-content {
+        padding-top: 80px;
+    }
+
+    .hero-overlay {
+        /* min-height: clamp(320px, 20vh, 720px); */
+        aspect-ratio: 2.5;
+        background:
+        /* linear-gradient(to bottom right, rgba(0,0,0,.4), rgba(0,0,0,.2)), */
+        url({{ page.banner | relative_url }}) center / cover no-repeat;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        margin-top: 0;
+    }
+
+    .hero-overlay h2 {
+        color: white;
+        font-size: clamp(2rem, 4vw + 1rem, 4rem);
+        line-height: 1.1;
+        margin-bottom: 0.5em;
+        /* margin-top: -2em; */
+        padding: 12px 24px;
+        border-radius: 12px;
+        background-color: rgba(0, 0, 0, .4);
+    }
+
+    .hero-overlay p {
+        color: white;
+        font-size: clamp(1rem, 1.5vw + 2rem, 1.8rem) !important;
+        line-height: 1.3;
+        max-width: 60ch;
+        /* keeps text comfortably readable */
+        margin: 0 auto;
+        /* center under heading */
+        /* padding: 0 2em; */
+        padding: 12px 24px;
+        border-radius: 12px;
+        background-color: rgba(0, 0, 0, .4);
     }
 </style>
 
+{% if paginator and paginator.page == 1 %}
+
 {% if page.banner %}
 
-<div
-  class="banner"
-  style="background-image: url('{{ page.banner | relative_url }}');">
+<div class="hero-overlay">
+    <h2>{{ page.title }}</h2>
+    <p>{{ page.description }}</p>
 </div>
 
 {% endif %}
 
 <h1>Welcome!</h1>
 
-The Plant Humanities Lab is an innovative digital space that supports the interdisciplinary study of plants from the various perspectives of the arts, sciences, and humanities, to explore their extraordinary significance to human culture.
+<p>
+    The Plant Humanities Lab is an innovative digital space that supports the interdisciplinary study of plants from
+    the various perspectives of the arts, sciences, and humanities, to explore their extraordinary significance to
+    human culture.
+</p>
 
-Humans rely on plants for our most fundamental individual and social needs: from food, medicine, and construction to our encounters with them in art and literature. Although we think of plants as rooted in place, their global travels over the millennia offer fascinating pathways into the past and illuminate some of the most burning issues of today, including legacies of colonial violence and displacement. Climate change, habitat loss, and accelerated species extinctions add to the urgency of researching plant–human interactions and acknowledging the importance of plants in our environment.
+<p>
+    Humans rely on plants for our most fundamental individual and social needs: from food, medicine, and
+    construction to our encounters with them in art and literature. Although we think of plants as rooted in place,
+    their global travels over the millennia offer fascinating pathways into the past and illuminate some of the most
+    burning issues of today, including legacies of colonial violence and displacement. Climate change, habitat loss,
+    and accelerated species extinctions add to the urgency of researching plant–human interactions and acknowledging
+    the importance of plants in our environment.
+</p>
 
 {% include featured_posts.html %}
 

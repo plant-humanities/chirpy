@@ -217,6 +217,10 @@ figure.iframe-wrapper figcaption {
     width: 100%;
 }
 
+#main-wrapper>.container {
+    max-width: 1600px !important;
+}
+
 #main-wrapper.col2>.container {
     max-width: 1200px !important;
     padding: 0 !important;
@@ -224,7 +228,7 @@ figure.iframe-wrapper figcaption {
 
 .col2>.container {
     width: 100% !important;
-    max-width: 1200px !important;
+    /* max-width: 1200px !important; */
     overflow: visible;
     display: flex;
     padding: 0 !important;
