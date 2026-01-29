@@ -361,18 +361,13 @@ function wrapAdjacentEmbedsAsTabs({
 
 function autoFloat({ root = document.body } = {}) {
     console.log('autoFloat');
-
-    const embeds = Array.from(
-        root.querySelectorAll(
-            'iframe, sl-tab-group, figure.iframe-wrapper, p:has(>img), p:has(>a>img)'
-        )
-    ).reverse();
+    const embeds = Array.from(root.querySelectorAll('iframe, sl-tab-group, figure.iframe-wrapper, p:has(>img), p:has(>a>img)')).reverse();
 
     embeds.forEach((embed) => {
         if (embed.classList.contains('full') || embed.classList.contains('right')) return;
 
         let previousSib = embed.previousElementSibling;
-        while (previousSib?.nodeName === 'P' && previousSib.id?.includes('-csv')) {
+        while (previousSib?.nodeName === 'P' && previousSib.id.indexOf('-csv') > 0) {
             previousSib = previousSib.previousElementSibling;
         }
         if (previousSib?.nodeName !== 'P') return;
@@ -380,27 +375,12 @@ function autoFloat({ root = document.body } = {}) {
         const parent = embed.parentNode;
         if (!parent) return;
 
-        // Mark embed as floated/right (your existing behavior)
         embed.classList.add('right');
 
-        // Ensure embed is immediately before previousSib (your existing behavior)
         parent.insertBefore(embed, previousSib);
+        let hr = document.createElement('hr');
+        parent.insertBefore(hr, embed);
 
-        // ---- NEW: wrap the pair in a keep-together wrapper ----
-        const wrapper = document.createElement('div');
-        wrapper.className = 'float-pair'; // choose the class you’ll pass to keepTogether
-        // "transparent" wrapper: doesn't change layout unless you style it
-        wrapper.style.display = 'flow-root'; // good modern option
-
-        parent.insertBefore(wrapper, embed);
-
-        // Move the pair into the wrapper (embed is already before previousSib)
-        wrapper.appendChild(embed);
-        wrapper.appendChild(previousSib);
-
-        // Your HR insertion: put it before the wrapper so it stays outside the kept-together block
-        const hr = document.createElement('hr');
-        parent.insertBefore(hr, wrapper);
     });
 }
 

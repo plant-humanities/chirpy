@@ -54,14 +54,12 @@
         (async function init() {
             await loadMain();
 
-            // Mobile: hide button, force col1, exit
             if (isMobile) {
                 btn.remove();
                 setViewMode('col1');
                 return;
             }
 
-            // Desktop only from here on
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const isCurrentlyCol2 = mainWrapper.classList.contains('col2');
