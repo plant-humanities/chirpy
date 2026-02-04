@@ -6,7 +6,7 @@ date: 2019-08-08 11:33:00 +0800
 pin: true
 math: true
 mermaid: true
-media_subpath: /assets/images
+media_subpath: /assets/img
 permalink: /docs/text-and-typography
 ---
 
