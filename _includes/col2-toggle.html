@@ -1,4 +1,14 @@
-{%- assign col2_enabled = page.col2 | default: true -%}
+{%- if page.layout == "juncture" -%}
+  {%- if page.col2 == nil -%}
+    {%- assign col2_enabled = true -%}
+  {%- else -%}
+    {%- assign col2_enabled = page.col2 -%}
+  {%- endif -%}
+{%- else -%}
+  {%- assign col2_enabled = false -%}
+{%- endif -%}
+
+
 {%- if col2_enabled -%}
 
 <a href="#" class="js-col2-toggle" aria-label="Toggle layout" title="Toggle layout"
@@ -71,4 +81,12 @@
         })();
     })();
 </script>
+{% else %}
+    <script type="module">
+        (function () {
+            const mainWrapper = document.getElementById('main-wrapper');
+            mainWrapper.classList.add('col1');
+        })();
+    </script>
+
 {%- endif -%}
