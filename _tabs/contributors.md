@@ -2,7 +2,7 @@
 # the default layout is 'page'
 icon: fa-solid fa-people-group
 order: 4
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/contributors
+media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/contributors
 ---
 
 <style>

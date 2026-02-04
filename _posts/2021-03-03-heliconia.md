@@ -9,14 +9,10 @@ date: 2021-03-03
 permalink: /heliconia
 tags: flower ornamental tropical
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/heliconia
+media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/heliconia
 image:
   path: monographTrochi2Goul_0286.jpg
-
-layout: post
-auto_float: true
-group_embeds: true
-col2: true
+layout: juncture
 ---
 
 

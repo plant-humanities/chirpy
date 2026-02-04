@@ -9,14 +9,10 @@ date: 2021-01-25
 permalink: /arbor-vitae
 tags: tree conifer ornamental temperate
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/arbor-vitae
+media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/arbor-vitae
 image:
   path: wc:Neuchâtel_Herbarium_-_Thuja_occidentalis_-_NEU000099701.jpg
-
-layout: post
-auto_float: true
-group_embeds: true
-col2: true
+layout: juncture
 ---
 
 

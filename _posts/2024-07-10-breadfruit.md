@@ -9,14 +9,10 @@ date: 2024-07-10
 permalink: /breadfruit
 tags: fruit tropical staple
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/breadfruit
+media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/breadfruit
 image:
   path: wc:Breadfruit_1.jpg
-
-layout: post
-auto_float: true
-group_embeds: true
-col2: true
+layout: juncture
 ---
 
 The breadfruit tree is magnificent when mature, tall and broad branched, with large glossy leaves.  It provides shade and through its impressive spherical fruit, nutritious food.[^1]

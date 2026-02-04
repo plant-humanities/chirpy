@@ -9,14 +9,10 @@ date: 2021-03-03
 permalink: /dragon-tree
 tags: succulent ornamental subtropical
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/dragon-tree
+media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/dragon-tree
 image:
   path: wc:Parque_del_Drago_-_Drago_de_Icod_de_los_Vinos_02.jpg
-
-layout: post
-auto_float: true
-group_embeds: true
-col2: true
+layout: juncture
 ---
 
 

@@ -51,7 +51,7 @@ script_includes:
       </span>
       {% endif %}
 
-      {% if page.image %}
+      {% if page.image and page.include_header_image != false %}
       {% assign raw_src = page.image.path | default: page.image %}
 
       {%- capture src -%}
@@ -167,7 +167,7 @@ script_includes:
   <hr />
 
   <main>
-    <div class="post-content">{{ content }}</div>
+    <div class="content post-content">{{ content }}</div>
     <div class="viewer"></div>
   </main>
 
@@ -222,8 +222,8 @@ script_includes:
 
   import { isMobile, autoFloat, makeEntityPopups, wrapAdjacentEmbedsAsTabs, addActionLinks, init2col } from "{{ '/assets/js/main.js' | relative_url }}";
 
-  let doAutoFloat = '{{ page.auto_float | default: "false" }}'.toLowerCase() === 'true';
-  let groupEmbeds = '{{ page.group_embeds | default: "false" }}'.toLowerCase() === 'true';
+  let doAutoFloat = '{{ page.auto_float | default: "true" }}'.toLowerCase() === 'false' ? false : true;
+  let groupEmbeds = '{{ page.group_embeds | default: "true" }}'.toLowerCase() === 'false' ? false : true;
 
   console.log(`isMobile=${isMobile} autoFloat=${doAutoFloat} groupEmbeds=${groupEmbeds}`);
 

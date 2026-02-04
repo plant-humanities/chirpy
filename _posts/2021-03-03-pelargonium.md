@@ -9,14 +9,10 @@ date: 2021-03-03
 permalink: /pelargonium
 tags: shrub herb ornamental temperate
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/pelargonium
+media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/pelargonium
 image:
   path: https://ids.lib.harvard.edu/ids/iiif/435776338/full/full/0/default.jpg
-
-layout: post
-auto_float: true
-group_embeds: true
-col2: true
+layout: juncture
 ---
 
 

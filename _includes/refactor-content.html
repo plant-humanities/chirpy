@@ -181,7 +181,11 @@
         {% assign _img_content = _img_content | slice: 0, _size | append: _class | append: '>' %}
 
       {% else %}
-        {%- assign lightbox_on = true -%}
+        {%- if page.layout == "post" -%}
+          {%- assign lightbox_on = true -%}
+        {%- else -%}
+          {%- assign lightbox_on = false -%}
+        {%- endif -%}
         {%- if site.lightbox == false or page.lightbox == false -%}
           {%- assign lightbox_on = false -%}
         {%- endif -%}
