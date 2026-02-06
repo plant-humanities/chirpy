@@ -41,7 +41,7 @@ Since [classical antiquity](Q486761), the black-eyed pea has been a cultural mar
 
 Authors of the ancient world have described black-eyed peas in accounts of plants and nature. The Roman chronicler [Pliny the Elder](Q82778) (23/24–79 CE) wrote that priests should avoid eating the food for fear its rough nature would upset their delicate constitutions. He also notes that [Pythagoras](Q10261) (c.570–c.495 BCE) and his followers did not eat black-eyed peas because they "believed the souls of the dead to be contained within" the dried beans.[^ref4] This belief may have been informed by some cultural groups in Africa that understood the black eye of the pea as the watchful presence of a supreme deity.[^ref5] Such accounts, together with later botanical texts expressing ever-changing ideas of the bean’s origins and classification, demonstrate a long confusion regarding the plant’s common and Latin names in Europe.[^ref6] They also provide a wealth of information about the cultural and social role played by the bean in the European context.
 
-{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html" %}
+{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1-bgb9ieXKIJb0mj1LuB2lfcJXRcH4IJdq6l6NrFpUWw&timenav-position=bottom&hash-bookmark=false&initial-zoom=1" height="650px" class="full" %}
 
 Records of black-eyed pea consumption and use within Europe during the [Middle Ages](Q12554) are relatively scarce. Understood as a food for peasants and livestock, black-eyed peas would have been considered subject matter too lowly for inclusion in the annals of history. Throughout the [early modern period](Q5308718), the dried bean continued to be associated with persons of low social standing. But by the late sixteenth century, the bean seemed at least worthy of representation. In the Italian artist [Annibale Carracci’s](Q7824) (1560–1609) painting _The Bean Eater_, from circa 1590, the artist’s brush strokes depict a man and his bowl of black-eyed peas, visually articulating their mutual low standing. Even though the beans had been a vital part of the Mediterranean diet and culture for centuries, they are here presented as both marginal and familiar.
 
@@ -49,13 +49,13 @@ Records of black-eyed pea consumption and use within Europe during the [Middle A
 
 In contrast, many more artists took inspiration from the [green pea](Q25237)—be it the leaves, delicate blossoms, or sinuous tendril-filled vines—which became an emblem for love, fertility, and even lust. Verdant green peas were considered domestic to Europe, and served the elite not only for food, but for decorating their homes and gardens.
 
-{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1goBeScMb3Depvqjmo89tMojcRHDbVY4YOktgo-P7oV4" %}
+{% include embed/iframe.html src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1goBeScMb3Depvqjmo89tMojcRHDbVY4YOktgo-P7oV4&timenav-position=bottom&hash-bookmark=false&initial-zoom=1" height="650px" class="full" %}
 
 # Peas and Beans in Early Modern Texts and Images
 
 Visual representations of black-eyed peas and other varieties of beans and peas shaped European understanding of the plant. Beginning in the sixteenth century, the dramatic rise in the production and circulation of printed texts with images, such as [herbals](Q6165948) and natural histories, reinforced the codification of plants based on their geographic origins. Unprecedented global travel also formed European ideas about the ways in which close observation of the natural world could reveal the domestic or foreign origins of a person, plant, or animal. One result of this was a shift in European attitudes toward the black-eyed pea.
 
-{% include embed/image.html src="Clusius_Rariorum_Plantarum_Historia_Biblioteca_del_Real_Jardín_Botánico_CC_BY_NC_SA.jpg" region="275,48,1380,1253" aspect="0.61" %}
+{% include embed/image.html src="Clusius_Rariorum_Plantarum_Historia_Biblioteca_del_Real_Jardín_Botánico_CC_BY_NC_SA.jpg" region="pct:18.92,8.26,76.44,39.57" aspect="0.61" %}
 
 Despite the millennia-old European presence of the black-eyed pea, it was now understood in Europe as an itinerant body within a Eurocentric [taxonomy](Q8269924) of plants. European explorers visiting Africa, Asia, and the Americas reinforced this idea. Their observations, often reported in books, were soon taken throughout Europe as factual. For example, Dutch trader and explorer [Pieter de Marees’](Q3117063) 1602 book about West Africa includes an illustration of the [black-eyed pea](img1/zoomto/418,756,583,437) in an idealized landscape alongside people and other plants.[^ref7]
 
@@ -68,12 +68,6 @@ The European perspective is not the only early modern view we have on the black-
 # Food, Culture, and Colonialism
 
 The black-eyed pea, [millet](Q259438), [yams](Q8047551), and many other staple foods of the American tropics have African origins. European traders on the coast of West Africa filled hundreds of thousands of vessels with 10 to 12 million captives over the centuries of the [transatlantic slave trade](Q10701282).[^ref10] These vessels carried humans-as-commodities as well as the foodstuffs needed for an average voyage of 60 to 80 days.[^ref11] Dry legumes, like black-eyed peas, [hyacinth beans,](https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:501411-1) and [bambara groundnuts](Q338219), were staple foods cooked into gruel during the [Middle Passage](Q2500942). Leftover stocks then accompanied captives as they were dispersed throughout the Americas and the Caribbean.[^ref12] In Jamaica around 1687, the English physician, naturalist, and planter [Sir Hans Sloane](Q310326) (1660–1753) recorded the presence of the black-eyed pea and extracted a plant to create this herbarium specimen.[^ref13]
-
-<!-- TODO: get plant specimen image -->
-<param ve-plant-specimen
-       label="An herbarium specimen of Vigna unguiculata made by Sir Hans Sloane in Jamaica, now housed at the Natural History Museum, London."
-       author="JSTOR Global Plants, courtesy of the Natural History Museum, London."
-       jpid="10.5555/al.ap.specimen.bm000589657">
 
 {% include embed/image.html src="al.ap.specimen.bm000589657.jpg" aspect="0.65" %}
 
@@ -139,7 +133,7 @@ The [Crop Wild Relatives Project](https://www.croptrust.org/work/projects/crop-w
 
 Black-eyed pea’s many names reflect its worldwide appeal. It is known as crowder pea, caupi, southern pea, alubia carilla, neibe, and frijole, as well as chowlee in India, gubgub in the West Indies, and akkerboon in South Africa.[^ref36] And black-eyed peas and other legumes are globally growing in status as key cooking ingredients and foods of the future. Highly nutritious and relatively easy to grow, black-eyed peas will no doubt play an important part in future [food security](Q1229911): providing food in changing climates and helping small-scale farmers combat poverty and hunger.[^ref37] As the climate becomes warmer and more unpredictable, and as human populations grow and resources become more limited, crops such as black-eyed peas, with its many virtues, will contribute to the diets of more people.[^ref38]
 
-{% include embed/image-compare.html before="wc:Kids_%E2%80%98n_Fiber_%286120828233%29.jpg" after="1708_0hi.jpg" aspect="1.8" class="right" %}
+{% include embed/image-compare.html before="wc:Kids_‘n_Fiber_(6120828233).jpg" after="1708_0hi.jpg" aspect="1.8" class="right" %}
 
 [^ref1]: A. C. D’Andrea et al., "Early Domesticated Cowpea (_Vigna Unguiculata_) from Central Ghana," _Antiquity_ 81, no. 313 (September 2007): 686–98. [https://doi.org/10.1017/S0003598X00095661](https://www.cambridge.org/core/journals/antiquity/article/abs/early-domesticated-cowpea-vigna-unguiculata-from-central-ghana/141865EBCB5341EC2120B636874BFD5E)
 [^ref2]: Amanda Logan, _The Scarcity Slot: Excavating Histories of African Food Security_ (Berkeley: University of California Press, 2020).

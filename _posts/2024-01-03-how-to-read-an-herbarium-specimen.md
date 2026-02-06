@@ -44,8 +44,6 @@ Specimens can also hold stories about what happened to them after collection. Wh
 
 {% include embed/image.html id="oregon-grape" src="Berberis.jpg" caption="Oregon Grape" aspect="0.67" %}
 
-{: .wrap .left}
-
 The remainder of the collection was left unstudied in Philadelphia’s [American Philosophical Society](Q466089) until the late 19th century when it were reunited at the Academy of Natural Sciences with the Lambert material, 227 sheets in all. Some of this history can be read on the specimens. The long-leaved sage (*Artemesia longifolia*) specimen remained in Philadelphia and has the [original Lewis label](142,637,441,638,386db45b) of colored blotting paper he used to press specimens; only 34 of these still exist. Pursh had rewritten many of Lewis’s labels and then disposed of the originals, a rather common practice at the time. Today, every bit of information on a specimen is retained in case it may be valuable in the future. More recent slips note botanists who have examined the specimens and confirmed identifications. Lewis's specimens provide microhistories of who has researched them over more than two centuries. When they are studied along with the expedition’s journals and other documentation, they provide a fuller picture of where and when they were collected and what has happened to them since. These plants are historical documents as much as they are scientific ones.
 
 {% include embed/image.html src="Long-Leafed_Sage.jpg" caption="Long-Leafed Sage" aspect="0.67" %}

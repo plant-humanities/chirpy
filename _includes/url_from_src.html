@@ -42,12 +42,13 @@ prepend page.media_subpath if present else site.cdn (if either is set).
 | replace: '+', '%252B'
 | replace: '%2B', '%252B'
 | replace: '%2b', '%252B'
-| url_decode
 | replace: '%2B', '+'
 | replace: ' ', '_'
+| replace: '?', '%3F'
+| replace: '&', '%26'
 -%}
 
-{%- assign mw_path = mw_title | uri_escape -%}
+{%- assign mw_path = mw_title -%}
 {%- assign _md5 = mw_title | md5 -%}
 {%- assign extension = mw_title | split: '.' | last | downcase -%}
 
@@ -56,6 +57,7 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
 mw_width }}px-{{ mw_path }}{%- if extension == 'svg' -%}.png{%- elsif extension == 'tif' or extension == 'tiff'
 -%}.jpg{%- endif -%}
 {%- endcapture -%}
+
 
 {%- assign src_final = mw_url | strip -%}
 
@@ -77,6 +79,11 @@ mw_width }}px-{{ mw_path }}{%- if extension == 'svg' -%}.png{%- elsif extension 
 {%- else -%}
 {%- assign src_final = base | append: src_in -%}
 {%- endif -%}
+
+{%- assign src_final = src_final
+| replace: '?', '%3F'
+| replace: '&', '%26'
+-%}
 
 {%- endif -%}
 

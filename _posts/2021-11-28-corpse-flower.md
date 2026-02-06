@@ -12,7 +12,7 @@ tags: flower ornamental tropical
 published: true
 media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/corpse-flower
 image:
-  path: wc:Corpse_flower_%2871304%29f.jpg
+  path: wc:Corpse_flower_(71304)f.jpg
 layout: juncture
 ---
 

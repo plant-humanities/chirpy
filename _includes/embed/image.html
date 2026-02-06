@@ -3,8 +3,9 @@
 {%- include url_from_src.html src=include.src mw_width=include.mw_width media_subpath=page.media_subpath -%}
 {%- endcapture -%}
 {%- assign src_final = src_final | strip -%}
-{%- assign qs = "src=" | append: src_final | uri_escape -%}
+{%- assign qs = "src=" | append: src_final -%}
 {%- endif -%}
+<!-- src_final: {{ src_final }} -->
 
 {%- if include.manifest -%}
 {%- assign qs = "manifest=" | append: include.manifest | uri_escape -%}
