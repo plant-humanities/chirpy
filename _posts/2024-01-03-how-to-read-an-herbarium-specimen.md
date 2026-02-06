@@ -35,7 +35,7 @@ Torrey named the species *[Darlingtonia californica](Q1138945)* after his friend
 
 ## Comparison
 
-{% include embed/image.html id="darlingtonia-illustration" src="Darlingtonia_Illustration.jpg" aspect="" %}
+{% include embed/image.html id="darlingtonia-illustration" src="Darlingtonia_Illustration.jpg" %}
 {% include embed/image.html id="darlingtonia-photo" src="Darlingtonia_photo.jpg" aspect="0.70" %}
 
 # The Continuing Story of Specimens: The Lewis and Clark Collections

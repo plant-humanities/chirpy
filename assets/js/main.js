@@ -265,7 +265,7 @@ function wrapAdjacentEmbedsAsTabs({
     }
 } = {}) {
     console.log('wrapAdjacentEmbedsAsTabs');
-    const isIgnorableText = (n) => n.nodeType === Node.TEXT_NODE && n.nodeValue.trim() === "";
+    const isIgnorableText = (n) => (n.nodeType === Node.COMMENT_NODE) || (n.nodeType === Node.TEXT_NODE && n.nodeValue.trim() === "");
 
     const isEmbedItem = (n) =>
         n instanceof Element &&
@@ -275,6 +275,7 @@ function wrapAdjacentEmbedsAsTabs({
     const nextNonIgnorableSibling = (node) => {
         let n = node.nextSibling;
         while (n && isIgnorableText(n)) n = n.nextSibling;
+        console.log(n)
         return n;
     };
 
@@ -364,10 +365,11 @@ function autoFloat({ root = document.body } = {}) {
     const embeds = Array.from(root.querySelectorAll('iframe, sl-tab-group, figure.iframe-wrapper, p:has(>img), p:has(>a>img)')).reverse();
 
     embeds.forEach((embed) => {
+        console.log(embed.classList);
         if (embed.classList.contains('full') || embed.classList.contains('right')) return;
 
         let previousSib = embed.previousElementSibling;
-        while (previousSib?.nodeName === 'P' && previousSib.id.indexOf('-csv') > 0) {
+        while ((previousSib?.nodeName === 'P' && previousSib.id.indexOf('-csv') > 0) || previousSib?.nodeName === 'BLOCKQUOTE') {
             previousSib = previousSib.previousElementSibling;
         }
         if (previousSib?.nodeName !== 'P') return;

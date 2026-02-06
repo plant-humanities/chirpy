@@ -511,10 +511,10 @@
       const ext = mwImg.split('.').pop().toLowerCase();
 
       let url = `https://upload.wikimedia.org/wikipedia/commons${width > 0 ? '/thumb' : ''}`;
-      url += `/${_md5.slice(0, 1)}/${_md5.slice(0, 2)}/${mwImg}`;
+      url += `/${_md5.slice(0, 1)}/${_md5.slice(0, 2)}/${encodeURIComponent(mwImg)}`;
 
       if (width > 0) {
-        url += `/${width}px-${mwImg}`;
+        url += `/${width}px-${encodeURIComponent(mwImg)}`;
         if (ext === 'svg') url += '.png';
         else if (ext === 'tif' || ext === 'tiff') url += '.jpg';
       }
