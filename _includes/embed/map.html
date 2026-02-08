@@ -39,7 +39,7 @@
       {%- assign layer = parts[1] | strip -%}
     {%- endif -%}
 
-    {%- capture full_url -%}{%- include url_from_src.html src=frag media_subpath=post.media_subpath -%}{%- endcapture -%}
+    {%- capture full_url -%}{%- include media-url.html src=frag subpath=post.media_subpath -%}{%- endcapture -%}
     {%- assign full_url = full_url | strip -%}
 
     {%- if full_url != "" -%}
@@ -59,7 +59,7 @@
 
 {%- comment -%} Convert src → full URL {%- endcomment -%}
 {%- capture src_final -%}
-{%- include url_from_src.html src=include.src mw_width=include.mw_width media_subpath=page.media_subpath -%}
+{%- include media-url.html src=include.src mw_width=include.mw_width subpath=page.media_subpath -%}
 {%- endcapture -%}
 {%- assign src_final = src_final | strip -%}
 

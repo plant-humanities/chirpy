@@ -43,10 +43,10 @@ FILES_TO_SYNC = [
     "_includes/post_index_item.html",
     "_includes/post_list_item.html",
     "_includes/refactor-content.html",
-    "_includes/url_from_src.html",
-    "_layouts/docpost.html",
+    "_includes/media-url.html",
     "_layouts/documentation.html",
     "_layouts/home.html",
+    "_layouts/juncture-home.html",
     "_layouts/juncture.html",
     "_plugins/md5_filter.rb",
     "assets/components/image-compare.html",
@@ -54,8 +54,15 @@ FILES_TO_SYNC = [
     "assets/components/map.html",
     "assets/components/vis-network.html",
     "assets/components/youtube.html",
-    "assets/css/custom.css",
-    "assets/js/main.js"
+    "assets/css/juncture.css",
+    "assets/js/juncture.js",
+    "assets/img/devices-mockup.png",
+    "assets/img/devtools-dark.png",
+    "assets/img/devtools-light.png",
+    "assets/img/mockup.png",
+    "assets/img/pages-source-dark.png",
+    "assets/img/pages-source-light.png",
+    "tools/sync-code.py",
 ]
 
 

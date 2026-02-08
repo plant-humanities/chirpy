@@ -2,27 +2,6 @@
 layout: default
 ---
 
-<link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
-
-<script>
-  let sidebar = document.querySelector('div.sidebar-bottom');
-  let modeToggle = document.createElement('a');
-  modeToggle.id = 'view-toggle';
-  modeToggle.setAttribute('aria-label', 'Column Mode Toggle');
-  modeToggle.setAttribute('rel', 'noopener noreferrer');
-  modeToggle.style.cursor = 'pointer';
-  let icon = document.createElement('i');
-  icon.className = 'fa-solid fa-grip';
-  modeToggle.appendChild(icon);
-
-  const ghLink = sidebar.children[2];
-  if (ghLink) {
-    ghLink.replaceWith(modeToggle);
-  }
-</script>
-
-{{ content }}
-
 {% include lang.html %}
 
 {% assign all_pinned = site.posts | where: 'pin', 'true' %}
@@ -36,17 +15,17 @@ layout: default
 {% assign visible_end = visible_start | plus: paginator.per_page %}
 
 {% if all_pinned.size > visible_start %}
-{% if all_pinned.size > visible_end %}
-{% assign pinned_size = paginator.per_page %}
-{% else %}
-{% assign pinned_size = all_pinned.size | minus: visible_start %}
-{% endif %}
+  {% if all_pinned.size > visible_end %}
+    {% assign pinned_size = paginator.per_page %}
+  {% else %}
+    {% assign pinned_size = all_pinned.size | minus: visible_start %}
+  {% endif %}
 
-{% for i in (visible_start..all_pinned.size) limit: pinned_size %}
-{% assign posts = posts | push: all_pinned[i] %}
-{% endfor %}
+  {% for i in (visible_start..all_pinned.size) limit: pinned_size %}
+    {% assign posts = posts | push: all_pinned[i] %}
+  {% endfor %}
 {% else %}
-{% assign pinned_size = 0 %}
+  {% assign pinned_size = 0 %}
 {% endif %}
 
 <!-- Get normal posts on current page -->
@@ -54,72 +33,101 @@ layout: default
 {% assign normal_size = paginator.posts | size | minus: pinned_size %}
 
 {% if normal_size > 0 %}
-{% if pinned_size > 0 %}
-{% assign normal_start = 0 %}
-{% else %}
-{% assign normal_start = visible_start | minus: all_pinned.size %}
+  {% if pinned_size > 0 %}
+    {% assign normal_start = 0 %}
+  {% else %}
+    {% assign normal_start = visible_start | minus: all_pinned.size %}
+  {% endif %}
+
+  {% assign normal_end = normal_start | plus: normal_size | minus: 1 %}
+
+  {% for i in (normal_start..normal_end) %}
+    {% assign posts = posts | push: all_normal[i] %}
+  {% endfor %}
 {% endif %}
 
-{% assign normal_end = normal_start | plus: normal_size | minus: 1 %}
-
-{% for i in (normal_start..normal_end) %}
-{% assign posts = posts | push: all_normal[i] %}
-{% endfor %}
-{% endif %}
-
-<div id="post-index" class="post-index view-list flex-grow-1 px-xl-1">
+<div id="post-list" class="flex-grow-1 px-xl-1">
   {% for post in posts %}
-  {% include post_index_item.html post=post %}
+    <article class="card-wrapper card">
+      <a href="{{ post.url | relative_url }}" class="post-preview row g-0 flex-md-row-reverse">
+        {% assign card_body_col = '12' %}
+
+        {% if post.image %}
+          {% assign raw_src = post.image.path | default: post.image %}
+          {%- capture src -%}
+          {%- include media-url.html src=raw_src media_subpath=post.media_subpath mw_width=360 -%}
+          {%- endcapture -%}
+          {%- assign src = src | strip -%}
+
+          {% if post.image.lqip %}
+            {% assign lqip = post.image.lqip %}
+
+            {% if post.media_subpath %}
+              {% unless lqip contains 'data:' %}
+                {% assign lqip = post.media_subpath
+                  | append: '/'
+                  | append: lqip
+                  | replace: '///', '/'
+                  | replace: '//', '/'
+                %}
+              {% endunless %}
+            {% endif %}
+
+            {% assign lqip_attr = 'lqip="' | append: lqip | append: '"' %}
+          {% endif %}
+
+          {% assign alt = post.image.alt | xml_escape | default: 'Preview Image' %}
+
+          <div class="col-md-5">
+            <img src="{{ src }}" alt="{{ alt }}" {{ lqip_attr }}>
+          </div>
+
+          {% assign card_body_col = '7' %}
+        {% endif %}
+
+        <div class="col-md-{{ card_body_col }}">
+          <div class="card-body d-flex flex-column">
+            <h1 class="card-title my-2 mt-md-0">{{ post.title }}</h1>
+
+            <div class="card-text content mt-0 mb-3">
+              <p>{% include post-summary.html %}</p>
+            </div>
+
+            <div class="post-meta flex-grow-1 d-flex align-items-end">
+              <div class="me-auto">
+                <!-- posted date -->
+                <i class="far fa-calendar fa-fw me-1"></i>
+                {% include datetime.html date=post.date lang=lang %}
+
+                <!-- categories -->
+                {% if post.categories.size > 0 %}
+                  <i class="far fa-folder-open fa-fw me-1"></i>
+                  <span class="categories">
+                    {% for category in post.categories %}
+                      {{ category }}
+                      {%- unless forloop.last -%},{%- endunless -%}
+                    {% endfor %}
+                  </span>
+                {% endif %}
+              </div>
+
+              {% if post.pin %}
+                <div class="pin ms-1">
+                  <i class="fas fa-thumbtack fa-fw"></i>
+                  <span>{{ site.data.locales[lang].post.pin_prompt }}</span>
+                </div>
+              {% endif %}
+            </div>
+            <!-- .post-meta -->
+          </div>
+          <!-- .card-body -->
+        </div>
+      </a>
+    </article>
   {% endfor %}
 </div>
+<!-- #post-list -->
 
 {% if paginator.total_pages > 1 %}
-{% include post-paginator.html %}
+  {% include post-paginator.html %}
 {% endif %}
-
-
-<script>
-  const containers = ["#post-index", "#featured-essays"]
-    .map(sel => document.querySelector(sel))
-    .filter(Boolean);
-
-  const toggleBtn = document.querySelector("#view-toggle");
-  const toggleIcon = toggleBtn?.querySelector("i");
-
-  function setView(view) {
-    const isGrid = view === "grid";
-
-    containers.forEach(container => {
-      container.classList.toggle("view-grid", isGrid);
-      container.classList.toggle("view-list", !isGrid);
-    });
-
-    if (toggleIcon) {
-      toggleIcon.className = isGrid ? "fa-solid fa-bars" : "fa-solid fa-grip";
-    }
-
-    localStorage.setItem("postIndexView", view);
-  }
-
-  toggleBtn?.addEventListener("click", () => {
-    const isCurrentlyGrid = containers[0]?.classList.contains("view-grid");
-    setView(isCurrentlyGrid ? "list" : "grid");
-  });
-
-  setView(localStorage.getItem("postIndexView") === "grid" ? "grid" : "list");
-
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".post-excerpt-toggle");
-    if (!btn) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    const card = btn.closest(".post-index-item");
-    if (!card) return;
-
-    const expanded = card.classList.toggle("is-expanded");
-    btn.setAttribute("aria-expanded", expanded ? "true" : "false");
-    btn.textContent = expanded ? "Less" : "More";
-  });
-</script>

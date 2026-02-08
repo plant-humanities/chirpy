@@ -1,11 +1,10 @@
 {%- if include.src -%}
 {%- capture src_final -%}
-{%- include url_from_src.html src=include.src mw_width=include.mw_width media_subpath=page.media_subpath -%}
+{%- include media-url.html src=include.src mw_width=include.mw_width subpath=page.media_subpath -%}
 {%- endcapture -%}
 {%- assign src_final = src_final | strip -%}
 {%- assign qs = "src=" | append: src_final -%}
 {%- endif -%}
-<!-- src_final: {{ src_final }} -->
 
 {%- if include.manifest -%}
 {%- assign qs = "manifest=" | append: include.manifest | uri_escape -%}

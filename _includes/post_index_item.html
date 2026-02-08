@@ -7,73 +7,44 @@ Enclosing container class controls layout:
 - .post-index.view-grid
 {%- endcomment -%}
 
-{%- assign raw_src = nil -%}
-{%- assign src = nil -%}
-{%- assign lqip_attr = nil -%}
-{%- assign final_src_360 = nil -%}
-{%- assign final_src_800 = nil -%}
-
 {%- if post.image -%}
-{% assign raw_src = post.image.path | default: post.image %}
 
-{%- capture src -%}
-{%- include url_from_src.html src=raw_src media_subpath=post.media_subpath -%}
-{%- endcapture -%}
-{%- assign src = src | strip -%}
+    {% assign src = post.image.path | default: post.image %}
+    {% if post.media_subpath %}
+        {% unless src contains '://' or src contains 'wc:' %}
+            {% assign src = post.media_subpath
+            | append: '/'
+            | append: src
+            | replace: '///', '/'
+            | replace: '//', '/'
+            %}
+        {% endunless %}
+    {% endif %}
 
-{%- assign commons_thumb_prefix = "https://upload.wikimedia.org/wikipedia/commons/thumb" -%}
-{%- assign do_resize = true -%}
+    {%- if post.image.lqip -%}
+        {% assign lqip = post.image.lqip %}
+        {% if post.media_subpath %}
+            {% unless lqip contains 'data:' %}
+                {% assign lqip = post.media_subpath
+                    | append: '/'
+                    | append: lqip
+                    | replace: '///', '/'
+                    | replace: '//', '/'
+                %}
+            {% endunless %}
+        {% endif %}
 
-{%- if post.image.resize == false -%}
-{%- assign do_resize = false -%}
-{%- elsif src contains commons_thumb_prefix -%}
-{%- assign do_resize = false -%}
-{%- endif -%}
-
-{%- if do_resize -%}
-{%- assign base = "https://res.cloudinary.com/dmceci9t1/image/fetch/" -%}
-{%- assign src_safe = src | url_encode -%}
-
-{%- assign transform_360 = "w_360,h_190,c_fill,g_auto" -%}
-{%- assign transform_800 = "w_800,h_450,c_fill,g_auto" -%}
-
-{%- assign final_src_360 = base | append: transform_360 | append: "/" | append: src_safe -%}
-{%- assign final_src_800 = base | append: transform_800 | append: "/" | append: src_safe -%}
-{%- else -%}
-{%- assign final_src_360 = src -%}
-{%- assign final_src_800 = src -%}
-{%- endif -%}
-
-{%- if post.image.lqip -%}
-{% assign lqip = post.image.lqip %}
-
-{% if post.media_subpath %}
-{% unless lqip contains 'data:' %}
-{% assign lqip = post.media_subpath
-| append: '/'
-| append: lqip
-| replace: '///', '/'
-| replace: '//', '/'
-%}
-{% endunless %}
-{% endif %}
-
-{% assign lqip_attr = 'lqip="' | append: lqip | append: '"' %}
-{%- endif -%}
+        {% assign lqip_attr = 'lqip="' | append: lqip | append: '"' %}
+    {%- endif -%}
 {%- endif -%}
 
 {%- assign alt = post.image.alt | xml_escape | default: 'Preview Image' -%}
 
 <article class="post-index-item card-wrapper card">
     <a href="{{ post.url | relative_url }}" class="post-index-link">
-        {%- if final_src_360 -%}
         <div class="post-index-media">
-            <img class="post-index-img" src="{{ final_src_360 }}"
-                srcset="{{ final_src_360 }} 360w, {{ final_src_800 }} 800w"
-                sizes="(min-width: 1200px) 33vw, (min-width: 768px) 50vw, 100vw" alt="{{ alt }}" loading="lazy" {{
-                lqip_attr }}>
+            <img src="{{ src }}" alt="{{ alt }}" {{ lqip_attr }}>
         </div>
-        {%- endif -%}
 
         <div class="post-index-body card-body d-flex flex-column">
             <h2 class="post-index-title card-title my-2 mt-md-0">{{ post.title }}</h2>

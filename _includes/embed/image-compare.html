@@ -2,7 +2,7 @@
 Normalize BEFORE (bottom) image URL
 {%- endcomment -%}
 {%- capture before_final -%}
-{%- include url_from_src.html src=include.before mw_width=include.mw_width -%}
+{%- include media-url.html src=include.before subpath=page.media_subpath mw_width=include.mw_width -%}
 {%- endcapture -%}
 {%- assign before_final = before_final | strip -%}
 
@@ -10,7 +10,7 @@ Normalize BEFORE (bottom) image URL
 Normalize AFTER (top) image URL
 {%- endcomment -%}
 {%- capture after_final -%}
-{%- include url_from_src.html src=include.after mw_width=include.mw_width -%}
+{%- include media-url.html src=include.after subpath=page.media_subpath mw_width=include.mw_width -%}
 {%- endcapture -%}
 {%- assign after_final = after_final | strip -%}
 

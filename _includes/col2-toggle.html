@@ -1,92 +1,105 @@
 {%- if page.layout == "juncture" -%}
-  {%- if page.col2 == nil -%}
-    {%- assign col2_enabled = true -%}
-  {%- else -%}
-    {%- assign col2_enabled = page.col2 -%}
-  {%- endif -%}
+
+{%- if page.juncture.mode_toggle == nil -%}
+{%- if site.juncture.mode_toggle == nil -%}
+{%- assign toggle_enabled = true -%}
+{% else %}
+{%- assign toggle_enabled = site.juncture.mode_toggle -%}
+{%- endif -%}
 {%- else -%}
-  {%- assign col2_enabled = false -%}
+{%- assign toggle_enabled = page.juncture.mode_toggle -%}
+{%- endif -%}
+{%- else -%}
+{%- assign toggle_enabled = false -%}
 {%- endif -%}
 
+{%- if page.juncture.mode == nil -%}
+{%- if site.juncture.mode == nil -%}
+{%- assign default_mode = 'flat' -%}
+{% else %}
+{%- assign default_mode = site.juncture.mode -%}
+{%- endif -%}
+{%- else -%}
+{%- assign default_mode = page.juncture.mode -%}
+{%- endif -%}
 
-{%- if col2_enabled -%}
+{%- if default_mode == 'flat' -%}
+{%- assign default_class = 'col1' -%}
+{%- else -%}
+{%- assign default_class = 'col2' -%}
+{%- endif -%}
+
+<!-- toggle_enabled: {{ toggle_enabled }} default_mode: {{ default_mode }} default_class: {{ default_class }} -->
+
+{%- if toggle_enabled -%}
 
 <a href="#" class="js-col2-toggle" aria-label="Toggle layout" title="Toggle layout"
     style="margin-right:1em; cursor:pointer;">
     <i class="fa-solid fa-table-columns" aria-hidden="true"></i>
 </a>
 
+{%- endif -%}
+
+
 <script type="module">
-    (function () {
-        const STORAGE_KEY = 'postViewMode';
+    const toggleEnabled = {{ toggle_enabled | jsonify }}; // boolean, not string compare
+    const defaultClass = {{ default_class  | jsonify }};
+
+    console.log('col2-toggle:', { toggleEnabled, defaultClass });
+
+    const STORAGE_KEY = 'postViewMode';
+
+    async function loadMain() {
+        const mod = await import('{{ "/assets/js/juncture.js" | relative_url }}');
+        return { isMobile: !!mod.isMobile, init2col: mod.init2col };
+    }
+
+    function setIcon(icon, isCol2) {
+        if (!icon) return;
+        icon.className = isCol2 ? 'fa-regular fa-square' : 'fa-solid fa-table-columns';
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+
         const mainWrapper = document.getElementById('main-wrapper');
-        const btn = document.querySelector('.js-col2-toggle');
-        const icon = btn?.querySelector('i');
+        const btn = toggleEnabled && document.querySelector('.js-col2-toggle');
+        const icon = toggleEnabled && btn.querySelector('i');
 
-        if (!mainWrapper || !btn) return;
+        if (!mainWrapper) return;
 
-        let init2colFn = null;
-        let isMobile = false;
-
-        async function loadMain() {
-            const mod = await import('{{ "/assets/js/main.js" | relative_url }}');
-            isMobile = !!mod.isMobile;
-            init2colFn = mod.init2col;
-        }
-
-        function setIcon(isCol2) {
-            if (!icon) return;
-            icon.className = isCol2
-                ? 'fa-regular fa-square'
-                : 'fa-solid fa-table-columns';
-        }
+        const { isMobile, init2col } = await loadMain();
 
         async function setViewMode(mode) {
-            if (isMobile) mode = 'col1';
+            const effectiveMode = isMobile ? 'col1' : mode;
+            const toCol2 = effectiveMode === 'col2';
 
-            const toCol2 = mode === 'col2';
             mainWrapper.classList.toggle('col2', toCol2);
             mainWrapper.classList.toggle('col1', !toCol2);
 
-            setIcon(toCol2);
+            setIcon(icon, toCol2);
 
-            if (toCol2 && typeof init2colFn === 'function') {
-                try {
-                    init2colFn();
-                } catch (err) {
-                    console.error('Failed to init col2 mode:', err);
-                }
+            if (toCol2 && typeof init2col === 'function') {
+                try { init2col(); }
+                catch (err) { console.error('Failed to init col2 mode:', err); }
             }
 
-            localStorage.setItem(STORAGE_KEY, mode);
+            localStorage.setItem(STORAGE_KEY, effectiveMode);
         }
 
-        (async function init() {
-            await loadMain();
+        if (isMobile) {
+            btn?.remove();
+            await setViewMode('col1');
+            return;
+        }
 
-            if (isMobile) {
-                btn.remove();
-                setViewMode('col1');
-                return;
-            }
+        toggleEnabled && btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const isCurrentlyCol2 = mainWrapper.classList.contains('col2');
+            await setViewMode(isCurrentlyCol2 ? 'col1' : 'col2');
+        });
 
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const isCurrentlyCol2 = mainWrapper.classList.contains('col2');
-                setViewMode(isCurrentlyCol2 ? 'col1' : 'col2');
-            });
-
-            const saved = localStorage.getItem(STORAGE_KEY);
-            setViewMode(saved === 'col2' ? 'col2' : 'col1');
-        })();
-    })();
+        const saved = localStorage.getItem(STORAGE_KEY);
+        await setViewMode(
+            toggleEnabled ? saved === 'col2' ? 'col2' : defaultClass : defaultClass); // or your preferred default
+    });
 </script>
-{% else %}
-    <script type="module">
-        (function () {
-            const mainWrapper = document.getElementById('main-wrapper');
-            mainWrapper.classList.add('col1');
-        })();
-    </script>
-
-{%- endif -%}

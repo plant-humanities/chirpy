@@ -1,21 +1,25 @@
 {%- comment -%}
-url_from_src.liquid
-Usage:
-{%- capture url -%}{%- include url_from_src.liquid src=include.src mw_width=include.mw_width -%}{%- endcapture -%}
+    url_from_src.liquid
+    Usage:
+    {%- capture url -%}{%- include url_from_src.liquid src=include.src mw_width=include.mw_width -%}{%- endcapture -%}
 
-Emits: a single URL string (no surrounding markup).
+    Emits: a single URL string (no surrounding markup).
 
-Behavior:
-- Wikimedia Commons:
-- src starts with "wc:" OR contains "commons.wikimedia.org"
-- Build Wikimedia "thumb" URL, default width 1200 (override via mw_width)
-- svg => .png, tif/tiff => .jpg
-- Otherwise:
-- If src is not absolute (http/https) and not protocol-relative (//),
-prepend page.media_subpath if present else site.cdn (if either is set).
+    Behavior:
+    - Wikimedia Commons:
+    - src starts with "wc:" OR contains "commons.wikimedia.org"
+    - Build Wikimedia "thumb" URL, default width 1200 (override via mw_width)
+    - svg => .png, tif/tiff => .jpg
+    - Otherwise:
+    - If src is not absolute (http/https) and not protocol-relative (//),
+    prepend page.media_subpath if present else site.cdn (if either is set).
 {%- endcomment -%}
 
 {%- assign src_in = include.src | to_s | strip -%}
+{%- assign src_final = src_final
+    | replace: '?', '%3F'
+    | replace: '&', '%26'
+-%}
 {%- assign src_final = src_in -%}
 
 {%- assign media_subpath = include.media_subpath | default: page.media_subpath | default: "" | strip -%}
@@ -46,6 +50,7 @@ prepend page.media_subpath if present else site.cdn (if either is set).
 | replace: ' ', '_'
 | replace: '?', '%3F'
 | replace: '&', '%26'
+| url_decode
 -%}
 
 {%- assign mw_path = mw_title -%}
@@ -63,29 +68,26 @@ mw_width }}px-{{ mw_path }}{%- if extension == 'svg' -%}.png{%- elsif extension 
 
 {%- else -%}
 
-{%- if p3 != "wc:" and p2 != "//" and p7 != "http://" and p8 != "https://" and (media_subpath != "" or cdn_base != "")
--%}
+    {%- if p3 != "wc:" and p2 != "//" and p7 != "http://" and p8 != "https://" and (media_subpath != "" or cdn_base != "")
+    -%}
 
-{%- assign base = media_subpath -%}
-{%- if base == "" -%}{%- assign base = cdn_base -%}{%- endif -%}
+        {%- assign base = media_subpath -%}
+        {%- if base == "" -%}
+            {%- assign base = cdn_base -%}
+        {%- endif -%}
 
-{%- assign base_last = base | slice: -1, 1 -%}
-{%- assign src_first = src_in | slice: 0, 1 -%}
+        {%- assign base_last = base | slice: -1, 1 -%}
+        {%- assign src_first = src_in | slice: 0, 1 -%}
 
-{%- if base_last == "/" and src_first == "/" -%}
-{%- assign src_final = base | append: (src_in | slice: 1, 9999) -%}
-{%- elsif base_last != "/" and src_first != "/" -%}
-{%- assign src_final = base | append: "/" | append: src_in -%}
-{%- else -%}
-{%- assign src_final = base | append: src_in -%}
-{%- endif -%}
+        {%- if base_last == "/" and src_first == "/" -%}
+            {%- assign src_final = base | append: (src_in | slice: 1, 9999) -%}
+        {%- elsif base_last != "/" and src_first != "/" -%}
+            {%- assign src_final = base | append: "/" | append: src_in -%}
+        {%- else -%}
+            {%- assign src_final = base | append: src_in -%}
+        {%- endif -%}
 
-{%- assign src_final = src_final
-| replace: '?', '%3F'
-| replace: '&', '%26'
--%}
-
-{%- endif -%}
+    {%- endif -%}
 
 {%- endif -%}
 

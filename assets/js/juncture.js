@@ -275,7 +275,6 @@ function wrapAdjacentEmbedsAsTabs({
     const nextNonIgnorableSibling = (node) => {
         let n = node.nextSibling;
         while (n && isIgnorableText(n)) n = n.nextSibling;
-        console.log(n)
         return n;
     };
 

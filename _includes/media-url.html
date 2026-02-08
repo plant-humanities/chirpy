@@ -1,0 +1,82 @@
+{%- comment -%}
+  Generate media resource final URL based on `site.cdn`, `page.media_subpath`
+
+  Arguments:
+    src - required, basic media resources path
+    subpath - optional, relative path of media resources
+    absolute - optional, boolean, if true, generate absolute URL
+
+  Return:
+    media resources URL
+{%- endcomment -%}
+
+{% assign url = include.src %}
+
+{%- if url -%}
+
+  {%- assign p3 = url | slice: 0, 3 -%}
+  {%- assign is_wc = false -%}
+  {%- if p3 == "wc:" or url contains "commons.wikimedia.org" -%}
+    {%- assign is_wc = true -%}
+  {%- endif -%}
+
+  {% if is_wc %}
+    {%- comment -%} Convert to Wikimedia Commons URL {%- endcomment -%}
+    {%- assign mw_width = include.mw_width | default: 1200 -%}
+
+    {%- assign mw_title = url
+      | replace: 'wc:', ''
+      | replace: 'Special:FilePath/', 'File:'
+      | split: 'File:'
+      | last
+      | replace: '+', '%252B'
+      | replace: '%2B', '%252B'
+      | replace: '%2b', '%252B'
+      | replace: '%2B', '+'
+      | replace: ' ', '_'
+      | replace: '?', '%3F'
+      | replace: '&', '%26'
+      | url_decode
+    -%}
+
+    {%- assign mw_path = mw_title -%}
+    {%- assign _md5 = mw_title | md5 -%}
+    {%- assign extension = mw_title | split: '.' | last | downcase -%}
+
+    {%- capture mw_url -%}
+      https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{ _md5 | slice: 0, 2 }}/{{ mw_path }}/{{
+      mw_width }}px-{{ mw_path }}{%- if extension == 'svg' -%}.png{%- elsif extension == 'tif' or extension == 'tiff'
+      -%}.jpg{%- endif -%}
+    {%- endcapture -%}
+
+    {%- assign url = mw_url %}
+
+  {% else %}
+    {% unless url contains ':' %}
+
+        {%- comment -%} Add media resources subpath prefix {%- endcomment -%}
+        {% assign url = include.subpath | default: '' | append: '/' | append: url %}
+
+        {%- comment -%} Prepend CND URL {%- endcomment -%}
+        {% if site.cdn %}
+          {% assign url = site.cdn | append: '/' | append: url %}
+        {% endif %}
+
+        {% assign url = url | replace: '///', '/' | replace: '//', '/' | replace: ':/', '://' %}
+
+      {% unless url contains '://' %}
+        {% if include.absolute %}
+          {% assign url = site.url | append: site.baseurl | append: url %}
+        {% else %}
+          {% assign url = site.baseurl | append: url %}
+        {% endif %}
+              
+      {% endunless %}
+
+    {% endunless %}
+  
+  {%- endif -%}
+  
+{%- endif -%}
+
+{{- url -}}

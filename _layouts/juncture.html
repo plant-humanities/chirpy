@@ -9,7 +9,7 @@ script_includes:
 - comment
 ---
 
-<link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/juncture.css' | relative_url }}">
 
 {% include lang.html %}
 
@@ -52,34 +52,7 @@ script_includes:
       {% endif %}
 
       {% if page.image and page.include_header_image != false %}
-      {% assign raw_src = page.image.path | default: page.image %}
-
-      {%- capture src -%}
-      {%- include url_from_src.html src=raw_src media_subpath=page.media_subpath mw_width=1200 -%}
-      {%- endcapture -%}
-      {%- assign src = src | strip -%}
-
-      {%- assign commons_thumb_prefix = "https://upload.wikimedia.org/wikipedia/commons/thumb" -%}
-
-      {%- assign do_resize = true -%}
-
-      {%- if page.image.resize == false -%}
-      {%- assign do_resize = false -%}
-      {%- elsif src contains commons_thumb_prefix -%}
-      {%- assign do_resize = false -%}
-      {%- endif -%}
-
-      {%- if do_resize -%}
-      {%- assign base = "https://res.cloudinary.com/dmceci9t1/image/fetch/" -%}
-      {%- assign transform_safe = "w_1200,h_630" -%}
-      {%- assign src_safe = src | url_encode -%}
-      {%- assign final_src = base | append: transform_safe | append: "/" | append: src_safe -%}
-      {%- else -%}
-      {%- assign final_src = src -%}
-      {%- endif -%}
-
-      {% capture src %}src="{{ final_src }}"{% endcapture %}
-
+      {% capture src %}src="{{ page.image.path | default: page.image }}"{% endcapture %}
       {% capture class %}class="preview-img{% if page.image.no_bg %} no-bg{% endif %}"{% endcapture %}
       {% capture alt %}alt="{{ page.image.alt | xml_escape | default: "Preview Image" }}"{% endcapture %}
 
@@ -87,6 +60,7 @@ script_includes:
       {%- capture lqip -%}lqip="{{ page.image.lqip }}"{%- endcapture -%}
       {% endif %}
 
+      <!-- src: {{ src }} -->
       <div class="mt-3 mb-3">
         <img {{ src }} {{ class }} {{ alt }} w="1200" h="630" {{ lqip }}>
         {%- if page.image.alt -%}
@@ -220,14 +194,17 @@ script_includes:
 
 <script type="module">
 
-  import { isMobile, autoFloat, makeEntityPopups, wrapAdjacentEmbedsAsTabs, addActionLinks, init2col } from "{{ '/assets/js/main.js' | relative_url }}";
+  import { isMobile, autoFloat, makeEntityPopups, wrapAdjacentEmbedsAsTabs, addActionLinks } from "{{ '/assets/js/juncture.js' | relative_url }}";
 
-  let doAutoFloat = '{{ page.auto_float | default: "true" }}'.toLowerCase() === 'false' ? false : true;
-  let groupEmbeds = '{{ page.group_embeds | default: "true" }}'.toLowerCase() === 'false' ? false : true;
+  let mode = '{{ page.juncture.mode }}' || '{{ site.juncture.mode }}' || 'flat';
+  let mode_toggle = ('{{ page.juncture.mode_toggle }}' || '{{ site.juncture.mode_toggle }}' || 'true').toLowerCase() === 'true';
+  let doAutoFloat = ('{{ page.juncture.auto_float }}' || '{{ site.juncture.auto_float }}' || 'true').toLowerCase() === 'true';
+  let groupEmbeds = ('{{ page.juncture.group_embeds }}' || '{{ site.juncture.group_embeds }}' || 'true').toLowerCase() === 'true';
+  let wikidataInfoPopups = ('{{ page.juncture.wikidata_info_popups }}' || '{{ site.juncture.wikidata_info_popups }}' || 'true').toLowerCase() === 'true';
 
-  console.log(`isMobile=${isMobile} autoFloat=${doAutoFloat} groupEmbeds=${groupEmbeds}`);
+  console.log(`Juncture: isMobile:${isMobile} mode:${mode} modeToggle:${mode_toggle} autoFloat:${doAutoFloat} groupEmbeds:${groupEmbeds} wikidataInfoPopups:${wikidataInfoPopups}`);
 
-  makeEntityPopups();
+  if (wikidataInfoPopups) makeEntityPopups();
   if (groupEmbeds) wrapAdjacentEmbedsAsTabs();
   addActionLinks();
   if (doAutoFloat && !isMobile) autoFloat();
