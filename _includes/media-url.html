@@ -1,18 +1,12 @@
 {%- comment -%}
-  Generate media resource final URL based on `site.cdn`, `page.media_subpath`
-
-  Arguments:
-    src - required, basic media resources path
-    subpath - optional, relative path of media resources
-    absolute - optional, boolean, if true, generate absolute URL
-
-  Return:
-    media resources URL
+  media-url.html
+  (same header comment as before)
 {%- endcomment -%}
 
-{% assign url = include.src %}
+{%- assign url = include.src -%}
 
 {%- if url -%}
+  {%- assign url = url | strip -%}
 
   {%- assign p3 = url | slice: 0, 3 -%}
   {%- assign is_wc = false -%}
@@ -20,8 +14,7 @@
     {%- assign is_wc = true -%}
   {%- endif -%}
 
-  {% if is_wc %}
-    {%- comment -%} Convert to Wikimedia Commons URL {%- endcomment -%}
+  {%- if is_wc -%}
     {%- assign mw_width = include.mw_width | default: 1200 -%}
 
     {%- assign mw_title = url
@@ -44,39 +37,76 @@
     {%- assign extension = mw_title | split: '.' | last | downcase -%}
 
     {%- capture mw_url -%}
-      https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{ _md5 | slice: 0, 2 }}/{{ mw_path }}/{{
-      mw_width }}px-{{ mw_path }}{%- if extension == 'svg' -%}.png{%- elsif extension == 'tif' or extension == 'tiff'
-      -%}.jpg{%- endif -%}
+https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{ _md5 | slice: 0, 2 }}/{{ mw_path }}/{{ mw_width }}px-{{ mw_path }}{%- if extension == 'svg' -%}.png{%- elsif extension == 'tif' or extension == 'tiff' -%}.jpg{%- endif -%}
     {%- endcapture -%}
 
-    {%- assign url = mw_url %}
+    {%- assign url = mw_url | strip -%}
 
-  {% else %}
-    {% unless url contains ':' %}
+  {%- else -%}
 
-        {%- comment -%} Add media resources subpath prefix {%- endcomment -%}
-        {% assign url = include.subpath | default: '' | append: '/' | append: url %}
+    {%- unless url contains ':' -%}
 
-        {%- comment -%} Prepend CND URL {%- endcomment -%}
-        {% if site.cdn %}
-          {% assign url = site.cdn | append: '/' | append: url %}
-        {% endif %}
+      {%- assign subpath = include.subpath | default: '' | strip -%}
+      {%- if subpath != '' -%}
+        {%- assign url = subpath | append: '/' | append: url -%}
+      {%- endif -%}
 
-        {% assign url = url | replace: '///', '/' | replace: '//', '/' | replace: ':/', '://' %}
+      {%- if site.cdn -%}
+        {%- assign url = site.cdn | append: '/' | append: url -%}
+      {%- endif -%}
 
-      {% unless url contains '://' %}
-        {% if include.absolute %}
-          {% assign url = site.url | append: site.baseurl | append: url %}
-        {% else %}
-          {% assign url = site.baseurl | append: url %}
-        {% endif %}
-              
-      {% endunless %}
+      {%- assign url = url | replace: '///', '/' | replace: '//', '/' | replace: ':/', '://' -%}
 
-    {% endunless %}
-  
+      {%- unless url contains '://' -%}
+        {%- assign base = site.baseurl | default: '' -%}
+
+        {%- assign first_char = url | slice: 0, 1 -%}
+        {%- unless first_char == '/' -%}
+          {%- assign url = '/' | append: url -%}
+        {%- endunless -%}
+
+        {%- if base != '' -%}
+          {%- assign base_len = base | size -%}
+          {%- assign url_prefix = url | slice: 0, base_len -%}
+          {%- unless url_prefix == base -%}
+            {%- assign url = base | append: url -%}
+          {%- endunless -%}
+        {%- endif -%}
+
+        {%- if include.absolute -%}
+          {%- assign site_url = site.url | default: '' -%}
+          {%- if site_url != '' -%}
+            {%- assign url = site_url | append: url -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endunless -%}
+
+    {%- endunless -%}
+
+    {%- comment -%} Cloudinary width-only resizing (production only, cloud name required) {%- endcomment -%}
+    {%- assign is_dev = (jekyll.environment == "development") -%}
+    {%- assign cl_cloud = site.cloudinary_cloud_name | default: '' -%}
+    {%- assign cl_enable = include.cl_enable | default: 'true' -%}
+
+    {%- if is_dev == false and cl_cloud != '' and cl_enable == 'true' -%}
+      {%- if url contains '://' -%}
+        {%- unless url contains 'res.cloudinary.com' and url contains '/image/fetch/' -%}
+          {%- assign cl_width = include.cl_width | default: include.mw_width | default: 1200 -%}
+          {%- assign transform = 'w_' | append: cl_width | append: ',c_limit' -%}
+          {%- assign src_safe = url | url_encode -%}
+          {%- assign url =
+            'https://res.cloudinary.com/'
+            | append: cl_cloud
+            | append: '/image/fetch/'
+            | append: transform
+            | append: '/'
+            | append: src_safe
+          -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endif -%}
+
   {%- endif -%}
-  
 {%- endif -%}
 
 {{- url -}}

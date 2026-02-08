@@ -585,3 +585,30 @@ figure.iframe-wrapper figcaption {
         grid-column: 2;
     }
 }
+
+/* Base wrapper for index card images */
+.post-index-item .post-index-media {
+    width: 100%;
+    overflow: hidden;
+    border-radius: inherit;
+    /* match card rounding */
+}
+
+/* Image fills the crop box */
+.post-index-item .post-index-media>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* avoid inline gaps */
+}
+
+/* LIST VIEW: banner-style (1200 / 630 ≈ 1.9) */
+.view-list .post-index-item .post-index-media {
+    aspect-ratio: 1200 / 630;
+}
+
+/* GRID VIEW: square cards */
+.view-grid .post-index-item .post-index-media {
+    aspect-ratio: 4 / 3;
+}

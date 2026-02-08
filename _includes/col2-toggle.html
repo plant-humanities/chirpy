@@ -29,7 +29,6 @@
 {%- assign default_class = 'col2' -%}
 {%- endif -%}
 
-<!-- toggle_enabled: {{ toggle_enabled }} default_mode: {{ default_mode }} default_class: {{ default_class }} -->
 
 {%- if toggle_enabled -%}
 
@@ -42,7 +41,7 @@
 
 
 <script type="module">
-    const toggleEnabled = {{ toggle_enabled | jsonify }}; // boolean, not string compare
+    const toggleEnabled = {{ toggle_enabled | jsonify }};
     const defaultClass = {{ default_class  | jsonify }};
 
     console.log('col2-toggle:', { toggleEnabled, defaultClass });
@@ -100,6 +99,6 @@
 
         const saved = localStorage.getItem(STORAGE_KEY);
         await setViewMode(
-            toggleEnabled ? saved === 'col2' ? 'col2' : defaultClass : defaultClass); // or your preferred default
+            toggleEnabled ? saved === 'col2' ? 'col2' : defaultClass : defaultClass);
     });
 </script>
