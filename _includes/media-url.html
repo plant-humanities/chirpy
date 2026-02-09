@@ -52,7 +52,11 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
       {%- endif -%}
 
       {%- if site.cdn -%}
-        {%- assign url = site.cdn | append: '/' | append: site.url | append: site.baseurl | append: url -%}
+        {%- if site.cdn contains 'res.cloudinary.com' -%}
+          {%- assign url = site.cdn | append: '/' | append: site.url | append: site.baseurl -%}
+        {%- else -%}
+          {%- assign url = site.cdn | append: '/' | append: url -%}
+        {%- endif -%}
       {%- endif -%}
 
       {%- assign url = url | replace: '///', '/' | replace: '//', '/' | replace: ':/', '://' -%}
@@ -82,37 +86,6 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
       {%- endunless -%}
 
     {%- endunless -%}
-
-    {%- assign first_char = url | slice: 0, 1 -%}
-    {%- if first_char == "/" -%}
-      {%- assign url = site.url | append: url -%}
-    {%- endif -%}
-
-    {%- comment -%} Cloudinary width-only resizing (production only, cloud name required) {%- endcomment -%}
-    {%- assign is_dev = true -%}
-    {%- if jekyll.environment == "production" -%}
-      {%- assign is_dev = false -%}
-    {%- endif -%}
-    {%- assign cl_cloud = site.cloudinary_cloud_name | default: '' -%}
-    {%- assign cl_enable = include.cl_enable | default: 'true' -%}
-
-    {%- if is_dev == false and cl_cloud != '' and cl_enable == 'true' -%}
-      {%- if url contains '://' -%}
-        {%- unless url contains 'res.cloudinary.com' and url contains '/image/fetch/' -%}
-          {%- assign cl_width = include.cl_width | default: include.width | default: 1200 -%}
-          {%- assign transform = 'w_' | append: cl_width | append: ',c_limit' -%}
-          {%- assign src_safe = url | url_encode -%}
-          {%- assign url =
-            'https://res.cloudinary.com/'
-            | append: cl_cloud
-            | append: '/image/fetch/'
-            | append: transform
-            | append: '/'
-            | append: src_safe
-          -%}
-        {%- endunless -%}
-      {%- endif -%}
-    {%- endif -%}
     
   {%- endif -%}
 {%- endif -%}
