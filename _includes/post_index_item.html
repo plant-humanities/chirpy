@@ -10,6 +10,12 @@ Enclosing container class controls layout:
 {%- if post.image -%}
 
     {% assign src = post.image.path | default: post.image %}
+    {%- capture src -%}
+    {%- include media-url.html src=src subpath=post.media_subpath width=360 -%}
+    {%- endcapture -%}
+    {%- assign src = src | strip -%}
+
+    {%- comment -%} 
     {% if post.media_subpath %}
         {% unless src contains '://' or src contains 'wc:' %}
             {% assign src = post.media_subpath
@@ -27,7 +33,7 @@ Enclosing container class controls layout:
         {%- assign src = site.url | append: src -%}
     {%- endif -%}
 
-    {%- comment -%} Cloudinary width-only resizing (production only, cloud name required){%- endcomment -%}
+    Cloudinary width-only resizing (production only, cloud name required)
     {%- assign is_dev = true -%}
     {%- if jekyll.environment == "production" -%}
       {%- assign is_dev = false -%}
@@ -53,6 +59,7 @@ Enclosing container class controls layout:
         {%- endunless -%}
       {%- endif -%}
     {%- endif -%}
+    {%- endcomment -%}
 
     {%- if post.image.lqip -%}
         {% assign lqip = post.image.lqip %}
