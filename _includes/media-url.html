@@ -53,7 +53,7 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
 
       {%- if site.cdn -%}
         {%- if site.cdn contains 'res.cloudinary.com' -%}
-          {%- assign url = site.cdn | append: '/' | append: site.url | append: site.baseurl -%}
+          {%- assign url = site.cdn | append: '/' | append: site.url | append: site.baseurl | append: url -%}
         {%- else -%}
           {%- assign url = site.cdn | append: '/' | append: url -%}
         {%- endif -%}
