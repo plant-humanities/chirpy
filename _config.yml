@@ -240,3 +240,5 @@ juncture:
   auto_float: true            # auto float embeds
   group_embeds: true          # group adjacent embeds as tabs or carousels
   wikidata_info_popups: true  # show Wikidata-style info popups for links to Wikidata entities
+
+cloudinary_cloud: dmceci9t1

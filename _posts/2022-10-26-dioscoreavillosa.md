@@ -10,7 +10,7 @@ date: 2022-10-26
 permalink: /dioscoreavillosa
 tags: root medicinal vine temperate
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/dioscoreavillosa
+media_subpath: /assets/posts/dioscoreavillosa
 image:
   path: dioscorea-voronoi1.jpg
 layout: juncture

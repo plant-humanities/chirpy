@@ -10,7 +10,7 @@ date: 2021-11-28
 permalink: /corpse-flower
 tags: flower ornamental tropical
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/corpse-flower
+media_subpath: /assets/posts/corpse-flower
 image:
   path: wc:Corpse_flower_(71304)f.jpg
 layout: juncture

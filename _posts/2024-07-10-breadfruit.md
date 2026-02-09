@@ -9,7 +9,7 @@ date: 2024-07-10
 permalink: /breadfruit
 tags: fruit tropical staple
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/breadfruit
+media_subpath: /assets/posts/breadfruit
 image:
   path: wc:Breadfruit_1.jpg
 layout: juncture

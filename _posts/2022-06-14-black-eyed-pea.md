@@ -9,7 +9,7 @@ date: 2022-06-14
 permalink: /black-eyed-pea
 tags: legume vegetable drought-tolerant staple
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/black-eyed-pea
+media_subpath: /assets/posts/black-eyed-pea
 image:
   path: banner.jpg
 layout: juncture

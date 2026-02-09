@@ -9,7 +9,7 @@ date: 2022-07-12
 permalink: /ayahuasca
 tags: vine psychoactive medicinal tropical
 published: true
-media_subpath: https://raw.githubusercontent.com/plant-humanities/chirpy/main/assets/posts/ayahuasca
+media_subpath: /assets/posts/ayahuasca
 image:
   path: https://live.staticflickr.com/8507/27951788334_154753d604_4k.jpg
 layout: juncture
