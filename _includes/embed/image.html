@@ -3,15 +3,12 @@
     {%- include media-url.html src=include.src width=include.width subpath=page.media_subpath -%}
   {%- endcapture -%}
   {%- assign src_final = src_final | strip -%}
-  
-  {% assign cloudinary_marker = '/image/fetch/' %}
-  {% if src_final contains cloudinary_marker %}
-    {% assign _tmp = src_final | split: cloudinary_marker | last %}
-    {% assign original_encoded = _tmp | split: '/' | last %}
-  {% else %}
-    {% assign original_encoded = src_final %}
-  {% endif %}
-  {%- assign src_final = original_encoded -%}
+  <!-- src_final: {{ src_final }} -->
+
+  {%- assign first_char = src_final | slice: 0, 1 -%}
+  {%- if first_char == '/' -%}
+    {%- assign src_final = site.url | append: src_final -%}
+  {%- endif -%}
 
   {%- assign qs = "src=" | append: src_final -%}
 {%- endif -%}
