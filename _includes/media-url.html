@@ -52,7 +52,7 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
       {%- endif -%}
 
       {%- if site.cdn -%}
-        {%- assign url = site.cdn | append: '/' | append: url -%}
+        {%- assign url = site.cdn | append: '/' | append: site.url | site.baseurl | append: url -%}
       {%- endif -%}
 
       {%- assign url = url | replace: '///', '/' | replace: '//', '/' | replace: ':/', '://' -%}
