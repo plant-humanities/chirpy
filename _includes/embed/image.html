@@ -1,9 +1,21 @@
 {%- if include.src -%}
-{%- capture src_final -%}
-{%- include media-url.html src=include.src mw_width=include.mw_width subpath=page.media_subpath -%}
-{%- endcapture -%}
-{%- assign src_final = src_final | strip -%}
-{%- assign qs = "src=" | append: src_final -%}
+  {%- capture src_final -%}
+    {%- include media-url.html
+        src=include.src
+        mw_width=include.mw_width
+        subpath=page.media_subpath -%}
+  {%- endcapture -%}
+  {%- assign src_final = src_final | strip -%}
+
+  {%- assign first_char = src_final | slice: 0, 1 -%}
+
+  {%- if first_char == "/" -%}
+    {%- assign src_full = site.url | append: src_final -%}
+  {%- else -%}
+    {%- assign src_full = src_final -%}
+  {%- endif -%}
+
+  {%- assign qs = "src=" | append: src_full -%}
 {%- endif -%}
 
 {%- if include.manifest -%}

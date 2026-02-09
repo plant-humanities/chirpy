@@ -181,7 +181,6 @@ function addMessageHandler() {
         if (!isOriginAllowed(event.origin)) return;
 
         const data = event.data;
-        console.log(data)
 
         // Accept either raw objects OR JSON strings (some of your code uses JSON.stringify elsewhere)
         let msg = data;
@@ -218,7 +217,6 @@ function addMessageHandler() {
 
         if (msg.type === 'getId') {
             // if (event.origin !== location.origin) return;
-            console.log(event.source)
             const iframes = document.querySelectorAll('iframe');
             for (const iframe of iframes) {
                 if (iframe.contentWindow === event.source) {
@@ -364,7 +362,6 @@ function autoFloat({ root = document.body } = {}) {
     const embeds = Array.from(root.querySelectorAll('iframe, sl-tab-group, figure.iframe-wrapper, p:has(>img), p:has(>a>img)')).reverse();
 
     embeds.forEach((embed) => {
-        console.log(embed.classList);
         if (embed.classList.contains('full') || embed.classList.contains('right')) return;
 
         let previousSib = embed.previousElementSibling;
@@ -838,7 +835,6 @@ function findViewerSource(stepEl) {
     node = stepEl?.nextElementSibling;
     while (node?.nodeName === 'HR') node = node.nextElementSibling;
     if (node?.nodeType === Node.ELEMENT_NODE && (toMatch.includes(node?.nodeName) || (node?.nodeName === 'P' && node.firstChild?.nodeName === 'IMG') || (node?.nodeName === 'P' && node.firstChild?.nodeName === 'A' && node.firstChild.firstChild?.nodeName === 'IMG'))) {
-        console.log(node)
         return node
     }
 

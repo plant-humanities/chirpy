@@ -603,8 +603,8 @@
         let wcMeta = await getWcMetadata(wcTitle);
         const { captionHtml } = buildCommonsCaption(wcMeta, wcTitle, cfg.caption);
         cfg.caption = captionHtml;
-      } else {
-        fallbackImageUrl = `https://res.cloudinary.com/dmceci9t1/image/fetch/${cfg.max ? '' : 'w_431,'}q_auto,f_auto/${fallbackImageUrl}`
+      } else if (fallbackImageUrl.indexOf('localhost') < 0 && fallbackImageUrl.indexOf('127.0.0.1') < 0) {
+        fallbackImageUrl = `https://res.cloudinary.com/dmceci9t1/image/fetch/${cfg.max ? '' : 'w_431,'}q_auto,f_auto/${fallbackImageUrl}`;
       }
     }
 
