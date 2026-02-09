@@ -55,7 +55,7 @@ layout: default
         {% if post.image %}
           {% assign raw_src = post.image.path | default: post.image %}
           {%- capture src -%}
-          {%- include media-url.html src=raw_src media_subpath=post.media_subpath mw_width=360 -%}
+          {%- include media-url.html src=raw_src media_subpath=post.media_subpath width=360 -%}
           {%- endcapture -%}
           {%- assign src = src | strip -%}
 

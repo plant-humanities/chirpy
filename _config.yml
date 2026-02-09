@@ -95,7 +95,7 @@ theme_mode: # [light | dark]
 # will be added to all media resources (site avatar, posts' images, audio and video files) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-cdn:
+cdn: https://res.cloudinary.com/dmceci9t1/image/fetch/w_1200,c_limit
 
 # the avatar on sidebar, support local or CORS resources
 avatar: /assets/img/phl-logo-128x128.png
@@ -241,4 +241,4 @@ juncture:
   group_embeds: true          # group adjacent embeds as tabs or carousels
   wikidata_info_popups: true  # show Wikidata-style info popups for links to Wikidata entities
 
-cloudinary_cloud_name: dmceci9t1
+# cloudinary_cloud_name: dmceci9t1

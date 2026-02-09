@@ -39,7 +39,7 @@ Enclosing container class controls layout:
     {%- if is_dev == false and cl_cloud != '' and cl_enable == 'true' -%}
       {%- if src contains '://' -%}
         {%- unless src contains 'res.cloudinary.com' and src contains '/image/fetch/' -%}
-          {%- assign cl_width = include.cl_width | default: include.mw_width | default: 330 -%}
+          {%- assign cl_width = include.cl_width | default: default: 330 -%}
           {%- assign transform = 'w_' | append: cl_width | append: ',c_limit' -%}
           {%- assign src_safe = src | url_encode -%}
           {%- assign src =

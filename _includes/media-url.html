@@ -15,7 +15,7 @@
   {%- endif -%}
 
   {%- if is_wc -%}
-    {%- assign mw_width = include.mw_width | default: 1200 -%}
+    {%- assign mw_width = include.width | default: 1200 -%}
 
     {%- assign mw_title = url
       | replace: 'wc:', ''
@@ -99,7 +99,7 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
     {%- if is_dev == false and cl_cloud != '' and cl_enable == 'true' -%}
       {%- if url contains '://' -%}
         {%- unless url contains 'res.cloudinary.com' and url contains '/image/fetch/' -%}
-          {%- assign cl_width = include.cl_width | default: include.mw_width | default: 1200 -%}
+          {%- assign cl_width = include.cl_width | default: include.width | default: 1200 -%}
           {%- assign transform = 'w_' | append: cl_width | append: ',c_limit' -%}
           {%- assign src_safe = url | url_encode -%}
           {%- assign url =
