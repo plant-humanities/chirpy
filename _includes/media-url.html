@@ -1,9 +1,16 @@
 {%- comment -%}
-  media-url.html
-  (same header comment as before)
+  Generate media resource final URL based on `site.cdn`, `page.media_subpath`
+
+  Arguments:
+    src - required, basic media resources path
+    subpath - optional, relative path of media resources
+    absolute - optional, boolean, if true, generate absolute URL
+
+  Return:
+    media resources URL
 {%- endcomment -%}
 
-{%- assign url = include.src -%}
+{% assign url = include.src %}
 
 {%- if url -%}
   {%- assign url = url | strip -%}
@@ -44,24 +51,21 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
 
   {%- else -%}
 
-    {%- unless url contains ':' -%}
-
-      {%- assign subpath = include.subpath | default: '' | strip -%}
-      {%- if subpath != '' -%}
-        {%- assign url = subpath | append: '/' | append: url -%}
-      {%- endif -%}
-
-      {%- if site.cdn -%}
-        {%- if site.cdn contains 'res.cloudinary.com' -%}
-          {%- assign url = site.cdn | append: '/' | append: site.url | append: site.baseurl | append: url -%}
-        {%- else -%}
-          {%- assign url = site.cdn | append: '/' | append: url -%}
+    {% unless url contains ':' %}
+      {%- comment -%} Add media resources subpath prefix {%- endcomment -%}
+      {% assign url = include.subpath | default: '' | append: '/' | append: url %}
+        {%- if site.cdn -%}
+          {%- if site.cdn contains 'res.cloudinary.com' -%}
+            {%- assign url = site.cdn | append: '/' | append: site.url | append: site.baseurl | append: url -%}
+          {%- else -%}
+            {%- assign url = site.cdn | append: '/' | append: url -%}
+          {%- endif -%}
         {%- endif -%}
-      {%- endif -%}
 
-      {%- assign url = url | replace: '///', '/' | replace: '//', '/' | replace: ':/', '://' -%}
+      {% assign url = url | replace: '///', '/' | replace: '//', '/' | replace: ':/', '://' %}
 
-      {%- unless url contains '://' -%}
+      {% unless url contains '://' %}
+
         {%- assign base = site.baseurl | default: '' -%}
 
         {%- assign first_char = url | slice: 0, 1 -%}
@@ -83,10 +87,11 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
             {%- assign url = site_url | append: url -%}
           {%- endif -%}
         {%- endif -%}
-      {%- endunless -%}
 
-    {%- endunless -%}
-    
+      {% endunless %}
+
+    {% endunless %}
+
   {%- endif -%}
 {%- endif -%}
 

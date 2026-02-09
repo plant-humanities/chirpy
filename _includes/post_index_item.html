@@ -13,6 +13,7 @@ Enclosing container class controls layout:
     {%- capture src -%}
         {%- include media-url.html src=src subpath=post.media_subpath -%}
     {%- endcapture -%}
+
     {%- assign src = src | strip -%}
 
     {%- if post.image.lqip -%}
