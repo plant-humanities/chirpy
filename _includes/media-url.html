@@ -83,6 +83,11 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
 
     {%- endunless -%}
 
+    {%- assign first_char = url | slice: 0, 1 -%}
+    {%- if first_char == "/" -%}
+      {%- assign url = site.url | append: url -%}
+    {%- endif -%}
+
     {%- comment -%} Cloudinary width-only resizing (production only, cloud name required) {%- endcomment -%}
     {%- assign is_dev = true -%}
     {%- if jekyll.environment == "production" -%}
@@ -108,7 +113,7 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
         {%- endunless -%}
       {%- endif -%}
     {%- endif -%}
-
+    
   {%- endif -%}
 {%- endif -%}
 

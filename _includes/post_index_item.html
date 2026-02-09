@@ -27,7 +27,7 @@ Enclosing container class controls layout:
         {%- assign src = site.url | append: src -%}
     {%- endif -%}
 
-    {%- comment -%} Cloudinary width-only resizing (production only, cloud name required) {%- endcomment -%}
+    {%- comment -%} Cloudinary width-only resizing (production only, cloud name required){%- endcomment -%}
     {%- assign is_dev = true -%}
     {%- if jekyll.environment == "production" -%}
       {%- assign is_dev = false -%}
@@ -35,9 +35,8 @@ Enclosing container class controls layout:
     {%- assign cl_cloud = site.cloudinary_cloud_name | default: '' -%}
     {%- assign cl_enable = include.cl_enable | default: 'true' -%}
 
-<!-- is_dev={{is_dev}} cl_cloud={{cl_cloud}} cl_enable={{cl_enable}} -->
+    <!-- is_dev={{is_dev}} cl_cloud={{cl_cloud}} cl_enable={{cl_enable}} -->
     {%- if is_dev == false and cl_cloud != '' and cl_enable == 'true' -%}
-    <!-- here -->
       {%- if src contains '://' -%}
         {%- unless src contains 'res.cloudinary.com' and src contains '/image/fetch/' -%}
           {%- assign cl_width = include.cl_width | default: include.mw_width | default: 1200 -%}
