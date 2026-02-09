@@ -84,9 +84,9 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
     {%- endunless -%}
 
     {%- comment -%} Cloudinary width-only resizing (production only, cloud name required) {%- endcomment -%}
-    {%- assign is_dev = 'false' -%}
+    {%- assign is_dev = true -%}
     {%- if jekyll.environment == "production" -%}
-      {%- assign is_dev = 'false' -%}
+      {%- assign is_dev = false -%}
     {%- endif -%}
     {%- assign cl_cloud = site.cloudinary_cloud_name | default: '' -%}
     {%- assign cl_enable = include.cl_enable | default: 'true' -%}

@@ -1,9 +1,6 @@
 {%- if include.src -%}
   {%- capture src_final -%}
-    {%- include media-url.html
-        src=include.src
-        mw_width=include.mw_width
-        subpath=page.media_subpath -%}
+    {%- include media-url.html src=include.src mw_width=include.mw_width subpath=page.media_subpath -%}
   {%- endcapture -%}
   {%- assign src_final = src_final | strip -%}
 
