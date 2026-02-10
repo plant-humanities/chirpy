@@ -10,12 +10,21 @@ Enclosing container class controls layout:
 {%- if post.image -%}
 
     {% assign src = post.image.path | default: post.image %}
-    {%- capture src -%}
-        {%- include media-url.html src=src subpath=post.media_subpath -%}
-    {%- endcapture -%}
-
-    {%- assign src = src | strip -%}
-    <!-- src {{ src }} -->
+    {% if post.media_subpath %}
+        {%- assign p3 = src | slice: 0, 3 -%}
+        {%- assign is_wc = false -%}
+        {%- if p3 == "wc:" or src contains "commons.wikimedia.org" -%}
+            {%- assign is_wc = true -%}
+        {%- endif -%}
+        {% unless src contains '://' or is_wc %}
+            {% assign src = post.media_subpath
+                | append: '/'
+                | append: src
+                | replace: '///', '/'
+                | replace: '//', '/'
+            %}
+        {% endunless %}
+    {% endif %}
 
     {%- if post.image.lqip -%}
         {% assign lqip = post.image.lqip %}

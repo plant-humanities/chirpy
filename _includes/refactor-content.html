@@ -140,8 +140,6 @@
       {% assign _left = _left | replace: 'src="', _src_alt %}
     {% endunless %}
 
-    <!-- src={{ _src }} _img_url={{ _img_url }} _final_src={{ _final_src }} -->
-
     {% if _lqip %}
       {% assign _lazyload = false %}
       {% assign _wrapper_class = _wrapper_class | append: ' blur' %}
