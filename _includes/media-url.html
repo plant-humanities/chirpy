@@ -54,13 +54,14 @@ https://upload.wikimedia.org/wikipedia/commons/thumb/{{ _md5 | slice: 0, 1 }}/{{
     {% unless url contains ':' %}
       {%- comment -%} Add media resources subpath prefix {%- endcomment -%}
       {% assign url = include.subpath | default: '' | append: '/' | append: url %}
-        {%- if site.cdn -%}
-          {%- if site.cdn contains 'res.cloudinary.com' -%}
-            {%- assign url = site.cdn | append: '/' | append: site.url | append: site.baseurl | append: url -%}
-          {%- else -%}
-            {%- assign url = site.cdn | append: '/' | append: url -%}
-          {%- endif -%}
+        
+      {%- if site.cdn -%}
+        {%- if site.cdn contains 'res.cloudinary.com' -%}
+          {%- assign url = site.cdn | append: '/' | append: site.url | append: site.baseurl | append: url -%}
+        {%- else -%}
+          {%- assign url = site.cdn | append: '/' | append: url -%}
         {%- endif -%}
+      {%- endif -%}
 
       {% assign url = url | replace: '///', '/' | replace: '//', '/' | replace: ':/', '://' %}
 
